@@ -126,3 +126,9 @@ You can interact with the deployed dApp here:
 
 ## Author
 Eduardo Moreno
+
+---
+
+## Capturas de pantalla y pruebas funcionales
+
+Consulta el archivo [`README-capturas.md`](./README-capturas.md) para ver capturas de pantalla y el detalle de todas las pruebas funcionales realizadas sobre el despliegue en Vercel.
