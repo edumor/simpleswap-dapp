@@ -1,5 +1,39 @@
 # SimpleSwap DApp – Practical Assignment (Module 3)
 
+---
+
+## Guía rápida para el evaluador/docente
+
+Para probar la dApp directamente en producción (Vercel):
+
+1. **Abre la aplicación:**
+   - [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
+
+2. **Conecta tu wallet:**
+   - Haz clic en “Conectar Billetera” (arriba a la derecha).
+   - Selecciona MetaMask, WalletConnect u otra opción compatible.
+   - Asegúrate de estar en la red donde están desplegados los contratos (ver direcciones abajo).
+
+3. **Obtén tokens de prueba (si está habilitado el faucet):**
+   - Usa la sección “Faucet” para obtener TokenA y TokenB en tu wallet.
+
+4. **Aprueba el uso de tokens:**
+   - En la sección “Approve”, selecciona el token y la cantidad.
+   - Haz clic en “Approve” y confirma la transacción en tu wallet.
+
+5. **Realiza un swap:**
+   - En la sección “Swap”, elige la dirección (TokenA → TokenB o viceversa).
+   - Ingresa la cantidad y haz clic en “Swap”.
+   - Confirma la transacción en tu wallet.
+
+6. **Consulta precios y pool:**
+   - Observa el precio actual y la información del pool de liquidez en la interfaz.
+
+7. **Verifica en Etherscan:**
+   - Tras cada transacción, haz clic en el hash que aparece en pantalla para ver los detalles en Etherscan.
+
+Así puedes validar todas las funcionalidades, la integración con la wallet y la transparencia de las operaciones en la blockchain, directamente desde el deploy en Vercel, sin necesidad de instalar nada localmente.
+
 ## Overview
 This project implements a decentralized application (dApp) for token swapping using a custom AMM contract (`SimpleSwap`) and two ERC20 tokens (`TokenA` and `TokenB`). The solution includes:
 - Smart contracts (Solidity, Hardhat)
