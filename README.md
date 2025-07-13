@@ -34,8 +34,8 @@ Interact with the deployed dApp: [https://simpleswap-dapp-nextjs.vercel.app/](ht
 1. **Open the dApp**: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
 2. **Connect your wallet** (MetaMask, WalletConnect, etc.)
 3. **Get test tokens** using the Faucet (if needed)
-4. **Approve tokens** before swapping (enter amount in decimals, not wei)
-5. **Swap tokens** in either direction (TokenA ↔ TokenB)
+4. **Approve tokens** before swapping (enter the amount in wei)
+5. **Swap tokens** in either direction (TokenA ↔ TokenB, enter the amount in wei)
 6. **View pool reserves and price** in real time
 7. **Audit transactions** via Etherscan links (the dApp shows the transaction hash after each action)
 
@@ -136,13 +136,13 @@ See the file [`README-capturas.md`](./README-capturas.md) for screenshots and de
 
 ---
 
-## Important Note on Amounts and Decimals
+## Important Note on Amounts (Wei)
 
-All token amounts in the dApp are handled in wei, which is the smallest unit according to the token's decimals (usually 18 decimals for ERC20 tokens). The UI allows you to enter values in decimal format (e.g., "1" for 1 token), but all contract interactions use the correct wei value under the hood. This ensures there is no confusion:
+All token amounts in the dApp must now be entered in **wei**, which is the smallest unit according to the token's decimals (usually 18 decimals for ERC20 tokens). The UI requires you to enter values in wei (e.g., "1000000000000000000" for 1 token with 18 decimals). All contract interactions use the value you provide directly, so make sure to enter the correct amount in wei.
 
-- **Example:** If you enter "1" in the amount field, the dApp will send 1e18 wei to the contract for a token with 18 decimals.
-- **Always enter amounts as decimals in the UI.**
-- **All balances and pool values are displayed in human-readable decimal format.**
+- **Example:** If you want to approve or swap 1 token (with 18 decimals), enter `1000000000000000000` in the amount field.
+- **Always enter amounts in wei in the UI.**
+- **All balances and pool values are displayed in human-readable decimal format, but inputs must be in wei.**
 ## Example Screenshots for Practical Requirements
 
 Below are screenshots demonstrating each main requirement:
