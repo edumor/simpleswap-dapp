@@ -1,6 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { LiquidityPoolInfo } from "../components/LiquidityPoolInfo";
+import { ShowPrice } from "../components/ShowPrice";
+import { TokenApprove } from "../components/TokenApprove";
+import { TokenSwap } from "../components/TokenSwap";
+import { FaucetButton } from "../components/scaffold-eth/FaucetButton";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -21,6 +26,31 @@ const Home: NextPage = () => {
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
           </div>
+          <div className="mb-6 p-4 bg-base-200 rounded">
+            <h2 className="text-xl font-bold mb-2">Instrucciones de uso</h2>
+            <ol className="list-decimal ml-6 space-y-1">
+              <li>Conecta tu billetera usando el botón de la esquina superior derecha.</li>
+              <li>
+                Si no tienes tokens, utiliza el <b>Faucet</b> para obtener TokenA y TokenB de prueba.
+              </li>
+              <li>
+                Aprueba el uso de tus tokens con el contrato SimpleSwap usando el formulario <b>Approve Token</b>.
+              </li>
+              <li>Consulta el precio actual de intercambio entre TokenA y TokenB.</li>
+              <li>Visualiza el estado de la pool de liquidez.</li>
+              <li>
+                Realiza swaps entre TokenA y TokenB usando el formulario <b>Swap Tokens</b>.
+              </li>
+            </ol>
+            <p className="mt-2 text-sm text-gray-500">
+              Recuerda aprobar el token que deseas intercambiar antes de hacer un swap.
+            </p>
+          </div>
+          <TokenApprove />
+          <ShowPrice />
+          <FaucetButton />
+          <LiquidityPoolInfo />
+          <TokenSwap />
           <p className="text-center text-lg">
             Get started by editing{" "}
             <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">

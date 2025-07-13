@@ -1,0 +1,191 @@
+import { useEffect, useState } from "react";
+import { formatEther, parseEther } from "viem";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
+
+const SIMPLE_SWAP_ADDRESS = "0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18";
+const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
+const TOKEN_B_ADDRESS = "0x99Cd59d18C1664Ae32baA1144E275Eee34514115";
+
+const SIMPLE_SWAP_ABI = [
+  {
+    inputs: [
+      { internalType: "uint256", name: "amountIn", type: "uint256" },
+      { internalType: "uint256", name: "amountOutMin", type: "uint256" },
+      { internalType: "address[]", name: "path", type: "address[]" },
+      { internalType: "address", name: "to", type: "address" },
+      { internalType: "uint256", name: "deadline", type: "uint256" },
+    ],
+    name: "swapExactTokensForTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+export function TokenSwap() {
+  const { address, isConnected } = useAccount();
+  const [amountIn, setAmountIn] = useState("");
+  const [slippage, setSlippage] = useState("1"); // default 1%
+  const [amountOutMin, setAmountOutMin] = useState("");
+  const [tokenFrom, setTokenFrom] = useState("A");
+
+  // Derivados de tokenFrom
+  const fromAddress = tokenFrom === "A" ? TOKEN_A_ADDRESS : TOKEN_B_ADDRESS;
+  const toAddress = tokenFrom === "A" ? TOKEN_B_ADDRESS : TOKEN_A_ADDRESS;
+  const path = [fromAddress, toAddress];
+  const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 hora
+
+  // Obtener reservas actuales de la pool
+  const { data: reservesData } = useReadContract({
+    address: SIMPLE_SWAP_ADDRESS,
+    abi: [
+      {
+        inputs: [
+          { internalType: "address", name: "tokenA", type: "address" },
+          { internalType: "address", name: "tokenB", type: "address" },
+        ],
+        name: "getReserves",
+        outputs: [
+          { internalType: "uint256", name: "reserveA", type: "uint256" },
+          { internalType: "uint256", name: "reserveB", type: "uint256" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    functionName: "getReserves",
+    args: [fromAddress, toAddress],
+  });
+
+  // Calcular reservesIn y reservesOut según dirección
+  let reserveIn: bigint | undefined = undefined;
+  let reserveOut: bigint | undefined = undefined;
+  if (reservesData && Array.isArray(reservesData) && reservesData.length === 2) {
+    reserveIn = reservesData[0];
+    reserveOut = reservesData[1];
+  }
+
+  // Llamada a getAmountOut para calcular automáticamente el mínimo a recibir
+  const { data: amountOutData } = useReadContract({
+    address: SIMPLE_SWAP_ADDRESS,
+    abi: [
+      {
+        inputs: [
+          { internalType: "uint256", name: "amountIn", type: "uint256" },
+          { internalType: "uint256", name: "reserveIn", type: "uint256" },
+          { internalType: "uint256", name: "reserveOut", type: "uint256" },
+        ],
+        name: "getAmountOut",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "pure",
+        type: "function",
+      },
+    ],
+    functionName: "getAmountOut",
+    args:
+      amountIn && reserveIn !== undefined && reserveOut !== undefined
+        ? [parseEther(amountIn), reserveIn, reserveOut]
+        : undefined,
+  });
+
+  // (Ya no se usa setReserves, reserves)
+
+  // Actualizar amountOutMin automáticamente según getAmountOut y slippage
+  useEffect(() => {
+    if (amountOutData) {
+      const slippagePct = parseFloat(slippage) / 100;
+      const minOut = BigInt(amountOutData - (amountOutData * BigInt(Math.floor(slippagePct * 10000))) / 10000n);
+      setAmountOutMin(formatEther(minOut > 0n ? minOut : 0n));
+    } else {
+      setAmountOutMin("");
+    }
+  }, [amountOutData, slippage]);
+
+  const { writeContractAsync } = useWriteContract();
+  const [txStatus, setTxStatus] = useState<"idle" | "pending" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const handleSwap = async () => {
+    setTxStatus("pending");
+    setErrorMsg(null);
+    try {
+      await writeContractAsync({
+        address: SIMPLE_SWAP_ADDRESS,
+        abi: SIMPLE_SWAP_ABI,
+        functionName: "swapExactTokensForTokens",
+        args: [
+          amountIn ? parseEther(amountIn) : 0n,
+          amountOutMin ? parseEther(amountOutMin) : 0n,
+          path,
+          address,
+          deadline,
+        ],
+      });
+      setTxStatus("success");
+    } catch (err: any) {
+      setErrorMsg(err?.message || "Error");
+      setTxStatus("error");
+    }
+  };
+
+  // Validaciones visuales
+  const inputError = !amountIn || isNaN(Number(amountIn)) || Number(amountIn) <= 0;
+
+  return (
+    <div className="p-4 border rounded max-w-md mx-auto my-4 bg-base-100">
+      <h2 className="text-lg font-bold mb-2">Swap Tokens</h2>
+      <p className="text-sm text-gray-500 mb-2">
+        Intercambia TokenA por TokenB o viceversa. Recuerda aprobar el token antes de hacer swap.
+      </p>
+      <div className="mb-2">
+        <label className="mr-2">De:</label>
+        <select value={tokenFrom} onChange={e => setTokenFrom(e.target.value)} className="border rounded px-2 py-1">
+          <option value="A">TokenA</option>
+          <option value="B">TokenB</option>
+        </select>
+      </div>
+      <div className="mb-2">
+        <input
+          type="number"
+          placeholder="Cantidad a intercambiar"
+          value={amountIn}
+          onChange={e => setAmountIn(e.target.value)}
+          className={`border px-2 py-1 rounded w-full ${inputError ? "border-red-500" : ""}`}
+        />
+        {inputError && <div className="text-xs text-red-500 mt-1">Ingresa una cantidad válida mayor a 0.</div>}
+      </div>
+      <div className="mb-2">
+        <label className="block text-xs text-gray-500 mb-1">Slippage (%)</label>
+        <input
+          type="number"
+          min="0"
+          max="100"
+          step="0.1"
+          value={slippage}
+          onChange={e => setSlippage(e.target.value)}
+          className="border px-2 py-1 rounded w-full"
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block text-xs text-gray-500 mb-1">Cantidad mínima a recibir (auto)</label>
+        <input
+          type="text"
+          value={amountOutMin}
+          readOnly
+          className="border px-2 py-1 rounded w-full bg-gray-100 text-gray-700"
+        />
+      </div>
+      <button
+        className="bg-green-600 text-white px-4 py-2 rounded disabled:opacity-50 w-full"
+        disabled={txStatus === "pending" || inputError || !amountOutMin || !isConnected}
+        onClick={handleSwap}
+      >
+        {txStatus === "pending" ? "Realizando swap..." : "Swap"}
+      </button>
+      {txStatus === "success" && <div className="text-green-600 mt-2">¡Swap realizado con éxito!</div>}
+      {txStatus === "error" && <div className="text-red-600 mt-2">Error: {errorMsg}</div>}
+    </div>
+  );
+}
+
+export default TokenSwap;

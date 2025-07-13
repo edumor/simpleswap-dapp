@@ -8,39 +8,53 @@ import "hardhat/console.sol";
 // import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * A smart contract that allows changing a state variable of the contract and tracking the changes
- * It also allows the owner to withdraw the Ether in the contract
+ * @title YourContract
+ * @notice Example contract for demonstration and educational purposes.
+ * @dev Allows anyone to update a greeting, tracks usage, and lets the owner withdraw Ether.
  * @author BuidlGuidl
  */
 contract YourContract {
     // State Variables
+    /// @notice The owner of the contract, set at deployment and immutable.
     address public immutable owner;
+
+    /// @notice The current greeting message stored in the contract.
     string public greeting = "Building Unstoppable Apps!!!";
+
+    /// @notice Indicates if the last greeting change was premium (sent with ETH).
     bool public premium = false;
+
+    /// @notice Total number of times the greeting has been changed.
     uint256 public totalCounter = 0;
+
+    /// @notice Tracks how many times each user has changed the greeting.
     mapping(address => uint) public userGreetingCounter;
 
-    // Events: a way to emit log statements from smart contract that can be listened to by external parties
+    /// @notice Emitted when the greeting is changed.
+    /// @param greetingSetter The address that set the new greeting.
+    /// @param newGreeting The new greeting string.
+    /// @param premium True if ETH was sent with the greeting change.
+    /// @param value The amount of ETH sent (in wei).
     event GreetingChange(address indexed greetingSetter, string newGreeting, bool premium, uint256 value);
 
-    // Constructor: Called once on contract deployment
-    // Check packages/hardhat/deploy/00_deploy_your_contract.ts
+    /**
+     * @notice Contract constructor, sets the owner.
+     * @param _owner The address to be set as the contract owner.
+     */
     constructor(address _owner) {
         owner = _owner;
     }
 
-    // Modifier: used to define a set of rules that must be met before or after a function is executed
-    // Check the withdraw() function
+    /// @notice Restricts function access to only the contract owner.
     modifier isOwner() {
-        // msg.sender: predefined variable that represents address of the account that called the current function
         require(msg.sender == owner, "Not the Owner");
         _;
     }
 
     /**
-     * Function that allows anyone to change the state variable "greeting" of the contract and increase the counters
-     *
-     * @param _newGreeting (string memory) - new greeting to save on the contract
+     * @notice Allows anyone to change the greeting and increments counters.
+     * @dev If ETH is sent, marks the greeting as premium. Emits a GreetingChange event.
+     * @param _newGreeting The new greeting string to store.
      */
     function setGreeting(string memory _newGreeting) public payable {
         // Print data to the hardhat chain console. Remove when deploying to a live network.
@@ -51,20 +65,19 @@ contract YourContract {
         totalCounter += 1;
         userGreetingCounter[msg.sender] += 1;
 
-        // msg.value: built-in global variable that represents the amount of ether sent with the transaction
+        // If ETH is sent, mark as premium
         if (msg.value > 0) {
             premium = true;
         } else {
             premium = false;
         }
 
-        // emit: keyword used to trigger an event
         emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, msg.value);
     }
 
     /**
-     * Function that allows the owner to withdraw all the Ether in the contract
-     * The function can only be called by the owner of the contract as defined by the isOwner modifier
+     * @notice Allows the owner to withdraw all Ether from the contract.
+     * @dev Only callable by the owner (see isOwner modifier).
      */
     function withdraw() public isOwner {
         (bool success, ) = owner.call{ value: address(this).balance }("");
@@ -72,7 +85,8 @@ contract YourContract {
     }
 
     /**
-     * Function that allows the contract to receive ETH
+     * @notice Allows the contract to receive Ether directly.
+     * @dev This function is called when Ether is sent with no data.
      */
     receive() external payable {}
 }
