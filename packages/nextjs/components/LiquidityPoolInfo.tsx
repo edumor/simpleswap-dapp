@@ -29,18 +29,37 @@ export function LiquidityPoolInfo() {
   });
 
   return (
-    <div className="p-4 border rounded max-w-md mx-auto my-4">
-      <h2 className="text-lg font-bold mb-2">Liquidity Pool</h2>
+    <div className="p-4 border-2 border-blue-400 rounded max-w-md mx-auto my-4 bg-base-100">
+      <h2 className="text-xl font-bold mb-2 text-blue-800">Liquidity Pool Status</h2>
+      <div className="mb-2 text-sm">
+        <b>SimpleSwap Contract:</b> <span className="font-mono">{SIMPLE_SWAP_ADDRESS}</span>
+        <br />
+        <b>TokenA:</b> <span className="font-mono">{TOKEN_A_ADDRESS}</span>
+        <br />
+        <b>TokenB:</b> <span className="font-mono">{TOKEN_B_ADDRESS}</span>
+      </div>
       {isLoading && <div>Loading pool info...</div>}
       {error && <div className="text-red-600">Error: {error.message}</div>}
       {Array.isArray(data) && (
-        <div className="text-blue-700 font-mono">
-          Reserve TokenA: {Number(data[0] as bigint) / 1e18}
-          <br />
-          Reserve TokenB: {Number(data[1] as bigint) / 1e18}
+        <div className="text-blue-900 font-mono text-lg mb-2">
+          <div>
+            <b>Reserve TokenA:</b> {Number(data[0] as bigint) / 1e18} <span className="text-xs">(A)</span>
+          </div>
+          <div>
+            <b>Reserve TokenB:</b> {Number(data[1] as bigint) / 1e18} <span className="text-xs">(B)</span>
+          </div>
+          <div className="mt-2 text-base text-green-800">
+            <b>Price:</b>{" "}
+            {Number(data[1] as bigint) > 0 ? (Number(data[0] as bigint) / Number(data[1] as bigint)).toFixed(6) : "-"}{" "}
+            TokenA per TokenB
+            <br />
+            <b>Price:</b>{" "}
+            {Number(data[0] as bigint) > 0 ? (Number(data[1] as bigint) / Number(data[0] as bigint)).toFixed(6) : "-"}{" "}
+            TokenB per TokenA
+          </div>
         </div>
       )}
-      <button className="mt-2 px-3 py-1 bg-gray-200 rounded" onClick={() => refetch()}>
+      <button className="mt-2 px-3 py-1 bg-blue-200 hover:bg-blue-300 rounded font-semibold" onClick={() => refetch()}>
         Refresh
       </button>
     </div>

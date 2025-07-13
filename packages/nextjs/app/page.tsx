@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LiquidityPoolInfo } from "../components/LiquidityPoolInfo";
 import { ShowPrice } from "../components/ShowPrice";
 import { TokenApprove } from "../components/TokenApprove";
+import { TokenBalances } from "../components/TokenBalances";
 import { TokenSwap } from "../components/TokenSwap";
 import { FaucetButton } from "../components/scaffold-eth/FaucetButton";
 import type { NextPage } from "next";
@@ -27,24 +28,45 @@ const Home: NextPage = () => {
             <Address address={connectedAddress} />
           </div>
           <div className="mb-6 p-4 bg-base-200 rounded">
-            <h2 className="text-xl font-bold mb-2">Instrucciones de uso</h2>
+            <h2 className="text-xl font-bold mb-2">How to Use</h2>
             <ol className="list-decimal ml-6 space-y-1">
-              <li>Conecta tu billetera usando el botón de la esquina superior derecha.</li>
+              <li>Connect your wallet using the button in the top right corner.</li>
               <li>
-                Si no tienes tokens, utiliza el <b>Faucet</b> para obtener TokenA y TokenB de prueba.
+                If you don&apos;t have tokens, use the <b>Faucet</b> to get test TokenA and TokenB.
               </li>
               <li>
-                Aprueba el uso de tus tokens con el contrato SimpleSwap usando el formulario <b>Approve Token</b>.
+                Approve your tokens for the SimpleSwap contract using the <b>Approve Token</b> form.
               </li>
-              <li>Consulta el precio actual de intercambio entre TokenA y TokenB.</li>
-              <li>Visualiza el estado de la pool de liquidez.</li>
+              <li>Check the current price between TokenA and TokenB.</li>
+              <li>View the liquidity pool status and contract addresses below.</li>
               <li>
-                Realiza swaps entre TokenA y TokenB usando el formulario <b>Swap Tokens</b>.
+                Swap between TokenA and TokenB using the <b>Swap Tokens</b> form.
               </li>
             </ol>
             <p className="mt-2 text-sm text-gray-500">
-              Recuerda aprobar el token que deseas intercambiar antes de hacer un swap.
+              Remember to approve the token you want to swap before making a swap.
             </p>
+          </div>
+
+          <div className="mb-6 p-4 bg-base-200 rounded">
+            <h2 className="text-lg font-bold mb-2">Contract Addresses (Sepolia)</h2>
+            <ul className="ml-2">
+              <li>
+                <b>TokenA:</b> <span className="font-mono">0xa00dC451faB5B80145d636EeE6A9b794aA81D48C</span>
+              </li>
+              <li>
+                <b>TokenB:</b> <span className="font-mono">0x99Cd59d18C1664Ae32baA1144E275Eee34514115</span>
+              </li>
+              <li>
+                <b>SimpleSwap:</b> <span className="font-mono">0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="mb-6 p-4 bg-base-200 rounded">
+            <h2 className="text-lg font-bold mb-2">Your Token Balances</h2>
+            {/* Token balances for connected user */}
+            <TokenBalances address={connectedAddress} />
           </div>
           <TokenApprove />
           <ShowPrice />
