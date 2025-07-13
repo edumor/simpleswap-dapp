@@ -1,43 +1,138 @@
 
 
-# Screenshots: Interacción con cada función del contrato
+# SimpleSwap DApp
 
-A continuación se muestran las pantallas principales del dApp, cada una acompañada de una breve explicación y su screenshot local. Esto permite verificar el cumplimiento de los requisitos del práctico y facilita la evaluación.
+Decentralized application (dApp) for swapping two ERC20 tokens (TokenA and TokenB) using a custom AMM contract. Includes smart contracts (Solidity, Hardhat), modern front-end (Next.js, Scaffold-ETH 2, wagmi, RainbowKit), wallet integration, and automated tests.
 
-## 1️⃣ Conectar Wallet
-Permite al usuario conectar su billetera (MetaMask, WalletConnect, etc.) para interactuar con el contrato.
-![Conectar Wallet](packages/nextjs/public/screenshots/screenshot-wallet.png)
+---
 
-## 2️⃣ Ver Saldos de Tokens
-Muestra los saldos actuales de TokenA y TokenB del usuario conectado.
-![Saldos de Tokens](packages/nextjs/public/screenshots/screenshot-balances.png)
+## Features
+- Connect wallet (RainbowKit, wagmi)
+- Approve tokens for swap
+- Swap TokenA ↔ TokenB (with slippage and min received auto-calculation)
+- View price and pool reserves
+- Faucet for test tokens
+- Responsive, user-friendly UI
+- Full NatSpec documentation in contracts
+- Test coverage ≥ 50%
 
-## 3️⃣ Faucet (Obtener Tokens de Prueba)
-Permite al usuario obtener TokenA y TokenB para pruebas, facilitando la interacción con el contrato.
+---
+
+## Contract Addresses (Sepolia)
+- **SimpleSwap:** `0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18`
+- **TokenA:** `0xa00dC451faB5B80145d636EeE6A9b794aA81D48C`
+- **TokenB:** `0x99Cd59d18C1664Ae32baA1144E275Eee34514115`
+
+---
+
+## Live Demo
+Interact with the deployed dApp: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
+
+---
+
+## How to Use
+1. **Open the dApp**: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
+2. **Connect your wallet** (MetaMask, WalletConnect, etc.)
+3. **Get test tokens** using the Faucet (if needed)
+4. **Approve tokens** before swapping (enter amount in decimals, not wei)
+5. **Swap tokens** in either direction (TokenA ↔ TokenB)
+6. **View pool reserves and price** in real time
+7. **Audit transactions** via Etherscan links (the dApp shows the transaction hash after each action)
+
+---
+
+## Development & Testing
+
+### Requirements
+- Node.js >= 18
+- Hardhat
+- Yarn or npm
+
+### Local Setup
+1. **Install dependencies:**
+   ```bash
+   yarn install
+   # or
+   npm install
+   ```
+2. **Start Hardhat node and deploy contracts:**
+   ```bash
+   cd packages/hardhat
+   npx hardhat node
+   npx hardhat deploy --network localhost
+   ```
+3. **Run the front-end:**
+   ```bash
+   cd packages/nextjs
+   yarn dev
+   # or
+   npm run dev
+   ```
+4. **Open** [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Testing & Coverage
+- The project uses Hardhat for testing and coverage.
+- To run tests and check coverage:
+  ```bash
+  cd packages/hardhat
+  npx hardhat test
+  npx hardhat coverage
+  ```
+- **Coverage achieved:** ≥50% (see `coverage/` folder for detailed report)
+
+---
+
+## Screenshots
+Main features of the dApp:
+
+![Main Page](https://simpleswap-dapp.vercel.app/screenshot-main.png)
+![Wallet Connect](https://simpleswap-dapp.vercel.app/screenshot-wallet.png)
+
+![Token Balances](packages/nextjs/public/screenshots/screenshot-balances.png)
 ![Faucet](packages/nextjs/public/screenshots/screenshot-main.png)
+![Approve](https://simpleswap-dapp.vercel.app/screenshot-approve.png)
+![Swap](https://simpleswap-dapp.vercel.app/screenshot-swap.png)
+![Swap TokenA to TokenB](https://simpleswap-dapp.vercel.app/screenshot-swap-a-b.png)
+![Swap TokenB to TokenA](https://simpleswap-dapp.vercel.app/screenshot-swap-b-a.png)
+![Pool Info](https://simpleswap-dapp.vercel.app/screenshot-pool.png)
+![Price](https://simpleswap-dapp.vercel.app/screenshot-price.png)
+![Transaction Hash](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
 
-## 4️⃣ Aprobar Tokens (Approve)
-El usuario debe aprobar el contrato para que pueda gastar sus tokens antes de realizar un swap.
-![Approve](packages/nextjs/public/screenshots/screenshot-approve.png)
+---
 
-## 5️⃣ Swap de Tokens
-Formulario para intercambiar TokenA por TokenB o viceversa, con selección de dirección, monto y slippage.
-![Swap](packages/nextjs/public/screenshots/screenshot-swap.png)
 
-### Swap TokenA → TokenB
-![Swap TokenA a TokenB](packages/nextjs/public/screenshots/screenshot-swap-a-b.png)
+## Etherscan Integration
 
-### Swap TokenB → TokenA
-![Swap TokenB a TokenA](packages/nextjs/public/screenshots/screenshot-swap-b-a.png)
+The SimpleSwap dApp makes it easy to audit and track blockchain operations with direct links to Etherscan:
 
-## 6️⃣ Ver Precio y Reservas del Pool
-La UI muestra el precio actual y las reservas de liquidez en tiempo real.
-![Precio y Pool](packages/nextjs/public/screenshots/screenshot-pool.png)
-![Precio](packages/nextjs/public/screenshots/screenshot-price.png)
+- **Deployed contracts:**
+  - [SimpleSwap on Etherscan](https://etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18)
+  - [TokenA on Etherscan](https://etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C)
+  - [TokenB on Etherscan](https://etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115)
+- **Transactions:**
+  - Every time you perform a swap or approve tokens, the interface displays the transaction hash with a direct link to Etherscan for review and verification.
 
-## 7️⃣ Hash de Transacción y Auditoría
-Después de cada acción, la dApp muestra el hash de la transacción y un enlace para auditar en Etherscan.
-![Hash de Transacción](packages/nextjs/public/screenshots/screenshot-txhash.png)
+**Visual example:**
+
+![Transaction hash in the UI](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
+
+```
+Transaction sent:
+0x1234abcd...5678efgh
+View on Etherscan
+```
+
+---
+
+## Author
+Eduardo Moreno
+
+---
+
+
+## Screenshots and Functional Tests
+
+See the file [`README-capturas.md`](./README-capturas.md) for screenshots and details of all functional tests performed on the Vercel deployment.
 
 ---
 
@@ -303,12 +398,12 @@ You can interact with the deployed dApp here:
      - Select the token you want to swap (TokenA or TokenB).
      - Enter the amount to approve.
      - Click **Approve** and confirm the transaction in your wallet.
-    - **¿Qué monto ingresar?**
-      - Ingresa el monto en unidades decimales (por ejemplo, 1, 10, 100), no en wei.
-      - La dApp convierte automáticamente el valor a wei (la unidad mínima del token) antes de enviarlo al contrato.
-      - Si el token tiene 18 decimales (como la mayoría de los ERC20), 1 token = 1 000 000 000 000 000 000 (1e18) wei.
-      - Ejemplo: Si quieres aprobar 10 TokenA, escribe “10” en el campo de monto. La dApp enviará 10 000 000 000 000 000 000 wei al contrato.
-      - Puedes aprobar exactamente el monto que vas a intercambiar, o un poco más si prefieres no repetir el approve en cada swap.
+    - **What amount should I enter?**
+      - Enter the amount in decimal units (for example, 1, 10, 100), not in wei.
+      - The dApp automatically converts the value to wei (the token's smallest unit) before sending it to the contract.
+      - If the token has 18 decimals (like most ERC20), 1 token = 1 000 000 000 000 000 000 (1e18) wei.
+      - Example: If you want to approve 10 TokenA, write “10” in the amount field. The dApp will send 10 000 000 000 000 000 000 wei to the contract.
+      - You can approve exactly the amount you want to swap, or a bit more if you prefer not to repeat the approve for every swap.
 
 5. **Swap Tokens**
    - In the **Swap** section:
@@ -390,36 +485,37 @@ You can interact with the deployed dApp here:
 
 ---
 
-## Interacción con Etherscan
 
-La dApp SimpleSwap facilita la auditoría y seguimiento de las operaciones en la blockchain mediante enlaces directos a Etherscan:
+## Etherscan Usage
 
-- **Contratos desplegados:**
-  - [SimpleSwap en Etherscan](https://etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18)
-  - [TokenA en Etherscan](https://etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C)
-  - [TokenB en Etherscan](https://etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115)
+The SimpleSwap dApp makes it easy to audit and track blockchain operations with direct links to Etherscan:
 
-- **Transacciones:**
-  - Cada vez que realizas un swap o apruebas tokens, la interfaz muestra el hash de la transacción con un enlace directo a Etherscan para su consulta y verificación.
+- **Deployed contracts:**
+  - [SimpleSwap on Etherscan](https://etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18)
+  - [TokenA on Etherscan](https://etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C)
+  - [TokenB on Etherscan](https://etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115)
 
-- **Cómo usarlo:**
-  1. Realiza cualquier operación (swap, approve) desde la dApp.
-  2. Al finalizar, haz clic en el hash de la transacción que aparece en pantalla.
-  3. Se abrirá Etherscan mostrando todos los detalles de la operación, permitiendo auditar el resultado y el estado en la red.
+- **Transactions:**
+  - Every time you perform a swap or approve tokens, the interface displays the transaction hash with a direct link to Etherscan for review and verification.
 
-Esto garantiza transparencia y confianza, permitiendo a cualquier usuario o evaluador verificar el funcionamiento real del sistema en la blockchain pública.
- 
-**Ejemplo visual:**
+- **How to use:**
+  1. Perform any operation (swap, approve) from the dApp.
+  2. When finished, click the transaction hash that appears on the screen.
+  3. Etherscan will open showing all the details of the operation, allowing you to audit the result and status on the public network.
 
-![Hash de transacción en la UI](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
+This ensures transparency and trust, allowing any user or reviewer to verify the real operation of the system on the public blockchain.
+
+**Visual example:**
+
+![Transaction hash in the UI](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
 
 ```
-Transacción enviada: 
+Transaction sent:
 0x1234abcd...5678efgh
-Ver en Etherscan
+View on Etherscan
 ```
 
-Al hacer clic en "Ver en Etherscan", se abre la página de la transacción en el block explorer, mostrando todos los detalles y confirmaciones.
+When you click "View on Etherscan", the transaction page opens in the block explorer, showing all details and confirmations.
 
 ---
 
