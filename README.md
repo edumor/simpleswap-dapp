@@ -1,32 +1,43 @@
----
 
-## Example Screenshots (Latest UI)
 
-Below are updated screenshots for each main screen and feature:
+# Screenshots: Interacción con cada función del contrato
 
-### 1. Main Page & Wallet Connection
-Shows the dApp welcome, wallet connect, and contract addresses.
-![Main Page](https://simpleswap-dapp.vercel.app/screenshot-main.png)
+A continuación se muestran las pantallas principales del dApp, cada una acompañada de una breve explicación y su screenshot local. Esto permite verificar el cumplimiento de los requisitos del práctico y facilita la evaluación.
 
-### 2. Token Balances
-Displays the connected user's TokenA and TokenB balances.
-![Token Balances](https://simpleswap-dapp.vercel.app/screenshot-balances.png)
+## 1️⃣ Conectar Wallet
+Permite al usuario conectar su billetera (MetaMask, WalletConnect, etc.) para interactuar con el contrato.
+![Conectar Wallet](packages/nextjs/public/screenshots/screenshot-wallet.png)
 
-### 3. Approve Tokens
-Approve the contract to spend your tokens before swapping.
-![Approve](https://simpleswap-dapp.vercel.app/screenshot-approve.png)
+## 2️⃣ Ver Saldos de Tokens
+Muestra los saldos actuales de TokenA y TokenB del usuario conectado.
+![Saldos de Tokens](packages/nextjs/public/screenshots/screenshot-balances.png)
 
-### 4. Swap Tokens
-Form to swap TokenA for TokenB or vice versa, with amount and slippage settings.
-![Swap](https://simpleswap-dapp.vercel.app/screenshot-swap.png)
+## 3️⃣ Faucet (Obtener Tokens de Prueba)
+Permite al usuario obtener TokenA y TokenB para pruebas, facilitando la interacción con el contrato.
+![Faucet](packages/nextjs/public/screenshots/screenshot-main.png)
 
-### 5. Liquidity Pool Info
-Shows pool reserves, contract addresses, and calculated price.
-![Liquidity Pool](https://simpleswap-dapp.vercel.app/screenshot-pool.png)
+## 4️⃣ Aprobar Tokens (Approve)
+El usuario debe aprobar el contrato para que pueda gastar sus tokens antes de realizar un swap.
+![Approve](packages/nextjs/public/screenshots/screenshot-approve.png)
 
-### 6. Transaction Hash Display
-After each action, the dApp shows the transaction hash and a link to Etherscan.
-![Transaction Hash](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
+## 5️⃣ Swap de Tokens
+Formulario para intercambiar TokenA por TokenB o viceversa, con selección de dirección, monto y slippage.
+![Swap](packages/nextjs/public/screenshots/screenshot-swap.png)
+
+### Swap TokenA → TokenB
+![Swap TokenA a TokenB](packages/nextjs/public/screenshots/screenshot-swap-a-b.png)
+
+### Swap TokenB → TokenA
+![Swap TokenB a TokenA](packages/nextjs/public/screenshots/screenshot-swap-b-a.png)
+
+## 6️⃣ Ver Precio y Reservas del Pool
+La UI muestra el precio actual y las reservas de liquidez en tiempo real.
+![Precio y Pool](packages/nextjs/public/screenshots/screenshot-pool.png)
+![Precio](packages/nextjs/public/screenshots/screenshot-price.png)
+
+## 7️⃣ Hash de Transacción y Auditoría
+Después de cada acción, la dApp muestra el hash de la transacción y un enlace para auditar en Etherscan.
+![Hash de Transacción](packages/nextjs/public/screenshots/screenshot-txhash.png)
 
 ---
 
