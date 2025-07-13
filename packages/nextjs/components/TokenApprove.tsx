@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { parseEther } from "viem";
 import { useAccount, useWriteContract } from "wagmi";
 
 const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
@@ -34,11 +33,12 @@ export function TokenApprove() {
     setTxStatus("pending");
     setErrorMsg(null);
     try {
+      // El usuario ingresa el valor en wei directamente
       await writeContractAsync({
         address: tokenAddress,
         abi: ERC20_ABI,
         functionName: "approve",
-        args: [SIMPLE_SWAP_ADDRESS, amount ? parseEther(amount) : 0n],
+        args: [SIMPLE_SWAP_ADDRESS, amount ? BigInt(amount) : 0n],
       });
       setTxStatus("success");
     } catch (err: any) {
@@ -58,13 +58,17 @@ export function TokenApprove() {
         </select>
       </div>
       <div className="mb-2">
+        <label className="block text-xs text-gray-500 mb-1">Amount to approve (in wei)</label>
         <input
           type="number"
-          placeholder="Amount to approve"
+          placeholder="Enter the amount in wei (e.g., 1000000000000000000 for 1 token with 18 decimals)"
           value={amount}
           onChange={e => setAmount(e.target.value)}
           className="border px-2 py-1 rounded w-full"
         />
+        <div className="text-xs text-blue-600 mt-1">
+          <b>Note:</b> Enter the amount in <b>wei</b> (the smallest unit, usually 18 decimals for ERC20).
+        </div>
       </div>
       <button
         className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50 w-full"

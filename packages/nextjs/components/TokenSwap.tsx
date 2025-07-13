@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { formatEther } from "viem";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 
 const SIMPLE_SWAP_ADDRESS = "0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18";
@@ -95,7 +94,7 @@ export function TokenSwap() {
     if (amountOutData) {
       const slippagePct = parseFloat(slippage) / 100;
       const minOut = BigInt(amountOutData - (amountOutData * BigInt(Math.floor(slippagePct * 10000))) / 10000n);
-      setAmountOutMin(formatEther(minOut > 0n ? minOut : 0n));
+      setAmountOutMin(minOut > 0n ? minOut.toString() : "0");
     } else {
       setAmountOutMin("");
     }
@@ -139,19 +138,18 @@ export function TokenSwap() {
         </select>
       </div>
       <div className="mb-2">
-        <label className="block text-xs text-gray-500 mb-1">Cantidad a intercambiar (en wei)</label>
+        <label className="block text-xs text-gray-500 mb-1">Amount to swap (in wei)</label>
         <input
           type="number"
-          placeholder="Ingresa la cantidad en wei (ej: 1000000000000000000 para 1 token con 18 decimales)"
+          placeholder="Enter the amount in wei (e.g., 1000000000000000000 for 1 token with 18 decimals)"
           value={amountIn}
           onChange={e => setAmountIn(e.target.value)}
           className={`border px-2 py-1 rounded w-full ${inputError ? "border-red-500" : ""}`}
         />
         <div className="text-xs text-blue-600 mt-1">
-          <b>Nota:</b> Debes ingresar la cantidad en <b>wei</b> (la unidad mínima del token, normalmente 18 decimales
-          para ERC20).
+          <b>Note:</b> Enter the amount in <b>wei</b> (the smallest unit, usually 18 decimals for ERC20).
         </div>
-        {inputError && <div className="text-xs text-red-500 mt-1">Ingresa una cantidad válida mayor a 0.</div>}
+        {inputError && <div className="text-xs text-red-500 mt-1">Enter a valid amount greater than 0.</div>}
       </div>
       <div className="mb-2">
         <label className="block text-xs text-gray-500 mb-1">Slippage (%)</label>
@@ -166,7 +164,7 @@ export function TokenSwap() {
         />
       </div>
       <div className="mb-2">
-        <label className="block text-xs text-gray-500 mb-1">Cantidad mínima a recibir (en wei, auto)</label>
+        <label className="block text-xs text-gray-500 mb-1">Minimum amount to receive (in wei, auto)</label>
         <input
           type="text"
           value={amountOutMin}
