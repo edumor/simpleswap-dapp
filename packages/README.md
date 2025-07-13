@@ -77,6 +77,12 @@ You can interact with the deployed dApp here:
      - Select the token you want to swap (TokenA or TokenB).
      - Enter the amount to approve.
      - Click **Approve** and confirm the transaction in your wallet.
+    - **¿Qué monto ingresar?**
+      - Ingresa el monto en unidades decimales (por ejemplo, 1, 10, 100), no en wei.
+      - La dApp convierte automáticamente el valor a wei (la unidad mínima del token) antes de enviarlo al contrato.
+      - Si el token tiene 18 decimales (como la mayoría de los ERC20), 1 token = 1 000 000 000 000 000 000 (1e18) wei.
+      - Ejemplo: Si quieres aprobar 10 TokenA, escribe “10” en el campo de monto. La dApp enviará 10 000 000 000 000 000 000 wei al contrato.
+      - Puedes aprobar exactamente el monto que vas a intercambiar, o un poco más si prefieres no repetir el approve en cada swap.
 
 5. **Swap Tokens**
    - In the **Swap** section:
