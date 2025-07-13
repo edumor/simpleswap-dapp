@@ -124,6 +124,39 @@ You can interact with the deployed dApp here:
 
 ---
 
+## Interacción con Etherscan
+
+La dApp SimpleSwap facilita la auditoría y seguimiento de las operaciones en la blockchain mediante enlaces directos a Etherscan:
+
+- **Contratos desplegados:**
+  - [SimpleSwap en Etherscan](https://etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18)
+  - [TokenA en Etherscan](https://etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C)
+  - [TokenB en Etherscan](https://etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115)
+
+- **Transacciones:**
+  - Cada vez que realizas un swap o apruebas tokens, la interfaz muestra el hash de la transacción con un enlace directo a Etherscan para su consulta y verificación.
+
+- **Cómo usarlo:**
+  1. Realiza cualquier operación (swap, approve) desde la dApp.
+  2. Al finalizar, haz clic en el hash de la transacción que aparece en pantalla.
+  3. Se abrirá Etherscan mostrando todos los detalles de la operación, permitiendo auditar el resultado y el estado en la red.
+
+Esto garantiza transparencia y confianza, permitiendo a cualquier usuario o evaluador verificar el funcionamiento real del sistema en la blockchain pública.
+ 
+**Ejemplo visual:**
+
+![Hash de transacción en la UI](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
+
+```
+Transacción enviada: 
+0x1234abcd...5678efgh
+Ver en Etherscan
+```
+
+Al hacer clic en "Ver en Etherscan", se abre la página de la transacción en el block explorer, mostrando todos los detalles y confirmaciones.
+
+---
+
 ## Author
 Eduardo Moreno
 

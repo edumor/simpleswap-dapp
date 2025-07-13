@@ -31,6 +31,22 @@ A continuación se muestran capturas de pantalla y descripciones de las pruebas 
 ### 5. Mensajes de éxito y error
 - El sistema muestra mensajes claros tras cada acción (aprobación, swap, error de conexión, etc).
 
+### 6. Ejemplo de hash de transacción y enlace a Etherscan
+- Tras realizar un swap o aprobar tokens, la dApp muestra el hash de la transacción en pantalla.
+- El hash es un enlace directo a Etherscan para auditar la operación.
+
+![Hash de transacción en la UI](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
+
+Ejemplo visual:
+
+```
+Transacción enviada: 
+0x1234abcd...5678efgh
+Ver en Etherscan
+```
+
+Al hacer clic en "Ver en Etherscan", se abre la página de la transacción en el block explorer, mostrando todos los detalles y confirmaciones.
+
 ---
 
 Estas pruebas confirman que la dApp funciona correctamente en producción y que la experiencia de usuario es fluida y clara.
