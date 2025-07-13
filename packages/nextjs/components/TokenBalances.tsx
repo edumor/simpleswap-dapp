@@ -1,4 +1,4 @@
-import { formatUnits } from "viem";
+// ...existing code...
 import { useContractRead } from "wagmi";
 
 const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
@@ -31,10 +31,10 @@ export function TokenBalances({ address }: { address?: string }) {
   return (
     <ul>
       <li>
-        <b>TokenA:</b> {balanceA !== undefined ? formatUnits(balanceA as bigint, 18) : "-"}
+        <b>TokenA (wei):</b> {balanceA != null ? balanceA.toString() : "-"}
       </li>
       <li>
-        <b>TokenB:</b> {balanceB !== undefined ? formatUnits(balanceB as bigint, 18) : "-"}
+        <b>TokenB (wei):</b> {balanceB != null ? balanceB.toString() : "-"}
       </li>
     </ul>
   );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { formatEther, parseEther } from "viem";
+import { formatEther } from "viem";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 
 const SIMPLE_SWAP_ADDRESS = "0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18";
@@ -84,7 +84,7 @@ export function TokenSwap() {
     functionName: "getAmountOut",
     args:
       amountIn && reserveIn !== undefined && reserveOut !== undefined
-        ? [parseEther(amountIn), reserveIn, reserveOut]
+        ? [BigInt(amountIn), reserveIn, reserveOut]
         : undefined,
   });
 
@@ -113,13 +113,7 @@ export function TokenSwap() {
         address: SIMPLE_SWAP_ADDRESS,
         abi: SIMPLE_SWAP_ABI,
         functionName: "swapExactTokensForTokens",
-        args: [
-          amountIn ? parseEther(amountIn) : 0n,
-          amountOutMin ? parseEther(amountOutMin) : 0n,
-          path,
-          address,
-          deadline,
-        ],
+        args: [amountIn ? BigInt(amountIn) : 0n, amountOutMin ? BigInt(amountOutMin) : 0n, path, address, deadline],
       });
       setTxStatus("success");
     } catch (err: any) {
@@ -145,13 +139,18 @@ export function TokenSwap() {
         </select>
       </div>
       <div className="mb-2">
+        <label className="block text-xs text-gray-500 mb-1">Cantidad a intercambiar (en wei)</label>
         <input
           type="number"
-          placeholder="Cantidad a intercambiar"
+          placeholder="Ingresa la cantidad en wei (ej: 1000000000000000000 para 1 token con 18 decimales)"
           value={amountIn}
           onChange={e => setAmountIn(e.target.value)}
           className={`border px-2 py-1 rounded w-full ${inputError ? "border-red-500" : ""}`}
         />
+        <div className="text-xs text-blue-600 mt-1">
+          <b>Nota:</b> Debes ingresar la cantidad en <b>wei</b> (la unidad mínima del token, normalmente 18 decimales
+          para ERC20).
+        </div>
         {inputError && <div className="text-xs text-red-500 mt-1">Ingresa una cantidad válida mayor a 0.</div>}
       </div>
       <div className="mb-2">
@@ -167,7 +166,7 @@ export function TokenSwap() {
         />
       </div>
       <div className="mb-2">
-        <label className="block text-xs text-gray-500 mb-1">Cantidad mínima a recibir (auto)</label>
+        <label className="block text-xs text-gray-500 mb-1">Cantidad mínima a recibir (en wei, auto)</label>
         <input
           type="text"
           value={amountOutMin}
