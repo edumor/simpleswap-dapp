@@ -11,6 +11,7 @@ import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
+import { TokenFaucet } from "../components/TokenFaucet";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
@@ -47,6 +48,9 @@ const Home: NextPage = () => {
               Remember to approve the token you want to swap before making a swap.
             </p>
           </div>
+
+          {/* Token Faucet for TokenA and TokenB */}
+          <TokenFaucet />
 
           <div className="mb-6 p-4 bg-base-200 rounded">
             <h2 className="text-lg font-bold mb-2">Contract Addresses (Sepolia)</h2>

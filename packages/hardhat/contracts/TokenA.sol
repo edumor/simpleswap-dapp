@@ -11,6 +11,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @dev Inherits from OpenZeppelin ERC20, ERC20Burnable, and Ownable contracts.
 /// @custom:security-contact eduardomoreno2503@gmail.com
 contract TokenA is ERC20, ERC20Burnable, Ownable {
+    /// @notice Allows any user to mint a small amount of tokens to their own address (faucet).
+    /// @dev This function is public and can be called by anyone. Intended for testnet use only.
+    /// @custom:faucet
+    function faucet() public {
+        uint256 amount = 1000 * 10**decimals(); // 1000 tokens per call
+        _mint(msg.sender, amount);
+    }
     /// @notice Deploys the TokenA contract and sets the initial owner.
     /// @param initialOwner The address that will be assigned as the contract owner.
     constructor(address initialOwner)
