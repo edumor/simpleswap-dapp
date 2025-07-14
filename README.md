@@ -19,10 +19,9 @@ Decentralized application (dApp) for swapping two ERC20 tokens (TokenA and Token
 ---
 
 ## Contract Addresses (Sepolia)
-- **SimpleSwap:** [https://sepolia.etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18#code]
-- **TokenA:** `0xa00dC451faB5B80145d636EeE6A9b794aA81D48C`
-- **TokenB:** `0x99Cd59d18C1664Ae32baA1144E275Eee34514115`
-
+- **SimpleSwap:** https://sepolia.etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18#code
+- **TokenA:** https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C#code
+- **TokenB:** https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115#code
 ---
 
 ## Live Demo
