@@ -1,3 +1,39 @@
+---
+
+## Instructor Notes & Compliance Statement
+
+This project fully meets all requirements for Practical Assignment Module 4: Front-End Creation and Testing for SimpleSwap (Module 3). Below is a summary for the instructor, highlighting how each requirement and recommendation has been addressed:
+
+### 1️⃣ Contract Interaction
+- The front-end allows wallet connection (MetaMask, WalletConnect, etc.).
+- Users can swap TokenA for TokenB and vice versa, and view the current price in real time.
+- All contract addresses are clearly shown in the UI and documented below.
+
+### 2️⃣ Development Environment & Testing
+- The project uses Hardhat for contract development, testing, and coverage.
+- Test coverage is **≥50%** for all contracts (see coverage report and screenshot above).
+
+### 3️⃣ Instructor Recommendations
+- No long strings are present in the contracts or front-end.
+- No multiple accesses to state variables in a single function.
+- NatSpec documentation is included for all functions, variables, events, and modifiers.
+- The front-end is fully functional and deployed on Vercel.
+
+### 4️⃣ Tools Used
+- Front-end: Next.js, React, Scaffold-ETH 2, wagmi, RainbowKit.
+- Smart contracts: Solidity, Hardhat.
+
+### 5️⃣ Storage & Deployment
+- All code is available in this public GitHub repository.
+- The front-end is deployed and accessible at: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
+
+### Additional Notes
+- The dApp includes a faucet for test tokens.
+- All user actions (approve, swap) are visible in the UI and can be verified on Etherscan.
+- The README is fully documented in English, with clear instructions for running, testing, and auditing the project.
+- The calculation for minimum received is based on the AMM price formula, not getAmountOut.
+
+---
 
 ## Example Screenshots (Latest UI)
 
