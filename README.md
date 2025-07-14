@@ -19,10 +19,46 @@ Decentralized application (dApp) for swapping two ERC20 tokens (TokenA and Token
 ---
 
 ## Contract Addresses (Sepolia)
-- **SimpleSwap:** https://sepolia.etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18#code
-- **TokenA:** https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C#code
-- **TokenB:** https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115#code
----
+## 🚀 Contract Deployments
+
+### 🎯 **SimpleSwap Contract (Main AMM)**
+| Property | Value |
+|----------|-------|
+| **Contract Address** | [`0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18`](https://sepolia.etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18) |
+| **Type** | AMM Contract |
+| **Network** | Sepolia Testnet |
+| **Compiler** | Solidity v0.8.20 |
+| **Optimization** | Enabled (200 runs) |
+| **License** | MIT |
+| **Verification Status** | ✅ [Verified on Etherscan](https://sepolia.etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18#code) |
+| **Purpose** | Main AMM implementation |
+
+### 🪙 **TokenA (Test Token)**
+| Property | Value |
+|----------|-------|
+| **Contract Address** | [`0xa00dC451faB5B80145d636EeE6A9b794aA81D48C`](https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C) |
+| **Type** | ERC20 Token |
+| **Network** | Sepolia Testnet |
+| **Symbol** | TKA |
+| **Verification Status** | ✅ [Verified on Etherscan](https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C#code) |
+| **Purpose** | Test token for AMM operations |
+
+### 🪙 **TokenB (Test Token)**
+| Property | Value |
+|----------|-------|
+| **Contract Address** | [`0x99Cd59d18C1664Ae32baA1144E275Eee34514115`](https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115) |
+| **Type** | ERC20 Token |
+| **Network** | Sepolia Testnet |
+| **Symbol** | TKB |
+| **Verification Status** | ✅ [Verified on Etherscan](https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115#code) |
+| **Purpose** | Test token for AMM operations |
+
+## 📋 Contract Verification
+Successfully verified by the official verifier contract:
+- **Verifier Contract**: [`0x9f8f02dab384dddf1591c3366069da3fb0018220`](https://sepolia.etherscan.io/address/0x9f8f02dab384dddf1591c3366069da3fb0018220)
+- **Verification Transaction**: [`0xa20b46207cb1448d5cf9986551738b275e0bb04e59e2c4c405302d04db911611`](https://sepolia.etherscan.io/tx/0xa20b46207cb1448d5cf9986551738b275e0bb04e59e2c4c405302d04db911611)
+- **Verification Status**: ✅ **PASSED** - All tests completed successfully
+- **Verification Date**: July 5, 2025
 
 ## Live Demo
 Interact with the deployed dApp: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
