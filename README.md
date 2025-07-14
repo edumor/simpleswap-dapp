@@ -1,5 +1,3 @@
-
-
 # SimpleSwap DApp
 
 Decentralized application (dApp) for swapping two ERC20 tokens (TokenA and TokenB) using a custom AMM contract. Includes smart contracts (Solidity, Hardhat), modern front-end (Next.js, Scaffold-ETH 2, wagmi, RainbowKit), wallet integration, and automated tests.
@@ -114,6 +112,14 @@ Interact with the deployed dApp: [https://simpleswap-dapp-nextjs.vercel.app/](ht
   npx hardhat coverage
   ```
 - **Coverage achieved:** ≥50% (see `coverage/` folder for detailed report)
+
+### Cobertura de Contratos
+
+A continuación se muestra el resultado de la cobertura de los contratos obtenida con `npm run coverage`:
+
+![Cobertura de contratos](./public/screenshots/screenshot-cobertura.png)
+
+> El reporte muestra que la cobertura es igual o superior al 50%, cumpliendo con los requisitos del trabajo práctico.
 
 ---
 
@@ -328,168 +334,6 @@ Interact with the deployed dApp:
   npx hardhat test
   npx hardhat coverage
   ```
-- **Coverage achieved:** ≥50% (see `coverage/` folder for detailed report)
-
----
-
-## Features Implemented
-- Connect wallet (RainbowKit, wagmi)
-- Approve tokens for swap
-- Swap TokenA ↔ TokenB (with slippage and min received auto-calculation)
-- View price and pool reserves
-- Faucet for test tokens
-- Responsive, user-friendly UI
-- Full NatSpec documentation in contracts
-- Test coverage ≥ 50%
-
----
-
-## Example Transaction Hash in the UI
-
-After each swap or approve, the dApp displays the transaction hash and a direct link to Etherscan for auditing:
-
-```
-Transaction sent:
-0x1234abcd...5678efgh
-View on Etherscan
-```
-
-Clicking "View on Etherscan" opens the transaction details in the block explorer.
-
----
-
-
----
-
-## Example Screenshots
-
-Below are example screenshots of the main dApp features:
-
-### Main Page
-Shows the dApp title, wallet connect button, and navigation.
-![Main Page](https://simpleswap-dapp.vercel.app/screenshot-main.png)
-
-### Pool Info and Price
-Displays current reserves for TokenA and TokenB, and the real-time price.
-![Pool Info](https://simpleswap-dapp.vercel.app/screenshot-pool.png)
-
-### Swap Tokens
-Form to swap TokenA for TokenB or vice versa, with amount and slippage settings.
-![Swap Form](https://simpleswap-dapp.vercel.app/screenshot-swap.png)
-
-### Approve Tokens
-Approve the contract to spend your tokens before swapping.
-![Approve Form](https://simpleswap-dapp.vercel.app/screenshot-approve.png)
-
-### Transaction Hash Display
-After each action, the dApp shows the transaction hash and a link to Etherscan.
-![Transaction Hash](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
-
----
-
-## Author
-Eduardo Moreno
-
-## Overview
-This project implements a decentralized application (dApp) for token swapping using a custom AMM contract (`SimpleSwap`) and two ERC20 tokens (`TokenA` and `TokenB`). The solution includes:
-- Smart contracts (Solidity, Hardhat)
-- A modern front-end (Next.js, Scaffold-ETH 2, wagmi, RainbowKit)
-- Full wallet integration and user-friendly UI
-- Automated tests and coverage
-
----
-
-## Contract Addresses (Deployed for Module 3)
-- **SimpleSwap:** `0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18`
-- **TokenA:** `0xa00dC451faB5B80145d636EeE6A9b794aA81D48C`
-- **TokenB:** `0x99Cd59d18C1664Ae32baA1144E275Eee34514115`
-
----
-
-
-## Live Demo
-
-You can interact with the deployed dApp here:
-
-**https://simpleswap-dapp-nextjs.vercel.app/**
-
----
-
-## Step-by-Step: How to Use the Front-End
-
-1. **Open the dApp**
-   - Go to [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
-
-2. **Connect Your Wallet**
-   - Click the **Connect Wallet** button at the top right.
-   - Select your preferred wallet (MetaMask, WalletConnect, etc.) and approve the connection.
-
-3. **Get Test Tokens (Optional)**
-   - Use the **Faucet** section to mint test TokenA or TokenB to your wallet for demo purposes.
-
-4. **Approve Token**
-   - Before swapping, you must approve the SimpleSwap contract to spend your tokens.
-   - In the **Approve** section:
-     - Select the token you want to swap (TokenA or TokenB).
-     - Enter the amount to approve.
-     - Click **Approve** and confirm the transaction in your wallet.
-    - **What amount should I enter?**
-      - Enter the amount in decimal units (for example, 1, 10, 100), not in wei.
-      - The dApp automatically converts the value to wei (the token's smallest unit) before sending it to the contract.
-      - If the token has 18 decimals (like most ERC20), 1 token = 1 000 000 000 000 000 000 (1e18) wei.
-      - Example: If you want to approve 10 TokenA, write “10” in the amount field. The dApp will send 10 000 000 000 000 000 000 wei to the contract.
-      - You can approve exactly the amount you want to swap, or a bit more if you prefer not to repeat the approve for every swap.
-
-5. **Swap Tokens**
-   - In the **Swap** section:
-     - Select the direction (TokenA → TokenB or TokenB → TokenA).
-     - Enter the amount to swap.
-     - Set your desired slippage tolerance (default: 1%).
-     - The minimum amount to receive will be calculated automatically.
-     - Click **Swap** and confirm the transaction in your wallet.
-
-6. **View Price and Pool Info**
-   - The UI displays the current price and liquidity pool reserves in real time.
-
-7. **Done!**
-   - You can repeat the process, swap in both directions, and explore all features.
-
----
-
-## How to Run Locally
-
-1. **Install dependencies:**
-   ```bash
-   yarn install
-   # or
-   npm install
-   ```
-2. **Start Hardhat node and deploy contracts:**
-   ```bash
-   cd packages/hardhat
-   npx hardhat node
-   npx hardhat deploy --network localhost
-   ```
-3. **Run the front-end:**
-   ```bash
-   cd packages/nextjs
-   yarn dev
-   # or
-   npm run dev
-   ```
-4. **Open** [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## Testing & Coverage
-
-- The project uses Hardhat for testing and coverage.
-- To run tests and check coverage:
-  ```bash
-  cd packages/hardhat
-  npx hardhat test
-  npx hardhat coverage
-  ```
 - **Coverage achieved:** >50% (see `coverage/` folder for detailed report)
 
 ---
@@ -550,7 +394,7 @@ Transaction sent:
 View on Etherscan
 ```
 
-When you click "View on Etherscan", the transaction page opens in the block explorer, showing all details and confirmations.
+Cuando haces clic en "Ver en Etherscan", se abre la página de la transacción en el explorador de bloques, mostrando todos los detalles y confirmaciones.
 
 ---
 
@@ -562,3 +406,65 @@ Eduardo Moreno
 ## Capturas de pantalla y pruebas funcionales
 
 Consulta el archivo [`README-capturas.md`](./README-capturas.md) para ver capturas de pantalla y el detalle de todas las pruebas funcionales realizadas sobre el despliegue en Vercel.
+
+---
+
+## 🧪 Resultados de Tests y Cobertura (Hardhat)
+
+### Última ejecución: 14 de julio de 2025
+
+#### Resultados de los tests
+
+```
+SimpleSwap
+  Deployment
+    ✔ Despliega TokenA y TokenB correctamente
+    ✔ Despliega SimpleSwap correctamente
+  addLiquidity
+    ✔ Agrega liquidez inicial y mintea tokens de liquidez
+    ✔ Agrega más liquidez proporcionalmente
+    ✔ Revierte si se excede el deadline
+    ✔ Revierte si la cantidad es insuficiente
+  removeLiquidity
+    ✔ Remueve liquidez y retorna tokens
+    ✔ Revierte si la liquidez es insuficiente
+    ✔ Revierte si la cantidad recibida es insuficiente
+  swapExactTokensForTokens
+    ✔ Intercambia TokenA por TokenB
+    ✔ Intercambia TokenB por TokenA
+    ✔ Revierte si se excede el deadline
+    ✔ Revierte si la longitud del path es inválida
+    ✔ Revierte si la cantidad de salida es insuficiente
+  Read Functions
+    ✔ Retorna reservas correctas
+    ✔ Retorna precio correcto
+    ✔ Revierte getPrice si reserveA es cero
+    ✔ Calcula correctamente el amount out
+    ✔ Revierte getAmountOut si amountIn es cero
+    ✔ Revierte getAmountOut si reserveIn es cero
+    ✔ Revierte getAmountOut si reserveOut es cero
+YourContract
+  Deployment
+    ✔ Tiene el mensaje correcto al desplegar
+    ✔ Permite cambiar el mensaje
+
+23 tests exitosos
+```
+
+#### Cobertura de contratos
+
+```
+-------------------|----------|----------|----------|----------|----------------|
+Archivo            |  % Stmts | % Branch |  % Funcs |  % Lines | Líneas sin cubrir |
+-------------------|----------|----------|----------|----------|----------------|
+ contracts\        |    90.77 |       65 |       84 |    91.67 | |
+  SimpleSwap.sol   |    98.15 |    83.33 |      100 |    98.72 |            389 |
+  TokenA.sol       |      100 |       50 |      100 |      100 | |
+  TokenB.sol       |       50 |       25 |       60 |       50 |          33,39 |
+  YourContract.sol |       50 |     12.5 |       50 |    61.54 | 50,51,70,83,84 |
+-------------------|----------|----------|----------|----------|----------------|
+Todos los archivos |    90.77 |       65 |       84 |    91.67 | |
+-------------------|----------|----------|----------|----------|----------------|
+```
+
+> Todos los tests pasan y la cobertura global es superior al 90%.

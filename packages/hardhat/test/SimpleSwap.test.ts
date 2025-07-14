@@ -498,13 +498,13 @@ describe("SimpleSwap", function () {
     beforeEach(async function () {
       // Desplegar una nueva instancia de SimpleSwap para cada test de Read Functions
       const SimpleSwapFactory = await ethers.getContractFactory("SimpleSwap");
-      simpleSwap = await SimpleSwapFactory.deploy();
+      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 6000000 });
       await simpleSwap.waitForDeployment();
       await resetTokenBalances(); // Asegurar balances de tokens frescos para este contexto de test
 
       // Añadir liquidez inicial al pool
-      await tokenA.approve(await simpleSwap.getAddress(), initialLiquidityA);
-      await tokenB.approve(await simpleSwap.getAddress(), initialLiquidityB);
+      await tokenA.approve(await simpleSwap.getAddress(), initialLiquidityA, { gasLimit: 6000000 });
+      await tokenB.approve(await simpleSwap.getAddress(), initialLiquidityB, { gasLimit: 6000000 });
       const latestBlock = await ethers.provider.getBlock("latest");
       const deadline = latestBlock ? latestBlock.timestamp + 3600 : Math.floor(Date.now() / 1000) + 3600;
       await simpleSwap.addLiquidity(
@@ -516,6 +516,7 @@ describe("SimpleSwap", function () {
         0n,
         deployer.address,
         deadline,
+        { gasLimit: 6000000 }
       );
     });
 
@@ -537,11 +538,11 @@ describe("SimpleSwap", function () {
       // Para este test, necesitamos un escenario donde reserveA sea 0.
       // Desplegamos nuevos tokens y probamos con ellos sin liquidez previa
       const newTokenAFactory = await ethers.getContractFactory("TokenA");
-      const newTokenA = await newTokenAFactory.deploy(deployer.address);
+      const newTokenA = await newTokenAFactory.deploy(deployer.address, { gasLimit: 6000000 });
       await newTokenA.waitForDeployment();
 
       const newTokenBFactory = await ethers.getContractFactory("TokenB");
-      const newTokenB = await newTokenBFactory.deploy(deployer.address);
+      const newTokenB = await newTokenBFactory.deploy(deployer.address, { gasLimit: 6000000 });
       await newTokenB.waitForDeployment();
 
       await expect(simpleSwap.getPrice(await newTokenA.getAddress(), await newTokenB.getAddress())).to.be.revertedWith(

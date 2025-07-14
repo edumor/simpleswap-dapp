@@ -52,10 +52,13 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
+    "@typechain/ethers-v5": "^11.1.2",
+    "@typechain/hardhat": "^9.1.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.6.2",
-    "prettier-plugin-solidity": "^2.1.0"
+    "prettier-plugin-solidity": "^2.1.0",
+    "typechain": "^8.3.2"
   },
   "engines": {
     "node": ">=20.18.3"

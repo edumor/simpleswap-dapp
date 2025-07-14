@@ -9,7 +9,7 @@ describe("YourContract", function () {
   before(async () => {
     const [owner] = await ethers.getSigners();
     const yourContractFactory = await ethers.getContractFactory("YourContract");
-    yourContract = (await yourContractFactory.deploy(owner.address)) as YourContract;
+    yourContract = (await yourContractFactory.deploy(owner.address, { gasLimit: 6000000 })) as YourContract;
     await yourContract.waitForDeployment();
   });
 
@@ -21,7 +21,7 @@ describe("YourContract", function () {
     it("Should allow setting a new message", async function () {
       const newGreeting = "Learn Scaffold-ETH 2! :)";
 
-      await yourContract.setGreeting(newGreeting);
+      await yourContract.setGreeting(newGreeting, { gasLimit: 6000000 });
       expect(await yourContract.greeting()).to.equal(newGreeting);
     });
   });
