@@ -85,18 +85,18 @@ Interact with the deployed dApp: [https://simpleswap-dapp-nextjs.vercel.app/](ht
 ## Screenshots
 Main features of the dApp:
 
-![Main Page](https://simpleswap-dapp.vercel.app/screenshot-main.png)
-![Wallet Connect](https://simpleswap-dapp.vercel.app/screenshot-wallet.png)
 
-![Token Balances](packages/nextjs/public/screenshots/screenshot-balances.png)
-![Faucet](packages/nextjs/public/screenshots/screenshot-main.png)
-![Approve](https://simpleswap-dapp.vercel.app/screenshot-approve.png)
-![Swap](https://simpleswap-dapp.vercel.app/screenshot-swap.png)
-![Swap TokenA to TokenB](https://simpleswap-dapp.vercel.app/screenshot-swap-a-b.png)
-![Swap TokenB to TokenA](https://simpleswap-dapp.vercel.app/screenshot-swap-b-a.png)
-![Pool Info](https://simpleswap-dapp.vercel.app/screenshot-pool.png)
-![Price](https://simpleswap-dapp.vercel.app/screenshot-price.png)
-![Transaction Hash](https://simpleswap-dapp.vercel.app/screenshot-txhash.png)
+![Main Page](./packages/nextjs/public/screenshots/screenshot-main.png)
+![Wallet Connect](./packages/nextjs/public/screenshots/screenshot-wallet.png)
+![Token Balances](./packages/nextjs/public/screenshots/screenshot-balances.png)
+![Faucet](./packages/nextjs/public/screenshots/screenshot-main.png)
+![Approve](./packages/nextjs/public/screenshots/screenshot-approve.png)
+![Swap](./packages/nextjs/public/screenshots/screenshot-swap.png)
+![Swap TokenA to TokenB](./packages/nextjs/public/screenshots/screenshot-swap-a-b.png)
+![Swap TokenB to TokenA](./packages/nextjs/public/screenshots/screenshot-swap-b-a.png)
+![Pool Info](./packages/nextjs/public/screenshots/screenshot-pool.png)
+![Price](./packages/nextjs/public/screenshots/screenshot-price.png)
+![Transaction Hash](./packages/nextjs/public/screenshots/screenshot-txhash.png)
 
 ---
 
