@@ -103,17 +103,20 @@ export function TokenSwap() {
   const { writeContractAsync } = useWriteContract();
   const [txStatus, setTxStatus] = useState<"idle" | "pending" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [txHash, setTxHash] = useState<string | null>(null);
 
   const handleSwap = async () => {
     setTxStatus("pending");
     setErrorMsg(null);
+    setTxHash(null);
     try {
-      await writeContractAsync({
+      const txHash = await writeContractAsync({
         address: SIMPLE_SWAP_ADDRESS,
         abi: SIMPLE_SWAP_ABI,
         functionName: "swapExactTokensForTokens",
         args: [amountIn ? BigInt(amountIn) : 0n, amountOutMin ? BigInt(amountOutMin) : 0n, path, address, deadline],
       });
+      if (txHash) setTxHash(txHash);
       setTxStatus("success");
     } catch (err: any) {
       setErrorMsg(err?.message || "Error");
@@ -180,6 +183,20 @@ export function TokenSwap() {
         {txStatus === "pending" ? "Realizando swap..." : "Swap"}
       </button>
       {txStatus === "success" && <div className="text-green-600 mt-2">¡Swap realizado con éxito!</div>}
+      {txHash && (
+        <div className="text-xs text-gray-700 mt-2">
+          Transaction hash: <span style={{ wordBreak: "break-all" }}>{txHash}</span>
+          <br />
+          <a
+            href={`https://sepolia.etherscan.io/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            View on Etherscan
+          </a>
+        </div>
+      )}
       {txStatus === "error" && <div className="text-red-600 mt-2">Error: {errorMsg}</div>}
     </div>
   );

@@ -24,6 +24,7 @@ export function TokenApprove() {
   const [token, setToken] = useState("A");
   const [txStatus, setTxStatus] = useState<"idle" | "pending" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [txHash, setTxHash] = useState<string | null>(null);
 
   const tokenAddress = token === "A" ? TOKEN_A_ADDRESS : TOKEN_B_ADDRESS;
 
@@ -32,14 +33,15 @@ export function TokenApprove() {
   const handleApprove = async () => {
     setTxStatus("pending");
     setErrorMsg(null);
+    setTxHash(null);
     try {
-      // El usuario ingresa el valor en wei directamente
-      await writeContractAsync({
+      const txHash = await writeContractAsync({
         address: tokenAddress,
         abi: ERC20_ABI,
         functionName: "approve",
         args: [SIMPLE_SWAP_ADDRESS, amount ? BigInt(amount) : 0n],
       });
+      if (txHash) setTxHash(txHash);
       setTxStatus("success");
     } catch (err: any) {
       setErrorMsg(err?.message || "Error");
@@ -78,6 +80,20 @@ export function TokenApprove() {
         {txStatus === "pending" ? "Approving..." : "Approve"}
       </button>
       {txStatus === "success" && <div className="text-green-600 mt-2">Approval successful!</div>}
+      {txHash && (
+        <div className="text-xs text-gray-700 mt-2">
+          Transaction hash: <span style={{ wordBreak: "break-all" }}>{txHash}</span>
+          <br />
+          <a
+            href={`https://sepolia.etherscan.io/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            View on Etherscan
+          </a>
+        </div>
+      )}
       {txStatus === "error" && <div className="text-red-600 mt-2">Error: {errorMsg}</div>}
     </div>
   );

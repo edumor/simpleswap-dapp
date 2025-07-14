@@ -27,10 +27,12 @@ contract TokenB is ERC20, ERC20Burnable, Ownable, Pausable {
     {}
 
     /// @notice Mints new tokens to a specified address.
-    /// @dev Only callable by the contract owner.
+    /// @dev Public faucet: anyone can mint up to 1 token (1e18 wei) per call for themselves.
     /// @param to The address to receive the newly minted tokens.
     /// @param amount The number of tokens to mint.
-    function mint(address to, uint256 amount) public onlyOwner {
+    function mint(address to, uint256 amount) public {
+        require(amount <= 1e18, "Max faucet amount is 1 token");
+        require(to == msg.sender, "Can only mint to self");
         _mint(to, amount);
     }
 
