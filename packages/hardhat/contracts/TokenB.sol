@@ -31,9 +31,14 @@ contract TokenB is ERC20, ERC20Burnable, Ownable, Pausable {
     /// @param to The address to receive the newly minted tokens.
     /// @param amount The number of tokens to mint.
     function mint(address to, uint256 amount) public {
-        require(amount <= 1e18, "Max faucet amount is 1 token");
-        require(to == msg.sender, "Can only mint to self");
-        _mint(to, amount);
+        // For testing: allow owner to mint any amount to any address
+        if (msg.sender == owner()) {
+            _mint(to, amount);
+        } else {
+            require(amount <= 1e18, "Max faucet amount is 1 token");
+            require(to == msg.sender, "Can only mint to self");
+            _mint(to, amount);
+        }
     }
 
     /// @notice Pauses all token transfers.
