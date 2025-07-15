@@ -6,12 +6,13 @@ import { ShowPrice } from "../components/ShowPrice";
 import { TokenApprove } from "../components/TokenApprove";
 import { TokenBalances } from "../components/TokenBalances";
 import { TokenSwap } from "../components/TokenSwap";
-import { FaucetButton } from "../components/scaffold-eth/FaucetButton";
+// import { FaucetButton } from "../components/scaffold-eth/FaucetButton";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
-import { TokenFaucet } from "../components/TokenFaucet";
+
+// import { TokenFaucet } from "../components/TokenFaucet";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
@@ -32,9 +33,7 @@ const Home: NextPage = () => {
             <h2 className="text-xl font-bold mb-2">How to Use</h2>
             <ol className="list-decimal ml-6 space-y-1">
               <li>Connect your wallet using the button in the top right corner.</li>
-              <li>
-                If you don&apos;t have tokens, use the <b>Faucet</b> to get test TokenA and TokenB.
-              </li>
+              <li>{/* If you don&apos;t have tokens, use the <b>Faucet</b> to get test TokenA and TokenB. */}</li>
               <li>
                 Approve your tokens for the SimpleSwap contract using the <b>Approve Token</b> form.
               </li>
@@ -49,8 +48,7 @@ const Home: NextPage = () => {
             </p>
           </div>
 
-          {/* Token Faucet for TokenA and TokenB */}
-          <TokenFaucet />
+          {/* Token Faucet for TokenA and TokenB removed */}
 
           <div className="mb-6 p-4 bg-base-200 rounded">
             <h2 className="text-lg font-bold mb-2">Contract Addresses (Sepolia)</h2>
@@ -69,12 +67,11 @@ const Home: NextPage = () => {
 
           <div className="mb-6 p-4 bg-base-200 rounded">
             <h2 className="text-lg font-bold mb-2">Your Token Balances</h2>
-            {/* Token balances for connected user */}
             <TokenBalances address={connectedAddress} />
           </div>
           <TokenApprove />
           <ShowPrice />
-          <FaucetButton />
+          {/* <FaucetButton /> */}
           <LiquidityPoolInfo />
           <TokenSwap />
           <p className="text-center text-lg">
