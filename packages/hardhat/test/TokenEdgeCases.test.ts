@@ -2,6 +2,55 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { TokenA, TokenB } from "../typechain-types";
 describe("TokenA & TokenB edge cases", function () {
+  it("Should mint 1000 tokens to msg.sender using faucet (TokenA)", async function () {
+    const before = await tokenA.balanceOf(user1.address);
+    await tokenA.connect(user1).faucet();
+    const after = await tokenA.balanceOf(user1.address);
+    expect(after - before).to.equal(ethers.parseEther("1000"));
+  });
+
+  it("Should allow minting 0 tokens (TokenA)", async function () {
+    await expect(tokenA.connect(user1).mint(user1.address, 0)).to.not.be.reverted;
+  });
+
+  it("Should burn tokens (TokenA)", async function () {
+    await tokenA.connect(user1).faucet();
+    const before = await tokenA.balanceOf(user1.address);
+    await tokenA.connect(user1).burn(ethers.parseEther("100"));
+    const after = await tokenA.balanceOf(user1.address);
+    expect(before - after).to.equal(ethers.parseEther("100"));
+  });
+
+  it("Should emit Transfer event on mint (TokenA)", async function () {
+    await expect(tokenA.connect(user1).mint(user1.address, 1)).to.emit(tokenA, "Transfer");
+  });
+
+  it("Should emit Transfer event on burn (TokenA)", async function () {
+    await tokenA.connect(user1).faucet();
+    await expect(tokenA.connect(user1).burn(1)).to.emit(tokenA, "Transfer");
+  });
+
+  it("Should burn tokens (TokenB)", async function () {
+    await tokenB.connect(user1).faucet();
+    const before = await tokenB.balanceOf(user1.address);
+    await tokenB.connect(user1).burn(ethers.parseEther("100"));
+    const after = await tokenB.balanceOf(user1.address);
+    expect(before - after).to.equal(ethers.parseEther("100"));
+  });
+
+  it("Should emit Transfer event on mint (TokenB)", async function () {
+    await expect(tokenB.connect(user1).mint(user1.address, 1)).to.emit(tokenB, "Transfer");
+  });
+
+  it("Should emit Transfer event on burn (TokenB)", async function () {
+    await tokenB.connect(user1).faucet();
+    await expect(tokenB.connect(user1).burn(1)).to.emit(tokenB, "Transfer");
+  });
+
+  it("Should emit Paused and Unpaused events (TokenB)", async function () {
+    await expect(tokenB.connect(deployer).pause()).to.emit(tokenB, "Paused");
+    await expect(tokenB.connect(deployer).unpause()).to.emit(tokenB, "Unpaused");
+  });
   let tokenA: TokenA;
   let tokenB: TokenB;
   let deployer: any;
@@ -48,5 +97,22 @@ describe("TokenA & TokenB edge cases", function () {
   it("Should pause and unpause TokenB", async function () {
     await expect(tokenB.connect(deployer).pause({ gasLimit: 6000000 })).to.not.be.reverted;
     await expect(tokenB.connect(deployer).unpause({ gasLimit: 6000000 })).to.not.be.reverted;
+  });
+
+  it("Should mint 1000 tokens to msg.sender using faucet (TokenB)", async function () {
+    const before = await tokenB.balanceOf(user1.address);
+    await tokenB.connect(user1).faucet();
+    const after = await tokenB.balanceOf(user1.address);
+    expect(after - before).to.equal(ethers.parseEther("1000"));
+  });
+
+  it("Should revert transfer when paused (TokenB)", async function () {
+    await tokenB.connect(deployer).pause();
+    await expect(tokenB.connect(user1).transfer(deployer.address, 1)).to.be.revertedWith("Pausable: paused");
+    await tokenB.connect(deployer).unpause();
+  });
+
+  it("Should allow minting 0 tokens (TokenB)", async function () {
+    await expect(tokenB.connect(user1).mint(user1.address, 0)).to.not.be.reverted;
   });
 });
