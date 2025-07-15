@@ -33,7 +33,6 @@ const Home: NextPage = () => {
             <h2 className="text-xl font-bold mb-2">How to Use</h2>
             <ol className="list-decimal ml-6 space-y-1">
               <li>Connect your wallet using the button in the top right corner.</li>
-              <li>{/* If you don&apos;t have tokens, use the <b>Faucet</b> to get test TokenA and TokenB. */}</li>
               <li>
                 Approve your tokens for the SimpleSwap contract using the <b>Approve Token</b> form.
               </li>
