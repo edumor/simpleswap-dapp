@@ -15,7 +15,7 @@ A decentralized application for swapping two ERC20 tokens (TokenA and TokenB) us
 
 | Contract      | Address                                                                                                         | Etherscan Link                                                                                                         |
 |---------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| SimpleSwap    | `0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18)                   |
+| SimpleSwap    | `0xe68c5ECc11206B5141204B64800c02479604DDf7`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0xe68c5ECc11206B5141204B64800c02479604DDf7)                   |
 | TokenA (TKA)  | `0xa00dC451faB5B80145d636EeE6A9b794aA81D48C`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C)                   |
 | TokenB (TKB)  | `0x99Cd59d18C1664Ae32baA1144E275Eee34514115`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115)                   |
 
