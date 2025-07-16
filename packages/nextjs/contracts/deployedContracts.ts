@@ -1383,7 +1383,7 @@ const deployedContracts = {
   },
   11155111: {
     SimpleSwap: {
-      address: "0x93Aa1766Cf4a79267634F2E8669a1c87518791c5",
+      address: "0x0c6A578c49aFc1337d61d75299B80b50d10d20D1",
       abi: [
         {
           anonymous: false,
@@ -1778,7 +1778,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TokenA: {
-      address: "0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA",
+      address: "0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397",
       abi: [
         {
           inputs: [
@@ -2257,7 +2257,7 @@ const deployedContracts = {
       },
     },
     TokenB: {
-      address: "0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63",
+      address: "0x52fC6d0924cC27fC192E877C7013687A2a8F5683",
       abi: [
         {
           inputs: [

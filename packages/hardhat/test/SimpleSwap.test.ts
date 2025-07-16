@@ -191,7 +191,7 @@ describe("SimpleSwap", function () {
           expiredDeadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("Expired deadline");
+      ).to.be.revertedWith("expired");
     });
 
     it("Should revert if insufficient amount provided", async function () {
@@ -209,7 +209,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("Insufficient amount provided");
+      ).to.be.revertedWith("min amt");
     });
   });
 
@@ -299,7 +299,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("Insufficient liquidity");
+      ).to.be.revertedWith("insuf liq");
     });
 
     it("Should revert if insufficient amount received", async function () {
@@ -319,7 +319,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("Insufficient amount received");
+      ).to.be.revertedWith("min amt");
     });
   });
 
@@ -454,7 +454,7 @@ describe("SimpleSwap", function () {
             expiredDeadline,
             { gasLimit: 6000000 },
           ),
-      ).to.be.revertedWith("Expired deadline");
+      ).to.be.revertedWith("expired");
     });
 
     it("Should revert if invalid path length", async function () {
@@ -470,7 +470,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("Invalid path length");
+      ).to.be.revertedWith("bad path");
     });
 
     it("Should revert if insufficient output amount", async function () {
@@ -486,7 +486,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("Insufficient output amount");
+      ).to.be.revertedWith("min out");
     });
   });
 
@@ -546,7 +546,7 @@ describe("SimpleSwap", function () {
       await newTokenB.waitForDeployment();
 
       await expect(simpleSwap.getPrice(await newTokenA.getAddress(), await newTokenB.getAddress())).to.be.revertedWith(
-        "ReserveA is zero",
+        "zero reserve",
       );
     });
 
@@ -560,19 +560,19 @@ describe("SimpleSwap", function () {
 
     it("Should revert getAmountOut if amountIn is zero", async function () {
       await expect(simpleSwap.getAmountOut(0n, ethers.parseEther("100"), ethers.parseEther("100"))).to.be.revertedWith(
-        "AmountIn must be greater than zero",
+        "bad amt",
       );
     });
 
     it("Should revert getAmountOut if reserveIn is zero", async function () {
       await expect(simpleSwap.getAmountOut(ethers.parseEther("10"), 0n, ethers.parseEther("100"))).to.be.revertedWith(
-        "ReserveIn must be greater than zero",
+        "bad amt",
       );
     });
 
     it("Should revert getAmountOut if reserveOut is zero", async function () {
       await expect(simpleSwap.getAmountOut(ethers.parseEther("10"), ethers.parseEther("100"), 0n)).to.be.revertedWith(
-        "ReserveOut must be greater than zero",
+        "bad amt",
       );
     });
   });

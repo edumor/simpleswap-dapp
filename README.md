@@ -15,9 +15,9 @@ A decentralized application for swapping two ERC20 tokens (TokenA and TokenB) us
 
 | Contract      | Address                                                                                                         | Etherscan Link                                                                                                         |
 |---------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| SimpleSwap    | `0xe68c5ECc11206B5141204B64800c02479604DDf7`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0xe68c5ECc11206B5141204B64800c02479604DDf7)                   |
-| TokenA (TKA)  | `0xa00dC451faB5B80145d636EeE6A9b794aA81D48C`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C)                   |
-| TokenB (TKB)  | `0x99Cd59d18C1664Ae32baA1144E275Eee34514115`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115)                   |
+| SimpleSwap    | `0x0c6A578c49aFc1337d61d75299B80b50d10d20D1`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x0c6A578c49aFc1337d61d75299B80b50d10d20D1)                   |
+| TokenA (TKA)  | `0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397)                   |
+| TokenB (TKB)  | `0x52fC6d0924cC27fC192E877C7013687A2a8F5683`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x52fC6d0924cC27fC192E877C7013687A2a8F5683)                   |
 
 ---
 
