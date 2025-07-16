@@ -11,6 +11,7 @@
     "clean": "hardhat clean",
     "compile": "hardhat compile",
     "deploy": "ts-node scripts/runHardhatDeployWithPK.ts",
+    "deploy:sepolia": "hardhat deploy --network sepolia",
     "flatten": "hardhat flatten",
     "fork": "MAINNET_FORKING_ENABLED=true hardhat node --network hardhat --no-deploy",
     "format": "prettier --write './**/*.(ts|sol)'",
@@ -20,7 +21,9 @@
     "lint-staged": "eslint",
     "test": "REPORT_GAS=true hardhat test --network hardhat",
     "verify": "hardhat etherscan-verify",
-    "coverage": "npx hardhat coverage"
+    "coverage": "npx hardhat coverage",
+    "fix-deps": "ts-node scripts/fix-dependencies.ts",
+    "update-deployments": "ts-node scripts/updateDeployments.ts"
   },
   "devDependencies": {
     "@aashutoshrathi/word-wrap": "^1.2.6",
@@ -30,10 +33,11 @@
     "@nomicfoundation/hardhat-ethers": "^3.0.9",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.11",
     "@nomicfoundation/hardhat-verify": "^2.0.10",
-    "@typechain/ethers-v5": "^11.1.2",
+    "@typechain/ethers-v6": "^0.5.1",
     "@typechain/hardhat": "^9.1.0",
     "@types/eslint": "^9.6.1",
     "@types/mocha": "^10.0.10",
+    "@types/node": "^20.0.0",
     "@types/prettier": "^3.0.0",
     "@types/qrcode": "^1.5.5",
     "@types/semver": "^7",
@@ -54,9 +58,7 @@
     "prettier-plugin-solidity": "^1.4.1",
     "semver": "^7.5.4",
     "solidity-coverage": "^0.8.15",
-    "ts-node": "^10.9.2",
-    "typechain": "^8.3.2",
-    "typescript": "^5.8.3"
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@inquirer/password": "^4.0.2",
@@ -65,6 +67,8 @@
     "dotenv": "^16.4.5",
     "envfile": "^7.1.0",
     "qrcode": "^1.5.4",
+    "typechain": "^8.3.2",
+    "typescript": "^5.8.3",
     "web3-utils": "1"
   }
 }
