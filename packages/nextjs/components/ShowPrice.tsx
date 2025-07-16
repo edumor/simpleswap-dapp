@@ -1,6 +1,6 @@
 import { useContractRead } from "wagmi";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
-const SIMPLE_SWAP_ADDRESS = "0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34";
 const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
 const TOKEN_B_ADDRESS = "0x99Cd59d18C1664Ae32baA1144E275Eee34514115";
 
@@ -19,8 +19,10 @@ const SIMPLE_SWAP_ABI = [
 ];
 
 export function ShowPrice() {
+  const { data: deployedContractData } = useDeployedContractInfo("SimpleSwap");
+
   const { data, isLoading, error, refetch } = useContractRead({
-    address: SIMPLE_SWAP_ADDRESS,
+    address: deployedContractData?.address,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getPrice",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],

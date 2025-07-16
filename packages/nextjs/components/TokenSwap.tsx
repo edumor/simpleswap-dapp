@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
-const SIMPLE_SWAP_ADDRESS = "0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34";
 const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
 const TOKEN_B_ADDRESS = "0x99Cd59d18C1664Ae32baA1144E275Eee34514115";
 
@@ -28,6 +28,8 @@ export function TokenSwap() {
   const [amountOutMin, setAmountOutMin] = useState("");
   const [tokenFrom, setTokenFrom] = useState("A");
 
+  const { data: deployedContractData } = useDeployedContractInfo("SimpleSwap");
+
   // Derivados de tokenFrom
   const fromAddress = tokenFrom === "A" ? TOKEN_A_ADDRESS : TOKEN_B_ADDRESS;
   const toAddress = tokenFrom === "A" ? TOKEN_B_ADDRESS : TOKEN_A_ADDRESS;
@@ -36,7 +38,7 @@ export function TokenSwap() {
 
   // Obtener reservas actuales usando el mapping reserves
   const { data: reserveIn } = useReadContract({
-    address: SIMPLE_SWAP_ADDRESS,
+    address: deployedContractData?.address,
     abi: [
       {
         inputs: [
@@ -44,9 +46,7 @@ export function TokenSwap() {
           { internalType: "address", name: "", type: "address" },
         ],
         name: "reserves",
-        outputs: [
-          { internalType: "uint256", name: "", type: "uint256" },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
       },
@@ -56,7 +56,7 @@ export function TokenSwap() {
   });
 
   const { data: reserveOut } = useReadContract({
-    address: SIMPLE_SWAP_ADDRESS,
+    address: deployedContractData?.address,
     abi: [
       {
         inputs: [
@@ -64,9 +64,7 @@ export function TokenSwap() {
           { internalType: "address", name: "", type: "address" },
         ],
         name: "reserves",
-        outputs: [
-          { internalType: "uint256", name: "", type: "uint256" },
-        ],
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
       },
@@ -77,7 +75,7 @@ export function TokenSwap() {
 
   // Llamada a getAmountOut para calcular automáticamente el mínimo a recibir
   const { data: amountOutData } = useReadContract({
-    address: SIMPLE_SWAP_ADDRESS,
+    address: deployedContractData?.address,
     abi: [
       {
         inputs: [
@@ -117,12 +115,14 @@ export function TokenSwap() {
   const [txHash, setTxHash] = useState<string | null>(null);
 
   const handleSwap = async () => {
+    if (!deployedContractData?.address) return;
+
     setTxStatus("pending");
     setErrorMsg(null);
     setTxHash(null);
     try {
       const txHash = await writeContractAsync({
-        address: SIMPLE_SWAP_ADDRESS,
+        address: deployedContractData.address,
         abi: SIMPLE_SWAP_ABI,
         functionName: "swapExactTokensForTokens",
         args: [amountIn ? BigInt(amountIn) : 0n, amountOutMin ? BigInt(amountOutMin) : 0n, path, address, deadline],

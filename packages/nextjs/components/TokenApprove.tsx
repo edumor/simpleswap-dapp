@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useAccount, useWriteContract } from "wagmi";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
 const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
 const TOKEN_B_ADDRESS = "0x99Cd59d18C1664Ae32baA1144E275Eee34514115";
-const SIMPLE_SWAP_ADDRESS = "0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34";
 
 const ERC20_ABI = [
   {
@@ -26,11 +26,14 @@ export function TokenApprove() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
 
+  const { data: deployedContractData } = useDeployedContractInfo("SimpleSwap");
   const tokenAddress = token === "A" ? TOKEN_A_ADDRESS : TOKEN_B_ADDRESS;
 
   const { writeContractAsync } = useWriteContract();
 
   const handleApprove = async () => {
+    if (!deployedContractData?.address) return;
+
     setTxStatus("pending");
     setErrorMsg(null);
     setTxHash(null);
@@ -39,7 +42,7 @@ export function TokenApprove() {
         address: tokenAddress,
         abi: ERC20_ABI,
         functionName: "approve",
-        args: [SIMPLE_SWAP_ADDRESS, amount ? BigInt(amount) : 0n],
+        args: [deployedContractData.address, amount ? BigInt(amount) : 0n],
       });
       if (txHash) setTxHash(txHash);
       setTxStatus("success");
