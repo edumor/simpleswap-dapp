@@ -1,0 +1,9 @@
+{
+  "*.{ts,js}": [
+    "eslint --fix",
+    "prettier --write"
+  ],
+  "*.sol": [
+    "prettier --write"
+  ]
+}
