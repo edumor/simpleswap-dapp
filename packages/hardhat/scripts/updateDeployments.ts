@@ -12,10 +12,9 @@ interface DeploymentConfig {
 const deploymentConfigs: Record<string, DeploymentConfig> = {
   sepolia: {
     network: "sepolia",
-    SimpleSwap: "0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34",
-    // TODO: Add TokenA and TokenB addresses when deployed on Sepolia
-    TokenA: "0x0000000000000000000000000000000000000000", // Replace with actual address
-    TokenB: "0x0000000000000000000000000000000000000000", // Replace with actual address
+    SimpleSwap: "0x5F1C2c20248BA5A444256c21592125EaF08b23A1",
+    TokenA: "0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397",
+    TokenB: "0x52fC6d0924cC27fC192E877C7013687A2a8F5683",
   },
 };
 
