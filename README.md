@@ -15,7 +15,7 @@ A decentralized application for swapping two ERC20 tokens (TokenA and TokenB) us
 
 | Contract      | Address                                                                                                         | Etherscan Link                                                                                                         |
 |---------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| SimpleSwap    | `0x0c6A578c49aFc1337d61d75299B80b50d10d20D1`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x0c6A578c49aFc1337d61d75299B80b50d10d20D1)                   |
+| SimpleSwap    | `0x5F1C2c20248BA5A444256c21592125EaF08b23A1`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1)                   |
 | TokenA (TKA)  | `0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397)                   |
 | TokenB (TKB)  | `0x52fC6d0924cC27fC192E877C7013687A2a8F5683`                                                                   | [View on Etherscan](https://sepolia.etherscan.io/address/0x52fC6d0924cC27fC192E877C7013687A2a8F5683)                   |
 
@@ -145,7 +145,7 @@ All files |    90.77 |       65 |       84 |    91.67 | |
 - All contracts are fully documented with NatSpec (functions, variables, events, modifiers, etc.).
 - All events and parameters are described.
 - Source code and ABI are available in the repository and on Etherscan.
-- [SimpleSwap on Etherscan](https://sepolia.etherscan.io/address/0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18)
+- [SimpleSwap on Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1)
 
 ---
 
