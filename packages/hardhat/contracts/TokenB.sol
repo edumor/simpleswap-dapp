@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
 
 /// @title TokenB ERC20 Token
-/// @author 
+/// @author
 /// @notice This contract implements an ERC20 token with burn, mint, pause capabilities, and ownership control.
 /// @dev Inherits from OpenZeppelin ERC20, ERC20Burnable, Ownable, and Pausable contracts.
 /// @custom:security-contact eduardomoreno2503@gmail.com
@@ -16,15 +16,12 @@ contract TokenB is ERC20, ERC20Burnable, Ownable, Pausable {
     /// @dev This function is public and can be called by anyone. Intended for testnet use only.
     /// @custom:faucet
     function faucet() public {
-        uint256 amount = 1000 * 10**decimals(); // 1000 tokens per call
+        uint256 amount = 1000 * 10 ** decimals(); // 1000 tokens per call
         _mint(msg.sender, amount);
     }
     /// @notice Deploys the TokenB contract and sets the initial owner.
     /// @param initialOwner The address that will be assigned as the contract owner.
-    constructor(address initialOwner)
-        ERC20("TokenB", "TKB")
-        Ownable(initialOwner)
-    {}
+    constructor(address initialOwner) ERC20("TokenB", "TKB") Ownable(initialOwner) {}
 
     /// @notice Mints new tokens to a specified address.
     /// @dev Public faucet: anyone can mint up to 1 token (1e18 wei) per call for themselves.

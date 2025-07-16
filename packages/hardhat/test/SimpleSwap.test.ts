@@ -516,7 +516,7 @@ describe("SimpleSwap", function () {
         0n,
         deployer.address,
         deadline,
-        { gasLimit: 6000000 }
+        { gasLimit: 6000000 },
       );
     });
 
