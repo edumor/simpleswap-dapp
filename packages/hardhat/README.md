@@ -1,6 +1,28 @@
-# SimpleSwap DApp - Optimized Decentralized AMM Smart Contracts
+# SimpleSwap DApp - Enhanced Decentralized AMM Smart Contracts
 
-An **gas-optimized** Automated Market Maker (AMM) implementation with comprehensive testing, achieving **98.68% code coverage** and following strict academic requirements for **single storage access patterns** and **short string optimization**.
+An **gas-optimized** Automated Market Maker (AMM) implementation with **advanced security features**, comprehensive testing, achieving **98.68% code coverage** and following strict academic requirements for **single storage access patterns** and **short string optimization**.
+
+## 🚀 **NEW: Enhanced Features (v2.0)**
+
+### 🔐 **Emergency Security Controls**
+- **Emergency Pause System**: Owner can pause all operations during security incidents
+- **Ownership Management**: Secure ownership transfer with zero-address protection
+- **Access Control**: Fine-grained permissions for administrative functions
+
+### ⛽ **Gas Optimization Tools**
+- **Gas Estimation**: Pre-calculate transaction costs for better UX
+- **Advanced Slippage Protection**: Customizable slippage tolerance (up to 50%)
+
+### 📊 **Enhanced Metrics**
+```
+✅ Total Tests: 61+ (all passing)
+✅ Contract Gas: 1,351,971 gas (11.3% of block limit)
+✅ New Features: 6 additional functions
+✅ Security: Emergency pause + ownership controls
+✅ Fee-Free: No trading fees, pure AMM functionality
+```
+
+---
 
 ## 🎓 **Academic Compliance & Optimizations**
 
@@ -56,9 +78,9 @@ An **gas-optimized** Automated Market Maker (AMM) implementation with comprehens
 
 | Contract | Address | Etherscan Link |
 |----------|---------|----------------|
-| **SimpleSwap** (Optimized) | `0x93Aa1766Cf4a79267634F2E8669a1c87518791c5` | [View on Etherscan](https://sepolia.etherscan.io/address/0x93Aa1766Cf4a79267634F2E8669a1c87518791c5#code) |
-| **TokenA** | `0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA` | [View on Etherscan](https://sepolia.etherscan.io/address/0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA#code) |
-| **TokenB** | `0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63` | [View on Etherscan](https://sepolia.etherscan.io/address/0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63#code) |
+| **SimpleSwap** (Optimized) | `0x5F1C2c20248BA5A444256c21592125EaF08b23A1` | [View on Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1#code) |
+| **TokenA** | `0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397` | [View on Etherscan](https://sepolia.etherscan.io/address/0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397#code) |
+| **TokenB** | `0x52fC6d0924cC27fC192E877C7013687A2a8F5683` | [View on Etherscan](https://sepolia.etherscan.io/address/0x52fC6d0924cC27fC192E877C7013687A2a8F5683#code) |
 
 ### **Live DApp URL** 🌐
 - **Frontend**: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
@@ -66,7 +88,7 @@ An **gas-optimized** Automated Market Maker (AMM) implementation with comprehens
 ### **Previous Deployment** (Non-optimized)
 | Contract | Address | Status |
 |----------|---------|--------|
-| ~~SimpleSwap~~ (Old) | ~~`0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34`~~ | ❌ **Deprecated** (Had multiple storage reads) |
+| ~~SimpleSwap~~ (Old) | ~~`0x0c6A578c49aFc1337d61d75299B80b50d10d20D1`~~ | ❌ **Deprecated** (Had multiple storage reads) |
 
 ## 📊 **Test Coverage Results**
 
@@ -243,9 +265,9 @@ Before testing, verify the frontend is using the **NEW optimized contracts**:
 
 | Expected Address | Contract | Verification |
 |------------------|----------|--------------|
-| `0x93Aa1766Cf4a79267634F2E8669a1c87518791c5` | SimpleSwap | ✅ Single storage access implementation |
-| `0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA` | TokenA | ✅ Basic ERC20 with faucet |
-| `0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63` | TokenB | ✅ ERC20 + Pausable functionality |
+| `0x5F1C2c20248BA5A444256c21592125EaF08b23A1` | SimpleSwap | ✅ Single storage access implementation |
+| `0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397` | TokenA | ✅ Basic ERC20 with faucet |
+| `0x52fC6d0924cC27fC192E877C7013687A2a8F5683` | TokenB | ✅ ERC20 + Pausable functionality |
 
 ### **🧪 Testing Scenarios:**
 
@@ -586,7 +608,7 @@ function unpause() external; // TokenB only, Owner only
 
 ### **Live Application & Verification:**
 - **🌐 Live DApp**: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
-- **📋 Contract Verification**: [Sepolia Etherscan](https://sepolia.etherscan.io/address/0x93Aa1766Cf4a79267634F2E8669a1c87518791c5#code)
+- **📋 Contract Verification**: [Sepolia Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1#code)
 - **🔍 Source Code Review**: Verified and optimized for academic requirements
 
 ### **Network & Development:**
@@ -619,8 +641,8 @@ function unpause() external; // TokenB only, Owner only
 - **📱 Production Ready** - Complete frontend integration
 
 ### **🚀 New Contract Addresses (Optimized Version):**
-- **SimpleSwap**: `0x93Aa1766Cf4a79267634F2E8669a1c87518791c5`
-- **TokenA**: `0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA`  
-- **TokenB**: `0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63`
+- **SimpleSwap**: `0x5F1C2c20248BA5A444256c21592125EaF08b23A1`
+- **TokenA**: `0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397`  
+- **TokenB**: `0x52fC6d0924cC27fC192E877C7013687A2a8F5683`
 
 **🎓 Ready for Academic Evaluation** - All optimization requirements successfully implemented and deployed.

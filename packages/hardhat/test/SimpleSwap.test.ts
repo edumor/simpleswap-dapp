@@ -191,7 +191,7 @@ describe("SimpleSwap", function () {
           expiredDeadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("expired");
+      ).to.be.revertedWith("exp");
     });
 
     it("Should revert if insufficient amount provided", async function () {
@@ -209,7 +209,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("min amt");
+      ).to.be.revertedWith("low amt");
     });
   });
 
@@ -299,7 +299,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("insuf liq");
+      ).to.be.revertedWith("low liq");
     });
 
     it("Should revert if insufficient amount received", async function () {
@@ -319,7 +319,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("min amt");
+      ).to.be.revertedWith("low amt");
     });
   });
 
@@ -454,7 +454,7 @@ describe("SimpleSwap", function () {
             expiredDeadline,
             { gasLimit: 6000000 },
           ),
-      ).to.be.revertedWith("expired");
+      ).to.be.revertedWith("exp");
     });
 
     it("Should revert if invalid path length", async function () {
@@ -470,7 +470,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("bad path");
+      ).to.be.revertedWith("bad len");
     });
 
     it("Should revert if insufficient output amount", async function () {
@@ -486,7 +486,7 @@ describe("SimpleSwap", function () {
           deadline,
           { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("min out");
+      ).to.be.revertedWith("low out");
     });
   });
 
@@ -546,7 +546,7 @@ describe("SimpleSwap", function () {
       await newTokenB.waitForDeployment();
 
       await expect(simpleSwap.getPrice(await newTokenA.getAddress(), await newTokenB.getAddress())).to.be.revertedWith(
-        "zero reserve",
+        "no res",
       );
     });
 

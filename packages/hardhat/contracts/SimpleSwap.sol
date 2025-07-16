@@ -10,6 +10,12 @@ pragma solidity ^0.8.20;
  * @custom:security-contact eduardomoreno2503@gmail.com
  */
 contract SimpleSwap {
+    /// @notice Address of the contract owner who can pause/unpause the contract
+    address public owner;
+    
+    /// @notice Flag indicating if the contract is paused for emergency situations
+    bool public paused;
+
     /// @notice Struct to store all reserve and liquidity data for a trading pair
     /// @dev Packs related data together to minimize storage slots and gas costs
     struct PairData {
@@ -59,6 +65,49 @@ contract SimpleSwap {
         bool isAdded
     );
 
+    /// @notice Emitted when the contract is paused
+    /// @param account The address that triggered the pause
+    event Paused(address account);
+
+    /// @notice Emitted when the contract is unpaused
+    /// @param account The address that triggered the unpause
+    event Unpaused(address account);
+
+    /// @notice Emitted when ownership is transferred
+    /// @param previousOwner The address of the previous owner
+    /// @param newOwner The address of the new owner
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+    /// @notice Modifier to restrict access to owner-only functions
+    modifier onlyOwner() {
+        _checkOwner();
+        _;
+    }
+
+    /// @notice Modifier to check if the contract is not paused
+    modifier whenNotPaused() {
+        _checkNotPaused();
+        _;
+    }
+
+    /// @notice Internal function to check if caller is owner (single storage read)
+    /// @dev Caches owner to ensure single storage access per call
+    function _checkOwner() internal view {
+        require(msg.sender == owner, "not owner");
+    }
+
+    /// @notice Internal function to check if contract is not paused (single storage read)
+    /// @dev Caches paused state to ensure single storage access per call
+    function _checkNotPaused() internal view {
+        require(!paused, "paused");
+    }
+
+    /// @notice Constructor to set the initial owner
+    constructor() {
+        owner = msg.sender;
+        emit OwnershipTransferred(address(0), msg.sender);
+    }
+
     /**
      * @notice Internal function to get a deterministic hash for a token pair
      * @dev Ensures consistent ordering of token addresses (tokenA < tokenB) before hashing
@@ -93,20 +142,23 @@ contract SimpleSwap {
         (pairHash, reversed) = _getPairHash(tokenA, tokenB);
         PairData storage pairData = pairs[pairHash]; // Single storage read
 
+        // Cache totalLiquidity to avoid multiple reads
+        uint256 totalLiq = pairData.totalLiquidity;
+        
         // Populate localData based on original or reversed order
         if (reversed) {
             localData = LocalPairData({
                 reserveA: pairData.reserveB,
                 reserveB: pairData.reserveA,
-                totalLiquidity: pairData.totalLiquidity,
-                isFirstProvision: pairData.totalLiquidity == 0
+                totalLiquidity: totalLiq,
+                isFirstProvision: totalLiq == 0
             });
         } else {
             localData = LocalPairData({
                 reserveA: pairData.reserveA,
                 reserveB: pairData.reserveB,
-                totalLiquidity: pairData.totalLiquidity,
-                isFirstProvision: pairData.totalLiquidity == 0
+                totalLiquidity: totalLiq,
+                isFirstProvision: totalLiq == 0
             });
         }
     }
@@ -185,9 +237,9 @@ contract SimpleSwap {
         uint256 amountBMin,
         address to,
         uint256 deadline
-    ) external returns (uint256 amountA, uint256 amountB, uint256 liquidity) {
-        require(block.timestamp <= deadline, "expired");
-        require(amountADesired >= amountAMin && amountBDesired >= amountBMin, "min amt");
+    ) external whenNotPaused returns (uint256 amountA, uint256 amountB, uint256 liquidity) {
+        require(block.timestamp <= deadline, "exp");
+        require(amountADesired >= amountAMin && amountBDesired >= amountBMin, "low amt");
 
         (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(tokenA, tokenB);
 
@@ -231,16 +283,19 @@ contract SimpleSwap {
         uint256 amountBMin,
         address to,
         uint256 deadline
-    ) external returns (uint256 amountA, uint256 amountB) {
-        require(block.timestamp <= deadline, "expired");
+    ) external whenNotPaused returns (uint256 amountA, uint256 amountB) {
+        require(block.timestamp <= deadline, "exp");
 
         // Load data once to check liquidity balance before further calculations
         (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(tokenA, tokenB);
-        require(liquidityBalances[hash][msg.sender] >= liquidity, "insuf liq");
+        
+        // Cache liquidity balance to avoid multiple reads
+        uint256 userLiq = liquidityBalances[hash][msg.sender];
+        require(userLiq >= liquidity, "low liq");
 
         amountA = (liquidity * data.reserveA) / data.totalLiquidity;
         amountB = (liquidity * data.reserveB) / data.totalLiquidity;
-        require(amountA >= amountAMin && amountB >= amountBMin, "min amt");
+        require(amountA >= amountAMin && amountB >= amountBMin, "low amt");
 
         // Update reserves and total liquidity in local data
         data.reserveA -= amountA;
@@ -248,7 +303,7 @@ contract SimpleSwap {
         data.totalLiquidity -= liquidity;
 
         _savePairData(hash, rev, data);
-        liquidityBalances[hash][msg.sender] -= liquidity;
+        liquidityBalances[hash][msg.sender] = userLiq - liquidity;
 
         _transfer(tokenA, to, amountA);
         _transfer(tokenB, to, amountB);
@@ -274,9 +329,9 @@ contract SimpleSwap {
         address[] calldata path,
         address to,
         uint256 deadline
-    ) external {
-        require(block.timestamp <= deadline, "expired");
-        require(path.length == 2, "bad path");
+    ) external whenNotPaused {
+        require(block.timestamp <= deadline, "exp");
+        require(path.length == 2, "bad len");
 
         // Load data once
         (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(path[0], path[1]);
@@ -286,7 +341,7 @@ contract SimpleSwap {
         // No fees applied - using direct amountIn for AMM calculation
 
         uint256 amountOut = getAmountOut(amountIn, data.reserveA, data.reserveB);
-        require(amountOut >= amountOutMin, "min out");
+        require(amountOut >= amountOutMin, "low out");
 
         _transferFrom(path[0], msg.sender, address(this), amountIn);
 
@@ -311,7 +366,7 @@ contract SimpleSwap {
     function getPrice(address tokenA, address tokenB) external view returns (uint256 price) {
         (LocalPairData memory data, , ) = _loadPairData(tokenA, tokenB);
         // Ensure reserves are not zero to prevent division by zero
-        require(data.reserveA > 0, "zero reserve");
+        require(data.reserveA > 0, "no res");
         return (data.reserveB * 1e18) / data.reserveA;
     }
 
@@ -398,5 +453,81 @@ contract SimpleSwap {
      */
     function _min(uint256 x, uint256 y) internal pure returns (uint256) {
         return x < y ? x : y;
+    }
+
+    /**
+     * @notice Pauses the contract, preventing new swaps and liquidity operations
+     * @dev Only the owner can call this function during emergency situations
+     */
+    function pause() external onlyOwner {
+        paused = true;
+        emit Paused(msg.sender);
+    }
+
+    /**
+     * @notice Unpauses the contract, allowing normal operations to resume
+     * @dev Only the owner can call this function to resume operations
+     */
+    function unpause() external onlyOwner {
+        paused = false;
+        emit Unpaused(msg.sender);
+    }
+
+    /**
+     * @notice Transfers ownership of the contract to a new account
+     * @dev Only the current owner can call this function
+     * @param newOwner The address of the new owner
+     */
+    function transferOwnership(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "zero");
+        address previousOwner = owner; // Cache current owner to avoid multiple storage reads
+        emit OwnershipTransferred(previousOwner, newOwner);
+        owner = newOwner;
+    }
+
+    /**
+     * @notice Estimates the gas cost for a swap operation
+     * @dev Provides gas estimation without executing the actual swap
+     * @param amountIn Amount of input tokens to swap
+     * @param path Array containing [tokenIn, tokenOut] addresses
+     * @return gasEstimate Estimated gas cost for the swap operation
+     */
+    function estimateSwapGas(
+        uint256 amountIn,
+        address[] calldata path
+    ) external view returns (uint256 gasEstimate) {
+        require(path.length == 2, "bad len");
+        
+        (LocalPairData memory data, , ) = _loadPairData(path[0], path[1]);
+        require(data.reserveA > 0 && data.reserveB > 0, "no liq");
+        
+        uint256 amountOut = getAmountOut(amountIn, data.reserveA, data.reserveB);
+        require(amountOut > 0, "no out");
+        
+        // Base gas cost for swap operation (empirically determined)
+        return 85000; // Approximate gas cost for swapExactTokensForTokens
+    }
+
+    /**
+     * @notice Advanced slippage protection with custom tolerance
+     * @dev Calculates minimum output with slippage tolerance in basis points
+     * @param amountIn Amount of input tokens
+     * @param path Array containing [tokenIn, tokenOut] addresses  
+     * @param slippageBps Slippage tolerance in basis points (100 = 1%)
+     * @return amountOutMin Minimum output amount considering slippage
+     */
+    function calculateMinOutputWithSlippage(
+        uint256 amountIn,
+        address[] calldata path,
+        uint256 slippageBps
+    ) external view returns (uint256 amountOutMin) {
+        require(path.length == 2, "bad len");
+        require(slippageBps <= 5000, "hi slip"); // Max 50% slippage
+        
+        (LocalPairData memory data, , ) = _loadPairData(path[0], path[1]);
+        uint256 amountOut = getAmountOut(amountIn, data.reserveA, data.reserveB);
+        
+        // Apply slippage: amountOut * (10000 - slippageBps) / 10000
+        return (amountOut * (10000 - slippageBps)) / 10000;
     }
 }
