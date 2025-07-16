@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 
-const SIMPLE_SWAP_ADDRESS = "0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18";
+const SIMPLE_SWAP_ADDRESS = "0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34";
 const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
 const TOKEN_B_ADDRESS = "0x99Cd59d18C1664Ae32baA1144E275Eee34514115";
 
@@ -34,35 +34,46 @@ export function TokenSwap() {
   const path = [fromAddress, toAddress];
   const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 hora
 
-  // Obtener reservas actuales de la pool
-  const { data: reservesData } = useReadContract({
+  // Obtener reservas actuales usando el mapping reserves
+  const { data: reserveIn } = useReadContract({
     address: SIMPLE_SWAP_ADDRESS,
     abi: [
       {
         inputs: [
-          { internalType: "address", name: "tokenA", type: "address" },
-          { internalType: "address", name: "tokenB", type: "address" },
+          { internalType: "address", name: "", type: "address" },
+          { internalType: "address", name: "", type: "address" },
         ],
-        name: "getReserves",
+        name: "reserves",
         outputs: [
-          { internalType: "uint256", name: "reserveA", type: "uint256" },
-          { internalType: "uint256", name: "reserveB", type: "uint256" },
+          { internalType: "uint256", name: "", type: "uint256" },
         ],
         stateMutability: "view",
         type: "function",
       },
     ],
-    functionName: "getReserves",
+    functionName: "reserves",
     args: [fromAddress, toAddress],
   });
 
-  // Calcular reservesIn y reservesOut según dirección
-  let reserveIn: bigint | undefined = undefined;
-  let reserveOut: bigint | undefined = undefined;
-  if (reservesData && Array.isArray(reservesData) && reservesData.length === 2) {
-    reserveIn = reservesData[0];
-    reserveOut = reservesData[1];
-  }
+  const { data: reserveOut } = useReadContract({
+    address: SIMPLE_SWAP_ADDRESS,
+    abi: [
+      {
+        inputs: [
+          { internalType: "address", name: "", type: "address" },
+          { internalType: "address", name: "", type: "address" },
+        ],
+        name: "reserves",
+        outputs: [
+          { internalType: "uint256", name: "", type: "uint256" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    functionName: "reserves",
+    args: [toAddress, fromAddress],
+  });
 
   // Llamada a getAmountOut para calcular automáticamente el mínimo a recibir
   const { data: amountOutData } = useReadContract({

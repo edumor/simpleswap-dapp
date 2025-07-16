@@ -62,7 +62,7 @@ const Home: NextPage = () => {
                 <b>TokenB:</b> <span className="font-mono">0x99Cd59d18C1664Ae32baA1144E275Eee34514115</span>
               </li>
               <li>
-                <b>SimpleSwap:</b> <span className="font-mono">0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18</span>
+                <b>SimpleSwap:</b> <span className="font-mono">0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34</span>
               </li>
             </ul>
           </div>

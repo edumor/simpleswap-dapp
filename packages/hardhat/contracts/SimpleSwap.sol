@@ -273,19 +273,19 @@ contract SimpleSwap {
         // Load data once
         (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(path[0], path[1]);
         
-        // *** Aquí es donde se aplica la comisión del 0.3% en la lógica de Uniswap V2.
-        // *** Tu función getAmountOut actual NO aplica la comisión.
-        // *** Por lo tanto, debemos aplicarla aquí antes de llamar a getAmountOut.
-        // *** Si tu getAmountOut ya incluye la comisión, entonces elimina esta línea.
-        uint256 amountInWithFee = (amountIn * 997) / 1000; // Aplicar comisión del 0.3%
+        // Load pair data and calculate output without any fees
 
-        uint256 amountOut = getAmountOut(amountInWithFee, data.reserveA, data.reserveB);
+
+
+        // No fees applied - using direct amountIn for AMM calculation
+
+        uint256 amountOut = getAmountOut(amountIn, data.reserveA, data.reserveB);
         require(amountOut >= amountOutMin, "Insufficient output amount");
 
         _transferFrom(path[0], msg.sender, address(this), amountIn);
 
         // Update reserves in local data
-        data.reserveA += amountIn; // original amountIn, not amountInWithFee
+        data.reserveA += amountIn; // Add input amount to reserves
         data.reserveB -= amountOut;
 
         _savePairData(hash, rev, data);

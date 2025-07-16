@@ -1,19 +1,30 @@
 import { useContractRead } from "wagmi";
 
-const SIMPLE_SWAP_ADDRESS = "0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18";
+const SIMPLE_SWAP_ADDRESS = "0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34";
 const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
 const TOKEN_B_ADDRESS = "0x99Cd59d18C1664Ae32baA1144E275Eee34514115";
 
 const SIMPLE_SWAP_ABI = [
   {
     inputs: [
-      { internalType: "address", name: "tokenA", type: "address" },
-      { internalType: "address", name: "tokenB", type: "address" },
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "", type: "address" },
     ],
-    name: "getReserves",
+    name: "reserves",
     outputs: [
-      { internalType: "uint256", name: "reserveA", type: "uint256" },
-      { internalType: "uint256", name: "reserveB", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    name: "totalLiquidity",
+    outputs: [
+      { internalType: "uint256", name: "", type: "uint256" },
     ],
     stateMutability: "view",
     type: "function",
@@ -21,12 +32,28 @@ const SIMPLE_SWAP_ABI = [
 ];
 
 export function LiquidityPoolInfo() {
-  const { data, isLoading, error, refetch } = useContractRead({
+  const { data: reserveA, isLoading: loadingReserveA } = useContractRead({
     address: SIMPLE_SWAP_ADDRESS,
     abi: SIMPLE_SWAP_ABI,
-    functionName: "getReserves",
+    functionName: "reserves",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
   });
+
+  const { data: reserveB, isLoading: loadingReserveB } = useContractRead({
+    address: SIMPLE_SWAP_ADDRESS,
+    abi: SIMPLE_SWAP_ABI,
+    functionName: "reserves",
+    args: [TOKEN_B_ADDRESS, TOKEN_A_ADDRESS],
+  });
+
+  const { data: totalLiq, isLoading: loadingLiquidity } = useContractRead({
+    address: SIMPLE_SWAP_ADDRESS,
+    abi: SIMPLE_SWAP_ABI,
+    functionName: "totalLiquidity",
+    args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
+  });
+
+  const isLoading = loadingReserveA || loadingReserveB || loadingLiquidity;
 
   return (
     <div className="p-4 border-2 border-blue-400 rounded max-w-md mx-auto my-4 bg-base-100">
@@ -39,29 +66,31 @@ export function LiquidityPoolInfo() {
         <b>TokenB:</b> <span className="font-mono">{TOKEN_B_ADDRESS}</span>
       </div>
       {isLoading && <div>Loading pool info...</div>}
-      {error && <div className="text-red-600">Error: {error.message}</div>}
-      {Array.isArray(data) && (
+      {reserveA !== undefined && reserveB !== undefined && (
         <div className="text-blue-900 font-mono text-lg mb-2">
           <div>
-            <b>Reserve TokenA:</b> {Number(data[0] as bigint) / 1e18} <span className="text-xs">(A)</span>
+            <b>Reserve TokenA:</b> {Number(reserveA as bigint) / 1e18} <span className="text-xs">(A)</span>
           </div>
           <div>
-            <b>Reserve TokenB:</b> {Number(data[1] as bigint) / 1e18} <span className="text-xs">(B)</span>
+            <b>Reserve TokenB:</b> {Number(reserveB as bigint) / 1e18} <span className="text-xs">(B)</span>
+          </div>
+          <div>
+            <b>Total Liquidity:</b> {totalLiq ? (Number(totalLiq as bigint) / 1e18).toFixed(6) : "0"} <span className="text-xs">(LP)</span>
           </div>
           <div className="mt-2 text-base text-green-800">
             <b>Price:</b>{" "}
-            {Number(data[1] as bigint) > 0 ? (Number(data[0] as bigint) / Number(data[1] as bigint)).toFixed(6) : "-"}{" "}
+            {Number(reserveB as bigint) > 0 ? (Number(reserveA as bigint) / Number(reserveB as bigint)).toFixed(6) : "-"}{" "}
             TokenA per TokenB
             <br />
             <b>Price:</b>{" "}
-            {Number(data[0] as bigint) > 0 ? (Number(data[1] as bigint) / Number(data[0] as bigint)).toFixed(6) : "-"}{" "}
+            {Number(reserveA as bigint) > 0 ? (Number(reserveB as bigint) / Number(reserveA as bigint)).toFixed(6) : "-"}{" "}
             TokenB per TokenA
           </div>
         </div>
       )}
-      <button className="mt-2 px-3 py-1 bg-blue-200 hover:bg-blue-300 rounded font-semibold" onClick={() => refetch()}>
-        Refresh
-      </button>
+      {!isLoading && (!reserveA || !reserveB) && (
+        <div className="text-gray-600">No liquidity data available</div>
+      )}
     </div>
   );
 }

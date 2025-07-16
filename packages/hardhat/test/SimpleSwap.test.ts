@@ -365,10 +365,10 @@ describe("SimpleSwap", function () {
       const amountIn = ethers.parseEther("10"); // Cantidad de TokenA a enviar
 
       // Calcular expectedAmountOut con la comisión del 0.3%, usando la lógica de división entera de Solidity
-      // La fórmula del contrato para amountOut es (amountIn * 997 / 1000 * reserveOut) / (reserveIn + amountIn * 997 / 1000)
-      const amountInWithFee = (amountIn * ethers.toBigInt(997)) / ethers.toBigInt(1000);
-      const numerator = amountInWithFee * initialLiquidityB;
-      const denominator = initialLiquidityA + amountInWithFee;
+      // Calcular expectedAmountOut sin comisión, usando la fórmula del AMM constante
+      // La fórmula del contrato para amountOut es (amountIn * reserveOut) / (reserveIn + amountIn)
+      const numerator = amountIn * initialLiquidityB;
+      const denominator = initialLiquidityA + amountIn;
       const expectedAmountOut = numerator / denominator;
 
       const user1InitialTokenABalance = await tokenA.balanceOf(user1.address);
@@ -404,10 +404,10 @@ describe("SimpleSwap", function () {
     it("Should swap TokenB for TokenA", async function () {
       const amountIn = ethers.parseEther("10"); // Cantidad de TokenB a enviar
 
-      // Calcular expectedAmountOut con la comisión del 0.3%, usando la lógica de división entera de Solidity
-      const amountInWithFee = (amountIn * ethers.toBigInt(997)) / ethers.toBigInt(1000);
-      const numerator = amountInWithFee * initialLiquidityA; // Cambiado a initialLiquidityA
-      const denominator = initialLiquidityB + amountInWithFee; // Cambiado a initialLiquidityB
+      // Calcular expectedAmountOut sin comisión para swap TokenB -> TokenA
+      // La fórmula del contrato para amountOut es (amountIn * reserveOut) / (reserveIn + amountIn)
+      const numerator = amountIn * initialLiquidityA;
+      const denominator = initialLiquidityB + amountIn;
       const expectedAmountOut = numerator / denominator;
 
       const user1InitialTokenABalance = await tokenA.balanceOf(user1.address);
