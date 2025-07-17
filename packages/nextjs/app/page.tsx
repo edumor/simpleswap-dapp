@@ -56,13 +56,13 @@ const Home: NextPage = () => {
             <h2 className="text-lg font-bold mb-2">Contract Addresses (Sepolia)</h2>
             <ul className="ml-2">
               <li>
-                <b>TokenA:</b> <span className="font-mono">0xa00dC451faB5B80145d636EeE6A9b794aA81D48C</span>
+                <b>TokenA:</b> <span className="font-mono">0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA</span>
               </li>
               <li>
-                <b>TokenB:</b> <span className="font-mono">0x99Cd59d18C1664Ae32baA1144E275Eee34514115</span>
+                <b>TokenB:</b> <span className="font-mono">0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63</span>
               </li>
               <li>
-                <b>SimpleSwap:</b> <span className="font-mono">0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34</span>
+                <b>SimpleSwap:</b> <span className="font-mono">0x93Aa1766Cf4a79267634F2E8669a1c87518791c5</span>
               </li>
             </ul>
           </div>

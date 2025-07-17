@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
-const TOKEN_A_ADDRESS = "0xa00dC451faB5B80145d636EeE6A9b794aA81D48C";
-const TOKEN_B_ADDRESS = "0x99Cd59d18C1664Ae32baA1144E275Eee34514115";
+const TOKEN_A_ADDRESS = "0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA";
+const TOKEN_B_ADDRESS = "0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63";
 
 const SIMPLE_SWAP_ABI = [
   {
