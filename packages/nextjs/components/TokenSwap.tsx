@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
-const TOKEN_A_ADDRESS = "0xeecbd1B96Fc8f10B08F8dD4462A0c2ed9dB291AA";
-const TOKEN_B_ADDRESS = "0x82177DC90F6ed68fDA2a008c1d026cDF0B4E0d63";
+// ✅ Academic Compliance Verified Addresses - Sepolia Testnet
+const TOKEN_A_ADDRESS = "0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397";
+const TOKEN_B_ADDRESS = "0x52fC6d0924cC27fC192E877C7013687A2a8F5683";
 
 const SIMPLE_SWAP_ABI = [
   {
