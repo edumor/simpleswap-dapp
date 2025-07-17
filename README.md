@@ -36,22 +36,6 @@ A decentralized application for swapping two ERC20 tokens (TokenA and TokenB) us
 
 ---
 
-## 🖼️ Screenshots
-
-| Functionality         | Screenshot                                                                                   |
-|----------------------|----------------------------------------------------------------------------------------------|
-| Main Page            | ![Main Page](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-main.png)      |
-| Wallet Connect       | ![Wallet Connect](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-wallet.png)|
-| Token Balances       | ![Balances](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-balances.png)   |
-| Faucet               | ![Faucet](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-main.png)         |
-| Approve Tokens       | ![Approve](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-approve.png)     |
-| Swap Tokens          | ![Swap](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-swap.png)           |
-| Swap TokenA to TokenB| ![Swap A-B](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-swap-a-b.png)   |
-| Swap TokenB to TokenA| ![Swap B-A](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-swap-b-a.png)   |
-| Pool Info            | ![Pool Info](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-pool.png)      |
-| Price                | ![Price](https://simpleswap-dapp-nextjs.vercel.app/screenshots/screenshot-price.png)         |
-
----
 
 ## 🧑‍💻 How to Use the dApp
 
