@@ -63,7 +63,7 @@ This document details each point observed by the instructor, the actions taken, 
 
 ### Contract Review (Sepolia)
 
-- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1))
+- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34))
   - No long strings are present in the contract.
   - Storage variables are accessed only once per function, using local structs for caching (see `_loadPairData`, `_savePairData`).
   - NatSpec comments are present for all functions, parameters, events, and modifiers. Example:
@@ -79,7 +79,7 @@ This document details each point observed by the instructor, the actions taken, 
   - All functions and events are documented with short, clear NatSpec strings.
   - The function `getAmountOut` is used for swap calculations, as required.
 
-- **TokenA.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397))
+- **TokenA.sol** ([Etherscan](https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C))
   - No long strings are present.
   - No multiple storage reads per function; all state changes are atomic and clear.
   - NatSpec comments are present, for example:
@@ -93,7 +93,7 @@ This document details each point observed by the instructor, the actions taken, 
     }
     ```
 
-- **TokenB.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x52fC6d0924cC27fC192E877C7013687A2a8F5683))
+- **TokenB.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115))
   - No long strings are present.
   - No multiple storage reads per function; all state changes are atomic and clear.
   - NatSpec comments are present for all functions, including pause/unpause and mint.
@@ -187,7 +187,7 @@ All contracts have >50% in all coverage metrics, as shown above. This meets and 
 
 ### Contract Review (Sepolia)
 
-- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1))
+- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x06eA28a8ADf22736778A54802CeEbcBeC14B3B34))
   - No long strings are present in the contract.
   - Storage variables are accessed only once per function, using local structs for caching (see `_loadPairData`, `_savePairData`).
   - NatSpec comments are present for all functions, parameters, events, and modifiers. Example:
@@ -203,7 +203,7 @@ All contracts have >50% in all coverage metrics, as shown above. This meets and 
   - All functions and events are clearly documented with short, clear NatSpec strings.
   - The function `getAmountOut` is used for swap calculations, as required.
 
-- **TokenA.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397))
+- **TokenA.sol** ([Etherscan](https://sepolia.etherscan.io/address/0xa00dC451faB5B80145d636EeE6A9b794aA81D48C))
   - No long strings are present.
   - No multiple storage reads per function; all state changes are atomic and clear.
   - NatSpec comments are present, e.g.:
@@ -217,7 +217,7 @@ All contracts have >50% in all coverage metrics, as shown above. This meets and 
     }
     ```
 
-- **TokenB.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x52fC6d0924cC27fC192E877C7013687A2a8F5683))
+- **TokenB.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x99Cd59d18C1664Ae32baA1144E275Eee34514115))
   - No long strings are present.
   - No multiple storage reads per function; all state changes are atomic and clear.
   - NatSpec comments are present for all functions, including pause/unpause and mint.
