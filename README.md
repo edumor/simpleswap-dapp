@@ -18,7 +18,7 @@ A production-ready decentralized exchange (DEX) built with Scaffold-ETH 2, featu
 **Production URL**: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
 - **Network**: Sepolia Testnet (Chain ID: 11155111)
 - **Status**: ✅ Fully operational and verified contracts
-- **Last Updated**: January 2025
+- **Last Updated**: July 2025
 
 ## 📋 Deployed Contracts (Sepolia Testnet)
 
@@ -800,7 +800,7 @@ copies or substantial portions of the Software.
 For academic inquiries regarding this TP4 submission:
 - **Program**: ETH-KIPU Advanced Blockchain Development
 - **Course**: Smart Contract Optimization and Gas Efficiency
-- **Submission Date**: January 2025
+- **Submission Date**: July 2025
 
 ## 🙏 Acknowledgments & References
 
@@ -848,4 +848,4 @@ open http://localhost:3000
 
 ---
 
-*Last Updated: January 2025 | ETH-KIPU TP4 Academic Submission*
+*Last Updated: July 2025 | ETH-KIPU TP4 Academic Submission*
