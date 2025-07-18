@@ -76,10 +76,10 @@ describe("SimpleSwap Additional Tests", function () {
       const path = [await tokenA.getAddress(), await tokenB.getAddress()];
 
       const minOutput = await simpleSwap.calculateMinOutputWithSlippage(amountIn, path, slippageBps);
-      
+
       // Verify result is positive
       expect(minOutput).to.be.gt(0);
-      
+
       // Verify it's less than output without slippage
       const fullOutput = await simpleSwap.getAmountOut(amountIn, initialLiquidityA, initialLiquidityB);
       expect(minOutput).to.be.lt(fullOutput);
@@ -90,9 +90,9 @@ describe("SimpleSwap Additional Tests", function () {
       const slippageBps = 100;
       const invalidPath = [await tokenA.getAddress()]; // Only one token
 
-      await expect(
-        simpleSwap.calculateMinOutputWithSlippage(amountIn, invalidPath, slippageBps)
-      ).to.be.revertedWith("bad len");
+      await expect(simpleSwap.calculateMinOutputWithSlippage(amountIn, invalidPath, slippageBps)).to.be.revertedWith(
+        "bad len",
+      );
     });
 
     it("Should revert with high slippage", async function () {
@@ -100,9 +100,9 @@ describe("SimpleSwap Additional Tests", function () {
       const highSlippage = 5001; // > 50%
       const path = [await tokenA.getAddress(), await tokenB.getAddress()];
 
-      await expect(
-        simpleSwap.calculateMinOutputWithSlippage(amountIn, path, highSlippage)
-      ).to.be.revertedWith("hi slip");
+      await expect(simpleSwap.calculateMinOutputWithSlippage(amountIn, path, highSlippage)).to.be.revertedWith(
+        "hi slip",
+      );
     });
 
     it("Should handle maximum allowed slippage", async function () {
@@ -110,9 +110,7 @@ describe("SimpleSwap Additional Tests", function () {
       const maxSlippage = 5000; // Exactly 50%
       const path = [await tokenA.getAddress(), await tokenB.getAddress()];
 
-      await expect(
-        simpleSwap.calculateMinOutputWithSlippage(amountIn, path, maxSlippage)
-      ).not.to.be.reverted;
+      await expect(simpleSwap.calculateMinOutputWithSlippage(amountIn, path, maxSlippage)).not.to.be.reverted;
     });
 
     it("Should handle zero slippage", async function () {
@@ -122,7 +120,7 @@ describe("SimpleSwap Additional Tests", function () {
 
       const minOutput = await simpleSwap.calculateMinOutputWithSlippage(amountIn, path, zeroSlippage);
       const fullOutput = await simpleSwap.getAmountOut(amountIn, initialLiquidityA, initialLiquidityB);
-      
+
       // With 0% slippage, should equal full output
       expect(minOutput).to.equal(fullOutput);
     });
@@ -140,17 +138,13 @@ describe("SimpleSwap Additional Tests", function () {
       expect(await simpleSwap.paused()).to.be.false;
 
       // Pause
-      await expect(simpleSwap.pause())
-        .to.emit(simpleSwap, "Paused")
-        .withArgs(deployer.address);
-      
+      await expect(simpleSwap.pause()).to.emit(simpleSwap, "Paused").withArgs(deployer.address);
+
       expect(await simpleSwap.paused()).to.be.true;
 
       // Unpause
-      await expect(simpleSwap.unpause())
-        .to.emit(simpleSwap, "Unpaused")
-        .withArgs(deployer.address);
-        
+      await expect(simpleSwap.unpause()).to.emit(simpleSwap, "Unpaused").withArgs(deployer.address);
+
       expect(await simpleSwap.paused()).to.be.false;
     });
 
@@ -159,7 +153,7 @@ describe("SimpleSwap Additional Tests", function () {
       await simpleSwap.pause();
 
       const deadline = Math.floor(Date.now() / 1000) + 3600;
-      
+
       // Try to add liquidity while paused
       await expect(
         simpleSwap.addLiquidity(
@@ -170,8 +164,8 @@ describe("SimpleSwap Additional Tests", function () {
           0n,
           0n,
           deployer.address,
-          deadline
-        )
+          deadline,
+        ),
       ).to.be.revertedWith("paused");
     });
 
@@ -179,24 +173,18 @@ describe("SimpleSwap Additional Tests", function () {
       await expect(simpleSwap.transferOwnership(user1.address))
         .to.emit(simpleSwap, "OwnershipTransferred")
         .withArgs(deployer.address, user1.address);
-        
+
       expect(await simpleSwap.owner()).to.equal(user1.address);
     });
 
     it("Should revert transfer to zero address", async function () {
-      await expect(
-        simpleSwap.transferOwnership(ethers.ZeroAddress)
-      ).to.be.revertedWith("zero");
+      await expect(simpleSwap.transferOwnership(ethers.ZeroAddress)).to.be.revertedWith("zero");
     });
 
     it("Should revert non-owner operations", async function () {
-      await expect(
-        simpleSwap.connect(user1).pause()
-      ).to.be.revertedWith("not owner");
+      await expect(simpleSwap.connect(user1).pause()).to.be.revertedWith("not owner");
 
-      await expect(
-        simpleSwap.connect(user1).transferOwnership(user1.address)
-      ).to.be.revertedWith("not owner");
+      await expect(simpleSwap.connect(user1).transferOwnership(user1.address)).to.be.revertedWith("not owner");
     });
   });
 
@@ -212,12 +200,12 @@ describe("SimpleSwap Additional Tests", function () {
       // Test internal _min function through addLiquidity proportional calculation
       const amountA = ethers.parseEther("100");
       const amountB = ethers.parseEther("200"); // Different ratio
-      
+
       await tokenA.approve(await simpleSwap.getAddress(), amountA, { gasLimit: 6000000 });
       await tokenB.approve(await simpleSwap.getAddress(), amountB, { gasLimit: 6000000 });
-      
+
       const deadline = Math.floor(Date.now() / 1000) + 3600;
-      
+
       // First liquidity addition
       await simpleSwap.addLiquidity(
         await tokenA.getAddress(),
@@ -228,16 +216,16 @@ describe("SimpleSwap Additional Tests", function () {
         0n,
         deployer.address,
         deadline,
-        { gasLimit: 6000000 }
+        { gasLimit: 6000000 },
       );
 
       // Add more liquidity with different proportions to trigger _min logic
       const moreAmountA = ethers.parseEther("50");
       const moreAmountB = ethers.parseEther("150");
-      
+
       await tokenA.approve(await simpleSwap.getAddress(), moreAmountA, { gasLimit: 6000000 });
       await tokenB.approve(await simpleSwap.getAddress(), moreAmountB, { gasLimit: 6000000 });
-      
+
       await expect(
         simpleSwap.addLiquidity(
           await tokenA.getAddress(),
@@ -248,20 +236,20 @@ describe("SimpleSwap Additional Tests", function () {
           0n,
           deployer.address,
           deadline + 1,
-          { gasLimit: 6000000 }
-        )
+          { gasLimit: 6000000 },
+        ),
       ).not.to.be.reverted;
     });
 
     it("Should handle sqrt calculation in first liquidity provision", async function () {
       const amountA = ethers.parseEther("64"); // Perfect square
       const amountB = ethers.parseEther("36"); // Perfect square
-      
+
       await tokenA.approve(await simpleSwap.getAddress(), amountA, { gasLimit: 6000000 });
       await tokenB.approve(await simpleSwap.getAddress(), amountB, { gasLimit: 6000000 });
-      
+
       const deadline = Math.floor(Date.now() / 1000) + 3600;
-      
+
       const result = await simpleSwap.addLiquidity(
         await tokenA.getAddress(),
         await tokenB.getAddress(),
@@ -271,7 +259,7 @@ describe("SimpleSwap Additional Tests", function () {
         0n,
         deployer.address,
         deadline,
-        { gasLimit: 6000000 }
+        { gasLimit: 6000000 },
       );
 
       // Check that liquidity was calculated correctly (sqrt(64*36) = sqrt(2304) = 48)
@@ -283,7 +271,7 @@ describe("SimpleSwap Additional Tests", function () {
           amountA,
           amountB,
           ethers.parseEther("48"), // Expected liquidity tokens
-          true
+          true,
         );
     });
   });
