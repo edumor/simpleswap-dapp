@@ -1,9 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd packages/nextjs && npm install && NEXT_PUBLIC_IGNORE_BUILD_ERROR=true npm run build || true",
-  "devCommand": "cd packages/nextjs && npm run dev",
-  "installCommand": "npm install --prefix packages/nextjs",
+  "buildCommand": "cd packages/nextjs && npm install && npm run build",
   "outputDirectory": "packages/nextjs/out",
+  "installCommand": null,
   "framework": null,
   "env": {
     "NEXT_PUBLIC_IGNORE_BUILD_ERROR": "true"
