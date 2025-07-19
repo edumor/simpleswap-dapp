@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+[data-theme] {
+  background-color: oklch(var(--b2));
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+label {
+  cursor: pointer;
+}
+
+.btn {
+  @apply border-0 transition-all duration-200 ease-in-out;
+}
+
+.btn:disabled {
+  @apply cursor-not-allowed text-neutral/50 bg-neutral/10;
+}
+
+.btn-sm {
+  @apply rounded-lg;
+}
+
+.btn-primary {
+  @apply bg-primary hover:bg-primary/80 shadow-md shadow-primary/25;
+}
+
+.btn-secondary {
+  @apply bg-secondary hover:bg-secondary/80 text-base-content shadow-md shadow-secondary/25;
+}
+
+.btn-accent {
+  @apply bg-accent hover:bg-accent/80 shadow-md shadow-accent/25;
+}
+
+.btn-ghost {
+  @apply bg-transparent hover:bg-base-300/50 shadow-none;
+}
+
+/* Custom daisyUI button overrides */
+.btn-outline {
+  @apply border-2 border-primary bg-transparent hover:bg-primary hover:border-primary;
+}
+
+/* Loading animation for buttons */
+.btn.loading {
+  @apply cursor-wait;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-base-200;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-base-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-base-content/20;
+}
