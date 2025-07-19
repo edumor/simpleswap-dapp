@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd packages/nextjs && npm install --force && npm run build",
+  "buildCommand": "npm run build",
   "outputDirectory": "packages/nextjs/out",
-  "installCommand": null,
+  "installCommand": "echo 'Skipping root install'",
   "framework": null,
   "env": {
     "NEXT_PUBLIC_IGNORE_BUILD_ERROR": "true"

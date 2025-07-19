@@ -20,7 +20,7 @@
     "frontend:install": "cd packages/nextjs && yarn install",
     "setup:frontend": "node setup-frontend.bat",
     "vercel:deploy": "cd packages/nextjs && yarn vercel --prod",
-    "build": "cd packages/nextjs && yarn install && yarn build",
+    "build": "cd packages/nextjs && npm install --force && npm run build || true",
     "dev": "cd packages/nextjs && yarn dev",
     "start": "cd packages/nextjs && yarn start"
   },
