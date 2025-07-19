@@ -1,5 +1,5 @@
 import "./globals.css";
-import { ScaffoldEthApp } from "~/components/ScaffoldEthApp";
+import { ClientProviders } from "~/components/ClientProviders";
 import { ThemeProvider } from "~/components/ThemeProvider";
 import { getMetadata } from "~/utils/scaffold-eth/getMetadata";
 
@@ -13,7 +13,7 @@ const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }
     <html suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <ScaffoldEthApp>{children}</ScaffoldEthApp>
+          <ClientProviders>{children}</ClientProviders>
         </ThemeProvider>
       </body>
     </html>
