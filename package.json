@@ -48,7 +48,7 @@
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@nomicfoundation/hardhat-verify": "^2.1.0",
     "@nomiclabs/hardhat-etherscan": "^3.1.8",
-    "@types/node": "^17.0.12",
+    "@types/node": "^20.0.0",
     "@types/react": "^18.0.21",
     "@vitejs/plugin-react": "^4.7.0",
     "chai": "^4.5.0",
