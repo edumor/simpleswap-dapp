@@ -1,11 +1,6 @@
 {
-  "buildCommand": "cd packages/nextjs && npm install && npm run build",
+  "buildCommand": "cd packages/nextjs && yarn install && yarn build",
   "outputDirectory": "packages/nextjs/.next",
-  "installCommand": "cd packages/nextjs && npm install",
-  "framework": "nextjs",
-  "functions": {
-    "packages/nextjs/app/**": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  "installCommand": "cd packages/nextjs && yarn install",
+  "framework": null
 }

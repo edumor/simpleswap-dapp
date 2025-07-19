@@ -10,6 +10,13 @@ const nextConfig = {
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");
+    
+    // Add path aliases for webpack
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "~": __dirname,
+    };
+    
     return config;
   },
 };
