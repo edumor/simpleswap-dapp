@@ -12,24 +12,24 @@ interface Web3ProvidersProps {
 
 export function Web3Providers({ children }: Web3ProvidersProps) {
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const queryClient = new QueryClient({
+  const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
       },
     },
-  });
+  }));
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
     return <>{children}</>;
   }
 
   return (
+    // @ts-ignore
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>

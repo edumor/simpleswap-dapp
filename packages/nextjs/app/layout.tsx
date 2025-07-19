@@ -12,7 +12,7 @@ const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }
   return (
     <html suppressHydrationWarning>
       <body>
-        <ThemeProvider enableSystem>
+        <ThemeProvider>
           <ScaffoldEthApp>{children}</ScaffoldEthApp>
         </ThemeProvider>
       </body>

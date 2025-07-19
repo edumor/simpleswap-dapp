@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "buildCommand": "yarn install && yarn build",
-  "outputDirectory": ".next",
-  "devCommand": "yarn dev",
-  "installCommand": "yarn install"
-}

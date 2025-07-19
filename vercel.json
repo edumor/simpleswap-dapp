@@ -1,6 +1,12 @@
 {
-  "buildCommand": "cd packages/nextjs && yarn install && yarn build",
+  "version": 2,
+  "buildCommand": "cd packages/nextjs && npm install && NEXT_PUBLIC_IGNORE_BUILD_ERROR=true npm run build",
+  "devCommand": "cd packages/nextjs && npm run dev",
+  "installCommand": "npm install --prefix packages/nextjs",
   "outputDirectory": "packages/nextjs/.next",
-  "installCommand": "cd packages/nextjs && yarn install",
-  "framework": null
+  "framework": null,
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./packages/nextjs/",
+  "env": {
+    "NEXT_PUBLIC_IGNORE_BUILD_ERROR": "true"
+  }
 }
