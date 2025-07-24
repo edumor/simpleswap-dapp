@@ -40,38 +40,38 @@ export function TokenBalances({ tokenAAddress, tokenBAddress, userAddress }: Tok
     abi: ERC20_ABI,
     functionName: "balanceOf",
     args: [userAddress],
-  });
+  }) as { data: bigint | undefined };
 
   const { data: balanceB } = useReadContract({
     address: tokenBAddress as `0x${string}`,
     abi: ERC20_ABI,
     functionName: "balanceOf",
     args: [userAddress],
-  });
+  }) as { data: bigint | undefined };
 
   const { data: nameA } = useReadContract({
     address: tokenAAddress as `0x${string}`,
     abi: ERC20_ABI,
     functionName: "name",
-  });
+  }) as { data: string | undefined };
 
   const { data: nameB } = useReadContract({
     address: tokenBAddress as `0x${string}`,
     abi: ERC20_ABI,
     functionName: "name",
-  });
+  }) as { data: string | undefined };
 
   const { data: symbolA } = useReadContract({
     address: tokenAAddress as `0x${string}`,
     abi: ERC20_ABI,
     functionName: "symbol",
-  });
+  }) as { data: string | undefined };
 
   const { data: symbolB } = useReadContract({
     address: tokenBAddress as `0x${string}`,
     abi: ERC20_ABI,
     functionName: "symbol",
-  });
+  }) as { data: string | undefined };
 
   return (
     <div className="bg-base-100 rounded-lg p-6">

@@ -55,6 +55,10 @@ export function SimpleLiquidityPoolInfo({
     args: [tokenAAddress as `0x${string}`, tokenBAddress as `0x${string}`],
   });
 
+  // Type the reserves properly
+  const typedReserves = reserves as [bigint, bigint] | undefined;
+  const typedPrice = price as bigint | undefined;
+
   return (
     <div className="bg-base-100 rounded-lg p-6">
       <h2 className="text-xl font-semibold mb-4">Liquidity Pool Information</h2>
@@ -62,21 +66,21 @@ export function SimpleLiquidityPoolInfo({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-base-200 p-4 rounded">
             <p className="font-medium mb-2">Token A Reserve</p>
-            <p className="text-lg font-bold">{reserves ? formatUnits(reserves[0] as bigint, 18) : "0"}</p>
-            <p className="text-sm text-gray-600">Wei: {reserves ? (reserves[0] as bigint).toString() : "0"}</p>
+            <p className="text-lg font-bold">{typedReserves ? formatUnits(typedReserves[0], 18) : "0"}</p>
+            <p className="text-sm text-gray-600">Wei: {typedReserves ? typedReserves[0].toString() : "0"}</p>
           </div>
 
           <div className="bg-base-200 p-4 rounded">
             <p className="font-medium mb-2">Token B Reserve</p>
-            <p className="text-lg font-bold">{reserves ? formatUnits(reserves[1] as bigint, 18) : "0"}</p>
-            <p className="text-sm text-gray-600">Wei: {reserves ? (reserves[1] as bigint).toString() : "0"}</p>
+            <p className="text-lg font-bold">{typedReserves ? formatUnits(typedReserves[1], 18) : "0"}</p>
+            <p className="text-sm text-gray-600">Wei: {typedReserves ? typedReserves[1].toString() : "0"}</p>
           </div>
         </div>
 
         <div className="bg-base-200 p-4 rounded">
           <p className="font-medium mb-2">Current Price (Token A in terms of Token B)</p>
-          <p className="text-lg font-bold">{price ? formatUnits(price as bigint, 18) : "0"}</p>
-          <p className="text-sm text-gray-600">1 Token A = {price ? formatUnits(price as bigint, 18) : "0"} Token B</p>
+          <p className="text-lg font-bold">{typedPrice ? formatUnits(typedPrice, 18) : "0"}</p>
+          <p className="text-sm text-gray-600">1 Token A = {typedPrice ? formatUnits(typedPrice, 18) : "0"} Token B</p>
         </div>
 
         <div className="text-xs text-gray-500 mt-4">
