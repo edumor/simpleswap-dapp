@@ -1,4 +1,5 @@
-// ...existing code...
+"use client";
+
 import React, { useState } from "react";
 import { useContractRead, useWriteContract } from "wagmi";
 
@@ -37,13 +38,13 @@ export function TokenBalances({ tokenAAddress, tokenBAddress, userAddress }: Tok
   const [faucetMsg, setFaucetMsg] = useState<string>("");
   const { writeContractAsync } = useWriteContract();
   const handleFaucet = async () => {
-    if (!address) return;
+    if (!userAddress) return;
     setFaucetStatus("pending");
     setFaucetMsg("");
     try {
       // Mint 1 token (1e18 wei) to the connected wallet in both TokenA and TokenB
       const txA = await writeContractAsync({
-        address: TOKEN_A_ADDRESS,
+        address: tokenAAddress,
         abi: [
           {
             inputs: [
@@ -57,10 +58,10 @@ export function TokenBalances({ tokenAAddress, tokenBAddress, userAddress }: Tok
           },
         ],
         functionName: "mint",
-        args: [address, BigInt("1000000000000000000")],
+        args: [userAddress, BigInt("1000000000000000000")],
       });
       const txB = await writeContractAsync({
-        address: TOKEN_B_ADDRESS,
+        address: tokenBAddress,
         abi: [
           {
             inputs: [
@@ -74,7 +75,7 @@ export function TokenBalances({ tokenAAddress, tokenBAddress, userAddress }: Tok
           },
         ],
         functionName: "mint",
-        args: [address, BigInt("1000000000000000000")],
+        args: [userAddress, BigInt("1000000000000000000")],
       });
       setFaucetMsg(`Faucet successful!\nTokenA tx: ${txA}\nTokenB tx: ${txB}`);
       setFaucetStatus("success");
@@ -107,7 +108,7 @@ export function TokenBalances({ tokenAAddress, tokenBAddress, userAddress }: Tok
           border: "none",
           cursor: "pointer",
         }}
-        disabled={faucetStatus === "pending" || !address}
+        disabled={faucetStatus === "pending" || !userAddress}
         onClick={handleFaucet}
       >
         {faucetStatus === "pending" ? "Requesting Faucet..." : "Get Test Tokens (Faucet)"}

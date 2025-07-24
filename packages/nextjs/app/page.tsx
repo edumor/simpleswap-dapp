@@ -77,7 +77,13 @@ const Home: NextPage = () => {
           <div className="mb-6 p-4 bg-base-200 rounded">
             <h2 className="text-lg font-bold mb-2">Your Token Balances</h2>
             {/* Token balances for connected user */}
-            <TokenBalances address={connectedAddress} />
+            {connectedAddress && (
+              <TokenBalances
+                tokenAAddress="0x5b9B8c8a3F2529e7CdCE41af11c5B11eD9f80E4e"
+                tokenBAddress="0xfD0F49B6D0f6bbE31F56E491F5E8B02E0c82F3eC"
+                userAddress={connectedAddress}
+              />
+            )}
           </div>
           <TokenApprove />
           <ShowPrice />

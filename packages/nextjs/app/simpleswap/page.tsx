@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import React, { useEffect, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { notification } from "~~/utils/scaffold-eth";
 
 // Contract addresses on Sepolia
@@ -175,7 +175,7 @@ const SimpleSwapPage = () => {
     try {
       const path = tokenIn === "A" ? [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS] : [TOKEN_B_ADDRESS, TOKEN_A_ADDRESS];
       const deadline = BigInt(Math.floor(Date.now() / 1000) + 1200);
-      const minAmountOut = (calculatedAmountOut as bigint * BigInt(99)) / BigInt(100); // 1% slippage
+      const minAmountOut = ((calculatedAmountOut as bigint) * BigInt(99)) / BigInt(100); // 1% slippage
 
       writeContract(
         {
