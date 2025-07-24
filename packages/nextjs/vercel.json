@@ -4,7 +4,9 @@
   "framework": "nextjs",
   "env": {
     "YARN_ENABLE_IMMUTABLE_INSTALLS": "false",
-    "ENABLE_EXPERIMENTAL_COREPACK": "1",
-    "VERCEL_TELEMETRY_DISABLED": "1"
-  }
+    "ENABLE_EXPERIMENTAL_COREPACK": "1", 
+    "VERCEL_TELEMETRY_DISABLED": "1",
+    "NEXT_PUBLIC_IGNORE_BUILD_ERROR": "false"
+  },
+  "outputDirectory": ".next"
 }

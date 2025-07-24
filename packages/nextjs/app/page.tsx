@@ -69,8 +69,8 @@ const Home: NextPage = () => {
               </li>
             </ul>
             <p className="text-sm text-gray-600 mt-2">
-              All contracts meet instructor requirements: NatSpec in English, short error strings, single
-              storage access.
+              All contracts meet instructor requirements: NatSpec in English, short error strings, single storage
+              access.
             </p>
           </div>
 
