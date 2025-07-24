@@ -226,7 +226,10 @@ contract SimpleSwap {
         
         // Load data once to check liquidity balance before further calculations
         (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(tokenA, tokenB);
-        require(liquidityBalances[hash][msg.sender] >= liquidity, "insuf liq");
+        
+        // Load current user liquidity balance once
+        uint256 userLiquidity = liquidityBalances[hash][msg.sender];
+        require(userLiquidity >= liquidity, "insuf liq");
 
         amountA = (liquidity * data.reserveA) / data.totalLiquidity;
         amountB = (liquidity * data.reserveB) / data.totalLiquidity;
@@ -238,7 +241,7 @@ contract SimpleSwap {
         data.totalLiquidity -= liquidity;
 
         _savePairData(hash, rev, data);
-        liquidityBalances[hash][msg.sender] -= liquidity;
+        liquidityBalances[hash][msg.sender] = userLiquidity - liquidity;
 
         _transfer(tokenA, to, amountA);
         _transfer(tokenB, to, amountB);
@@ -346,7 +349,7 @@ contract SimpleSwap {
      */
     function _transferFrom(address token, address from, address to, uint256 amount) internal {
         (bool success,) = token.call(
-            abi.encodeWithSignature("transferFrom(address,address,uint256)", from, to, amount)
+            abi.encodeWithSelector(0x23b872dd, from, to, amount)
         );
         require(success, "tf fail");
     }
@@ -360,7 +363,7 @@ contract SimpleSwap {
      */
     function _transfer(address token, address to, uint256 amount) internal {
         (bool success,) = token.call(
-            abi.encodeWithSignature("transfer(address,uint256)", to, amount)
+            abi.encodeWithSelector(0xa9059cbb, to, amount)
         );
         require(success, "t fail");
     }

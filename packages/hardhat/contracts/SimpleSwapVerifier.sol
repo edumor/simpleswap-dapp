@@ -152,8 +152,10 @@ contract SimpleSwapVerifier {
         uint256 balanceBAfter = IERC20(tokenB).balanceOf(address(this));
         require(balanceBAfter >= balanceBBefore + expectedOut, "swapExactTokensForTokens failed");
 
-        // Retornar liquidity calculada (asumir que no cambió mucho)
-        return (amountA * amountB) / 1e18; // Aproximación simple
+        // Retornar una aproximación más realista de la liquidez
+        // Usar la misma formula que SimpleSwap para primera provisión
+        uint256 liquidityCalculated = _sqrt(amountA * amountB);
+        return liquidityCalculated;
     }
 
     function _testRemoveLiquidity(address swapContract, address tokenA, address tokenB, uint256 liquidity) private {
@@ -176,12 +178,31 @@ contract SimpleSwapVerifier {
 
     /// @notice Permite que cualquiera deposite tokens para verificaciones
     function depositTokens(address token, uint256 amount) external {
-        require(IERC20(token).transferFrom(msg.sender, address(this), amount), "Transfer failed");
+        require(IERC20(token).transferFrom(msg.sender, address(this), amount), "transfer fail");
     }
 
     /// @notice Permite al owner retirar tokens en caso de emergencia
     function withdrawTokens(address token, uint256 amount, address to) external {
         // Solo para emergencias - en un contrato real agregarías control de acceso
-        require(IERC20(token).transfer(to, amount), "Withdrawal failed");
+        require(IERC20(token).transfer(to, amount), "withdraw fail");
+    }
+
+    /**
+     * @dev Internal function to calculate the integer square root of a number
+     * Used for liquidity calculation
+     * @param y The number for which to calculate the square root
+     * @return z The integer square root of y
+     */
+    function _sqrt(uint256 y) internal pure returns (uint256 z) {
+        if (y > 3) {
+            z = y;
+            uint256 x = y / 2 + 1;
+            while (x < z) {
+                z = x;
+                x = (y / x + x) / 2;
+            }
+        } else if (y != 0) {
+            z = 1;
+        }
     }
 }

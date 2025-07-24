@@ -21,11 +21,11 @@ describe("SimpleSwap", function () {
     // user2 = signers[2]; // Eliminado porque no se usa
 
     const TokenAFactory = await ethers.getContractFactory("TokenA");
-    tokenA = await TokenAFactory.deploy(deployer.address, { gasLimit: 6000000 });
+    tokenA = await TokenAFactory.deploy(deployer.address, { gasLimit: 5000000 });
     await tokenA.waitForDeployment();
 
     const TokenBFactory = await ethers.getContractFactory("TokenB");
-    tokenB = await TokenBFactory.deploy(deployer.address, { gasLimit: 6000000 });
+    tokenB = await TokenBFactory.deploy(deployer.address, { gasLimit: 5000000 });
     await tokenB.waitForDeployment();
   });
 
@@ -36,10 +36,10 @@ describe("SimpleSwap", function () {
     // Nota: Esto minteará tokens *adicionales* cada vez que se llame.
     // Si quieres resetear estrictamente al estado inicial, podrías necesitar quemar los tokens existentes primero
     // o desplegar nuevos contratos de tokens. Para ahora, añadir más es generalmente aceptable para los tests.
-    await tokenA.mint(deployer.address, initialSupply, { gasLimit: 6000000 });
-    await tokenB.mint(deployer.address, initialSupply, { gasLimit: 6000000 });
-    await tokenA.mint(user1.address, ethers.parseEther("1000"), { gasLimit: 6000000 });
-    await tokenB.mint(user1.address, ethers.parseEther("1000"), { gasLimit: 6000000 });
+    await tokenA.mint(deployer.address, initialSupply);
+    await tokenB.mint(deployer.address, initialSupply);
+    await tokenA.mint(user1.address, ethers.parseEther("1000"));
+    await tokenB.mint(user1.address, ethers.parseEther("1000"));
   }
 
   // --- Tests de Despliegue ---
@@ -47,7 +47,7 @@ describe("SimpleSwap", function () {
     beforeEach(async function () {
       // Desplegar una nueva instancia de SimpleSwap para cada test de despliegue
       const SimpleSwapFactory = await ethers.getContractFactory("SimpleSwap");
-      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 6000000 });
+      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 5000000 });
       await simpleSwap.waitForDeployment();
       await resetTokenBalances(); // Asegurar balances de tokens frescos para este contexto de test
     });
@@ -74,13 +74,13 @@ describe("SimpleSwap", function () {
     beforeEach(async function () {
       // Desplegar una nueva instancia de SimpleSwap para cada test de addLiquidity
       const SimpleSwapFactory = await ethers.getContractFactory("SimpleSwap");
-      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 6000000 });
+      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 5000000 });
       await simpleSwap.waitForDeployment();
       await resetTokenBalances(); // Asegurar balances de tokens frescos para este contexto de test
 
       // Aprobar que SimpleSwap pueda gastar los tokens del deployer
-      await tokenA.approve(await simpleSwap.getAddress(), amountA, { gasLimit: 6000000 });
-      await tokenB.approve(await simpleSwap.getAddress(), amountB, { gasLimit: 6000000 });
+      await tokenA.approve(await simpleSwap.getAddress(), amountA);
+      await tokenB.approve(await simpleSwap.getAddress(), amountB);
     });
 
     it("Should add initial liquidity and mint liquidity tokens", async function () {
@@ -97,7 +97,6 @@ describe("SimpleSwap", function () {
           amountB,
           deployer.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
       )
         .to.emit(simpleSwap, "LiquidityAction")
@@ -123,8 +122,8 @@ describe("SimpleSwap", function () {
     it("Should add more liquidity proportionally", async function () {
       // Añadir liquidez inicial primero (ya se hace en el beforeEach, pero para este test, añadimos una segunda vez)
       const initialAmount = ethers.parseEther("100");
-      await tokenA.approve(await simpleSwap.getAddress(), initialAmount, { gasLimit: 6000000 });
-      await tokenB.approve(await simpleSwap.getAddress(), initialAmount, { gasLimit: 6000000 });
+      await tokenA.approve(await simpleSwap.getAddress(), initialAmount);
+      await tokenB.approve(await simpleSwap.getAddress(), initialAmount);
       const latestBlockInitial = await ethers.provider.getBlock("latest");
       const deadlineInitial = latestBlockInitial
         ? latestBlockInitial.timestamp + 3600
@@ -138,15 +137,14 @@ describe("SimpleSwap", function () {
         0n, // Los montos mínimos pueden ser 0 para simplicidad en este test
         deployer.address,
         deadlineInitial,
-        { gasLimit: 6000000 },
       );
 
       // Añadir más liquidez
       const moreAmountA = ethers.parseEther("50");
       const moreAmountB = ethers.parseEther("50");
       // Aprobar nuevamente para la liquidez adicional
-      await tokenA.approve(await simpleSwap.getAddress(), moreAmountA, { gasLimit: 6000000 });
-      await tokenB.approve(await simpleSwap.getAddress(), moreAmountB, { gasLimit: 6000000 });
+      await tokenA.approve(await simpleSwap.getAddress(), moreAmountA);
+      await tokenB.approve(await simpleSwap.getAddress(), moreAmountB);
       const latestBlockMore = await ethers.provider.getBlock("latest");
       const deadlineMore = latestBlockMore ? latestBlockMore.timestamp + 3600 : Math.floor(Date.now() / 1000) + 3600;
 
@@ -160,7 +158,6 @@ describe("SimpleSwap", function () {
           0n,
           deployer.address,
           deadlineMore,
-          { gasLimit: 6000000 },
         ),
       )
         .to.emit(simpleSwap, "LiquidityAction")
@@ -189,9 +186,8 @@ describe("SimpleSwap", function () {
           0n,
           deployer.address,
           expiredDeadline,
-          { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("exp");
+      ).to.be.revertedWith("expired");
     });
 
     it("Should revert if insufficient amount provided", async function () {
@@ -207,9 +203,8 @@ describe("SimpleSwap", function () {
           amountB,
           deployer.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("low amt");
+      ).to.be.revertedWith("min amt");
     });
   });
 
@@ -221,13 +216,13 @@ describe("SimpleSwap", function () {
     beforeEach(async function () {
       // Desplegar una nueva instancia de SimpleSwap para cada test de removeLiquidity
       const SimpleSwapFactory = await ethers.getContractFactory("SimpleSwap");
-      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 6000000 });
+      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 5000000 });
       await simpleSwap.waitForDeployment();
       await resetTokenBalances(); // Asegurar balances de tokens frescos para este contexto de test
 
       // Añadir liquidez inicial para poder removerla
-      await tokenA.approve(await simpleSwap.getAddress(), initialAmount, { gasLimit: 6000000 });
-      await tokenB.approve(await simpleSwap.getAddress(), initialAmount, { gasLimit: 6000000 });
+      await tokenA.approve(await simpleSwap.getAddress(), initialAmount);
+      await tokenB.approve(await simpleSwap.getAddress(), initialAmount);
       const latestBlock = await ethers.provider.getBlock("latest");
       const deadline = latestBlock ? latestBlock.timestamp + 3600 : Math.floor(Date.now() / 1000) + 3600;
       await simpleSwap.addLiquidity(
@@ -239,7 +234,6 @@ describe("SimpleSwap", function () {
         0n,
         deployer.address,
         deadline,
-        { gasLimit: 6000000 },
       );
       // Ahora simpleSwap._getPairHash debería ser una función válida
       [contractPairHash] = await simpleSwap._getPairHash(await tokenA.getAddress(), await tokenB.getAddress());
@@ -262,7 +256,6 @@ describe("SimpleSwap", function () {
           0n, // Los montos mínimos pueden ser 0 para simplicidad en este test
           deployer.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
       )
         .to.emit(simpleSwap, "LiquidityAction")
@@ -297,9 +290,8 @@ describe("SimpleSwap", function () {
           0n,
           deployer.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("low liq");
+      ).to.be.revertedWith("insuf liq");
     });
 
     it("Should revert if insufficient amount received", async function () {
@@ -317,9 +309,8 @@ describe("SimpleSwap", function () {
           ethers.parseEther("50"),
           deployer.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("low amt");
+      ).to.be.revertedWith("min return");
     });
   });
 
@@ -331,13 +322,13 @@ describe("SimpleSwap", function () {
     beforeEach(async function () {
       // Desplegar una nueva instancia de SimpleSwap para cada test de swap
       const SimpleSwapFactory = await ethers.getContractFactory("SimpleSwap");
-      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 6000000 });
+      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 5000000 });
       await simpleSwap.waitForDeployment();
       await resetTokenBalances(); // Asegurar balances de tokens frescos para este contexto de test
 
       // Añadir liquidez inicial al pool
-      await tokenA.approve(await simpleSwap.getAddress(), initialLiquidityA, { gasLimit: 6000000 });
-      await tokenB.approve(await simpleSwap.getAddress(), initialLiquidityB, { gasLimit: 6000000 });
+      await tokenA.approve(await simpleSwap.getAddress(), initialLiquidityA);
+      await tokenB.approve(await simpleSwap.getAddress(), initialLiquidityB);
       const latestBlock = await ethers.provider.getBlock("latest");
       const deadline = latestBlock ? latestBlock.timestamp + 3600 : Math.floor(Date.now() / 1000) + 3600;
       await simpleSwap.addLiquidity(
@@ -349,16 +340,15 @@ describe("SimpleSwap", function () {
         0n,
         deployer.address,
         deadline,
-        { gasLimit: 6000000 },
       );
 
       // Aprobar que SimpleSwap pueda gastar los tokens de user1 para el swap
       await tokenA
         .connect(user1)
-        .approve(await simpleSwap.getAddress(), ethers.parseEther("100"), { gasLimit: 6000000 });
+        .approve(await simpleSwap.getAddress(), ethers.parseEther("100"));
       await tokenB
         .connect(user1)
-        .approve(await simpleSwap.getAddress(), ethers.parseEther("100"), { gasLimit: 6000000 });
+        .approve(await simpleSwap.getAddress(), ethers.parseEther("100"));
     });
 
     it("Should swap TokenA for TokenB", async function () {
@@ -386,7 +376,6 @@ describe("SimpleSwap", function () {
           [await tokenA.getAddress(), await tokenB.getAddress()],
           user1.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
       )
         .to.emit(simpleSwap, "Swap")
@@ -425,7 +414,6 @@ describe("SimpleSwap", function () {
           [await tokenB.getAddress(), await tokenA.getAddress()], // Ruta invertida
           user1.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
       )
         .to.emit(simpleSwap, "Swap")
@@ -452,9 +440,8 @@ describe("SimpleSwap", function () {
             [await tokenA.getAddress(), await tokenB.getAddress()],
             user1.address,
             expiredDeadline,
-            { gasLimit: 6000000 },
           ),
-      ).to.be.revertedWith("exp");
+      ).to.be.revertedWith("expired");
     });
 
     it("Should revert if invalid path length", async function () {
@@ -468,9 +455,8 @@ describe("SimpleSwap", function () {
           [await tokenA.getAddress()], // Ruta incorrecta
           user1.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("bad len");
+      ).to.be.revertedWith("bad path");
     });
 
     it("Should revert if insufficient output amount", async function () {
@@ -484,9 +470,8 @@ describe("SimpleSwap", function () {
           [await tokenA.getAddress(), await tokenB.getAddress()],
           user1.address,
           deadline,
-          { gasLimit: 6000000 },
         ),
-      ).to.be.revertedWith("low out");
+      ).to.be.revertedWith("min out");
     });
   });
 
@@ -498,13 +483,13 @@ describe("SimpleSwap", function () {
     beforeEach(async function () {
       // Desplegar una nueva instancia de SimpleSwap para cada test de Read Functions
       const SimpleSwapFactory = await ethers.getContractFactory("SimpleSwap");
-      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 6000000 });
+      simpleSwap = await SimpleSwapFactory.deploy({ gasLimit: 5000000 });
       await simpleSwap.waitForDeployment();
       await resetTokenBalances(); // Asegurar balances de tokens frescos para este contexto de test
 
       // Añadir liquidez inicial al pool
-      await tokenA.approve(await simpleSwap.getAddress(), initialLiquidityA, { gasLimit: 6000000 });
-      await tokenB.approve(await simpleSwap.getAddress(), initialLiquidityB, { gasLimit: 6000000 });
+      await tokenA.approve(await simpleSwap.getAddress(), initialLiquidityA);
+      await tokenB.approve(await simpleSwap.getAddress(), initialLiquidityB);
       const latestBlock = await ethers.provider.getBlock("latest");
       const deadline = latestBlock ? latestBlock.timestamp + 3600 : Math.floor(Date.now() / 1000) + 3600;
       await simpleSwap.addLiquidity(
@@ -516,7 +501,6 @@ describe("SimpleSwap", function () {
         0n,
         deployer.address,
         deadline,
-        { gasLimit: 6000000 },
       );
     });
 
@@ -538,15 +522,15 @@ describe("SimpleSwap", function () {
       // Para este test, necesitamos un escenario donde reserveA sea 0.
       // Desplegamos nuevos tokens y probamos con ellos sin liquidez previa
       const newTokenAFactory = await ethers.getContractFactory("TokenA");
-      const newTokenA = await newTokenAFactory.deploy(deployer.address, { gasLimit: 6000000 });
+      const newTokenA = await newTokenAFactory.deploy(deployer.address);
       await newTokenA.waitForDeployment();
 
       const newTokenBFactory = await ethers.getContractFactory("TokenB");
-      const newTokenB = await newTokenBFactory.deploy(deployer.address, { gasLimit: 6000000 });
+      const newTokenB = await newTokenBFactory.deploy(deployer.address);
       await newTokenB.waitForDeployment();
 
       await expect(simpleSwap.getPrice(await newTokenA.getAddress(), await newTokenB.getAddress())).to.be.revertedWith(
-        "no res",
+        "no reserves",
       );
     });
 
@@ -560,19 +544,19 @@ describe("SimpleSwap", function () {
 
     it("Should revert getAmountOut if amountIn is zero", async function () {
       await expect(simpleSwap.getAmountOut(0n, ethers.parseEther("100"), ethers.parseEther("100"))).to.be.revertedWith(
-        "bad amt",
+        "zero amt",
       );
     });
 
     it("Should revert getAmountOut if reserveIn is zero", async function () {
       await expect(simpleSwap.getAmountOut(ethers.parseEther("10"), 0n, ethers.parseEther("100"))).to.be.revertedWith(
-        "bad amt",
+        "zero reserve",
       );
     });
 
     it("Should revert getAmountOut if reserveOut is zero", async function () {
       await expect(simpleSwap.getAmountOut(ethers.parseEther("10"), ethers.parseEther("100"), 0n)).to.be.revertedWith(
-        "bad amt",
+        "zero reserve",
       );
     });
   });

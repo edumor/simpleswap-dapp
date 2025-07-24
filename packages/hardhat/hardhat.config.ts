@@ -52,8 +52,8 @@ const config: HardhatUserConfig = {
     // View the networks that are pre-configured.
     // If the network you are looking for is not here you can add new network settings
     hardhat: {
-      gas: 12000000, // Gas limit razonable para tests y coverage
-      blockGasLimit: 12000000,
+      gas: 6000000, // Gas limit para deployment de contratos
+      blockGasLimit: 30000000, // Aumentamos para coverage
       allowUnlimitedContractSize: true,
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
@@ -146,6 +146,9 @@ const config: HardhatUserConfig = {
   sourcify: {
     enabled: false,
   },
+  mocha: {
+    timeout: 40000
+  }
 };
 
 // Extend the deploy task

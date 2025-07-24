@@ -33,6 +33,41 @@ contract SimpleSwap {
         bool isFirstProvision; /// @dev Flag indicating if this is the first liquidity provision
     }
 
+    /// @notice Struct for addLiquidity function parameters
+    /// @dev Groups related parameters to reduce function signature complexity
+    struct AddLiquidityParams {
+        address tokenA; /// @dev Address of the first token
+        address tokenB; /// @dev Address of the second token
+        uint256 amountADesired; /// @dev Desired amount of tokenA to add
+        uint256 amountBDesired; /// @dev Desired amount of tokenB to add
+        uint256 amountAMin; /// @dev Minimum amount of tokenA to add (slippage protection)
+        uint256 amountBMin; /// @dev Minimum amount of tokenB to add (slippage protection)
+        address to; /// @dev Address that will receive the liquidity tokens
+        uint256 deadline; /// @dev Maximum timestamp until which the transaction is valid
+    }
+
+    /// @notice Struct for removeLiquidity function parameters
+    /// @dev Groups related parameters to reduce function signature complexity
+    struct RemoveLiquidityParams {
+        address tokenA; /// @dev Address of the first token
+        address tokenB; /// @dev Address of the second token
+        uint256 liquidity; /// @dev Amount of liquidity tokens to burn
+        uint256 amountAMin; /// @dev Minimum amount of tokenA to receive (slippage protection)
+        uint256 amountBMin; /// @dev Minimum amount of tokenB to receive (slippage protection)
+        address to; /// @dev Address that will receive the tokens
+        uint256 deadline; /// @dev Maximum timestamp until which the transaction is valid
+    }
+
+    /// @notice Struct for swapExactTokensForTokens function parameters
+    /// @dev Groups related parameters to reduce function signature complexity
+    struct SwapParams {
+        uint256 amountIn; /// @dev Amount of input tokens to swap
+        uint256 amountOutMin; /// @dev Minimum amount of output tokens to receive
+        address[] path; /// @dev Array containing [tokenIn, tokenOut] addresses
+        address to; /// @dev Address that will receive the output tokens
+        uint256 deadline; /// @dev Maximum timestamp until which the transaction is valid
+    }
+
     /// @notice Maps a deterministic token pair hash to its PairData
     /// @dev Uses keccak256(abi.encodePacked(tokenA, tokenB)) as key for deterministic ordering
     /// to ensure that a pair (tokenA, tokenB) always maps to the same data regardless of input order
@@ -90,16 +125,18 @@ contract SimpleSwap {
         _;
     }
 
-    /// @notice Internal function to check if caller is owner (single storage read)
+    /// @notice Internal function to check if caller is owner with single storage read
     /// @dev Caches owner to ensure single storage access per call
     function _checkOwner() internal view {
-        require(msg.sender == owner, "not owner");
+        address currentOwner = owner; // Cache storage read
+        require(msg.sender == currentOwner, "not owner");
     }
 
-    /// @notice Internal function to check if contract is not paused (single storage read)
+    /// @notice Internal function to check if contract is not paused with single storage read
     /// @dev Caches paused state to ensure single storage access per call
     function _checkNotPaused() internal view {
-        require(!paused, "paused");
+        bool isPaused = paused; // Cache storage read
+        require(!isPaused, "paused");
     }
 
     /// @notice Constructor to set the initial owner
@@ -211,17 +248,65 @@ contract SimpleSwap {
             );
     }
 
+        /**
+     * @notice Internal function for adding liquidity using struct parameters
+     * @dev Uses struct parameters to reduce function signature complexity and improve gas efficiency.
+     * @param params Struct containing all liquidity addition parameters
+     * @return amountA The actual amount of first token added
+     * @return amountB The actual amount of second token added
+     * @return liquidity The amount of liquidity tokens minted
+     */
+    function _addLiquidityInternal(AddLiquidityParams memory params) 
+        internal returns (uint256 amountA, uint256 amountB, uint256 liquidity) {
+        require(block.timestamp <= params.deadline, "expired");
+        require(params.amountADesired >= params.amountAMin && params.amountBDesired >= params.amountBMin, "min amt");
+
+        (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(params.tokenA, params.tokenB);
+
+        liquidity = _calculateLiquidity(params.amountADesired, params.amountBDesired, data);
+
+        _transferFrom(params.tokenA, msg.sender, address(this), params.amountADesired);
+        _transferFrom(params.tokenB, msg.sender, address(this), params.amountBDesired);
+
+        // Update reserves and liquidity
+        data.reserveA += params.amountADesired;
+        data.reserveB += params.amountBDesired;
+        data.totalLiquidity += liquidity;
+
+        // Store updated pair data
+        _savePairData(hash, rev, data);
+
+        // Update user's liquidity balance
+        liquidityBalances[hash][params.to] += liquidity;
+
+        emit LiquidityAction(params.tokenA, params.tokenB, params.amountADesired, params.amountBDesired, liquidity, true);
+
+        amountA = params.amountADesired;
+        amountB = params.amountBDesired;
+    }
+
     /**
-     * @notice Adds liquidity to a token pair pool
-     * @dev Transfers `amountADesired` and `amountBDesired` from `msg.sender` to the contract,
-     * calculates the liquidity tokens to mint, updates reserves, and emits a `LiquidityAction` event
-     * Requires `amountADesired` and `amountBDesired` to be at least `amountAMin` and `amountBMin` respectively
+     * @notice Adds liquidity to a trading pair using struct parameters for gas optimization
+     * @dev External wrapper for struct-based liquidity addition
+     * @param params Struct containing all liquidity addition parameters
+     * @return amountA The actual amount of first token added
+     * @return amountB The actual amount of second token added
+     * @return liquidity The amount of liquidity tokens minted
+     */
+    function addLiquidity(AddLiquidityParams calldata params) 
+        external whenNotPaused returns (uint256 amountA, uint256 amountB, uint256 liquidity) {
+        return _addLiquidityInternal(params);
+    }
+
+    /**
+     * @notice Legacy addLiquidity function with individual parameters for backward compatibility
+     * @dev Wrapper function that creates struct and calls the optimized version
      * @param tokenA Address of the first token
      * @param tokenB Address of the second token
-     * @param amountADesired Amount of first token to add
-     * @param amountBDesired Amount of second token to add
-     * @param amountAMin Minimum amount of first token to add, to prevent front-running
-     * @param amountBMin Minimum amount of second token to add, to prevent front-running
+     * @param amountADesired Desired amount of tokenA to add
+     * @param amountBDesired Desired amount of tokenB to add
+     * @param amountAMin Minimum amount of tokenA to add (slippage protection)
+     * @param amountBMin Minimum amount of tokenB to add (slippage protection)
      * @param to Address that will receive the liquidity tokens
      * @param deadline Maximum timestamp until which the transaction is valid
      * @return amountA The actual amount of first token added
@@ -238,42 +323,84 @@ contract SimpleSwap {
         address to,
         uint256 deadline
     ) external whenNotPaused returns (uint256 amountA, uint256 amountB, uint256 liquidity) {
-        require(block.timestamp <= deadline, "exp");
-        require(amountADesired >= amountAMin && amountBDesired >= amountBMin, "low amt");
-
-        (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(tokenA, tokenB);
-
-        liquidity = _calculateLiquidity(amountADesired, amountBDesired, data);
-
-        _transferFrom(tokenA, msg.sender, address(this), amountADesired);
-        _transferFrom(tokenB, msg.sender, address(this), amountBDesired);
-
-        // Update reserves and total liquidity in local data
-        data.reserveA += amountADesired;
-        data.reserveB += amountBDesired;
-        data.totalLiquidity += liquidity;
-
-        _savePairData(hash, rev, data);
-        liquidityBalances[hash][to] += liquidity;
-
-        emit LiquidityAction(tokenA, tokenB, amountADesired, amountBDesired, liquidity, true);
-        return (amountADesired, amountBDesired, liquidity);
+        AddLiquidityParams memory params = AddLiquidityParams({
+            tokenA: tokenA,
+            tokenB: tokenB,
+            amountADesired: amountADesired,
+            amountBDesired: amountBDesired,
+            amountAMin: amountAMin,
+            amountBMin: amountBMin,
+            to: to,
+            deadline: deadline
+        });
+        return _addLiquidityInternal(params);
     }
 
     /**
-     * @notice Removes liquidity from a token pair pool
-     * @dev Burns `liquidity` tokens from `msg.sender` and transfers proportional amounts of `tokenA` and `tokenB`
-     * back to the `to` address. Updates reserves and total liquidity, and emits a `LiquidityAction` event
-     * Requires the received amounts to be at least `amountAMin` and `amountBMin`
+     * @notice Internal function for removing liquidity using struct parameters
+     * @dev Uses struct parameters to reduce function signature complexity.
+     * @param params Struct containing all liquidity removal parameters
+     * @return amountA Amount of first token received
+     * @return amountB Amount of second token received
+     */
+    function _removeLiquidityInternal(RemoveLiquidityParams memory params) 
+        internal returns (uint256 amountA, uint256 amountB) {
+        require(block.timestamp <= params.deadline, "expired");
+
+        (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(params.tokenA, params.tokenB);
+
+        // Load current user liquidity balance once
+        uint256 userLiquidity = liquidityBalances[hash][msg.sender];
+        require(userLiquidity >= params.liquidity, "insuf liq");
+
+        // Calculate amounts to return
+        amountA = (params.liquidity * data.reserveA) / data.totalLiquidity;
+        amountB = (params.liquidity * data.reserveB) / data.totalLiquidity;
+
+        require(amountA >= params.amountAMin && amountB >= params.amountBMin, "min return");
+
+        // Update liquidity balance and total liquidity (single write)
+        liquidityBalances[hash][msg.sender] = userLiquidity - params.liquidity;
+        data.totalLiquidity -= params.liquidity;
+
+        // Update reserves
+        data.reserveA -= amountA;
+        data.reserveB -= amountB;
+
+        // Store updated pair data
+        _savePairData(hash, rev, data);
+
+        // Transfer tokens to user
+        _transfer(params.tokenA, params.to, amountA);
+        _transfer(params.tokenB, params.to, amountB);
+
+        emit LiquidityAction(params.tokenA, params.tokenB, amountA, amountB, params.liquidity, false);
+    }
+
+    /**
+     * @notice Removes liquidity from a trading pair using struct parameters for gas optimization
+     * @dev External wrapper for struct-based liquidity removal
+     * @param params Struct containing all liquidity removal parameters
+     * @return amountA Amount of first token received
+     * @return amountB Amount of second token received
+     */
+    function removeLiquidity(RemoveLiquidityParams calldata params) 
+        external whenNotPaused returns (uint256 amountA, uint256 amountB) {
+        return _removeLiquidityInternal(params);
+    }
+
+    /**
+     * @notice Legacy removeLiquidity function with individual parameters for backward compatibility
+     * @dev Wrapper function that creates struct and calls the optimized version
      * @param tokenA Address of the first token
      * @param tokenB Address of the second token
      * @param liquidity Amount of liquidity tokens to burn
-     * @param amountAMin Minimum amount of first token to receive, to prevent front-running
-     * @param amountBMin Minimum amount of second token to receive, to prevent front-running
+     * @param amountAMin Minimum amount of tokenA to receive
+     * @param amountBMin Minimum amount of tokenB to receive
      * @param to Address that will receive the tokens
      * @param deadline Maximum timestamp until which the transaction is valid
-     * @return amountA The actual amount of first token returned
-     * @return amountB The actual amount of second token returned
+     * @return amountA Amount of first token received
+     * @return amountB Amount of second token received
      */
     function removeLiquidity(
         address tokenA,
@@ -284,39 +411,58 @@ contract SimpleSwap {
         address to,
         uint256 deadline
     ) external whenNotPaused returns (uint256 amountA, uint256 amountB) {
-        require(block.timestamp <= deadline, "exp");
-
-        // Load data once to check liquidity balance before further calculations
-        (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(tokenA, tokenB);
-        
-        // Cache liquidity balance to avoid multiple reads
-        uint256 userLiq = liquidityBalances[hash][msg.sender];
-        require(userLiq >= liquidity, "low liq");
-
-        amountA = (liquidity * data.reserveA) / data.totalLiquidity;
-        amountB = (liquidity * data.reserveB) / data.totalLiquidity;
-        require(amountA >= amountAMin && amountB >= amountBMin, "low amt");
-
-        // Update reserves and total liquidity in local data
-        data.reserveA -= amountA;
-        data.reserveB -= amountB;
-        data.totalLiquidity -= liquidity;
-
-        _savePairData(hash, rev, data);
-        liquidityBalances[hash][msg.sender] = userLiq - liquidity;
-
-        _transfer(tokenA, to, amountA);
-        _transfer(tokenB, to, amountB);
-
-        emit LiquidityAction(tokenA, tokenB, amountA, amountB, liquidity, false);
+        RemoveLiquidityParams memory params = RemoveLiquidityParams({
+            tokenA: tokenA,
+            tokenB: tokenB,
+            liquidity: liquidity,
+            amountAMin: amountAMin,
+            amountBMin: amountBMin,
+            to: to,
+            deadline: deadline
+        });
+        return _removeLiquidityInternal(params);
     }
 
     /**
-     * @notice Swaps an exact amount of input tokens for output tokens
-     * @dev Transfers `amountIn` of `path[0]` from `msg.sender` to the contract,
-     * calculates the output amount of `path[1]`, transfers `amountOut` to `to` address,
-     * updates reserves, and emits a `Swap` event
-     * Requires `amountOut` to be at least `amountOutMin`
+     * @notice Internal function for swapping tokens using struct parameters
+     * @dev Uses struct parameters to reduce function signature complexity.
+     * @param params Struct containing all swap parameters
+     */
+    function _swapExactTokensForTokensInternal(SwapParams memory params) internal {
+        require(block.timestamp <= params.deadline, "expired");
+        require(params.path.length == 2, "bad path");
+
+        // Load data once
+        (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(params.path[0], params.path[1]);
+
+        // Calculate output without any fees
+        uint256 amountOut = getAmountOut(params.amountIn, data.reserveA, data.reserveB);
+        require(amountOut >= params.amountOutMin, "min out");
+
+        _transferFrom(params.path[0], msg.sender, address(this), params.amountIn);
+
+        // Update reserves in local data
+        data.reserveA += params.amountIn; // Add input amount to reserves
+        data.reserveB -= amountOut;
+
+        _savePairData(hash, rev, data);
+        _transfer(params.path[1], params.to, amountOut);
+
+        emit Swap(params.path[0], params.path[1], params.amountIn, amountOut);
+    }
+
+    /**
+     * @notice Swaps tokens using struct parameters for gas optimization
+     * @dev External wrapper for struct-based token swapping
+     * @param params Struct containing all swap parameters
+     */
+    function swapExactTokensForTokens(SwapParams calldata params) external whenNotPaused {
+        _swapExactTokensForTokensInternal(params);
+    }
+
+    /**
+     * @notice Legacy swapExactTokensForTokens function with individual parameters for backward compatibility
+     * @dev Wrapper function that creates struct and calls the optimized version
      * @param amountIn Amount of input tokens to swap
      * @param amountOutMin Minimum amount of output tokens to receive, to prevent front-running
      * @param path Array containing [tokenIn, tokenOut] addresses
@@ -330,29 +476,14 @@ contract SimpleSwap {
         address to,
         uint256 deadline
     ) external whenNotPaused {
-        require(block.timestamp <= deadline, "exp");
-        require(path.length == 2, "bad len");
-
-        // Load data once
-        (LocalPairData memory data, bytes32 hash, bool rev) = _loadPairData(path[0], path[1]);
-
-        // Load pair data and calculate output without any fees
-
-        // No fees applied - using direct amountIn for AMM calculation
-
-        uint256 amountOut = getAmountOut(amountIn, data.reserveA, data.reserveB);
-        require(amountOut >= amountOutMin, "low out");
-
-        _transferFrom(path[0], msg.sender, address(this), amountIn);
-
-        // Update reserves in local data
-        data.reserveA += amountIn; // Add input amount to reserves
-        data.reserveB -= amountOut;
-
-        _savePairData(hash, rev, data);
-        _transfer(path[1], to, amountOut);
-
-        emit Swap(path[0], path[1], amountIn, amountOut);
+        SwapParams memory params = SwapParams({
+            amountIn: amountIn,
+            amountOutMin: amountOutMin,
+            path: path,
+            to: to,
+            deadline: deadline
+        });
+        _swapExactTokensForTokensInternal(params);
     }
 
     /**
@@ -366,7 +497,7 @@ contract SimpleSwap {
     function getPrice(address tokenA, address tokenB) external view returns (uint256 price) {
         (LocalPairData memory data, , ) = _loadPairData(tokenA, tokenB);
         // Ensure reserves are not zero to prevent division by zero
-        require(data.reserveA > 0, "no res");
+        require(data.reserveA > 0, "no reserves");
         return (data.reserveB * 1e18) / data.reserveA;
     }
 
@@ -393,9 +524,9 @@ contract SimpleSwap {
      * @return amountOut Amount of output tokens to receive
      */
     function getAmountOut(uint256 amountIn, uint256 reserveIn, uint256 reserveOut) public pure returns (uint256) {
-        require(amountIn > 0, "bad amt");
-        require(reserveIn > 0, "bad amt");
-        require(reserveOut > 0, "bad amt");
+        require(amountIn > 0, "zero amt");
+        require(reserveIn > 0, "zero reserve");
+        require(reserveOut > 0, "zero reserve");
         return (amountIn * reserveOut) / (reserveIn + amountIn);
     }
 
@@ -409,9 +540,9 @@ contract SimpleSwap {
      */
     function _transferFrom(address token, address from, address to, uint256 amount) internal {
         (bool success, ) = token.call(
-            abi.encodeWithSignature("transferFrom(address,address,uint256)", from, to, amount)
+            abi.encodeWithSelector(0x23b872dd, from, to, amount)
         );
-        require(success, "tf fail");
+        require(success, "transfer fail");
     }
 
     /**
@@ -422,8 +553,8 @@ contract SimpleSwap {
      * @param amount The amount of tokens to transfer
      */
     function _transfer(address token, address to, uint256 amount) internal {
-        (bool success, ) = token.call(abi.encodeWithSignature("transfer(address,uint256)", to, amount));
-        require(success, "t fail");
+        (bool success, ) = token.call(abi.encodeWithSelector(0xa9059cbb, to, amount));
+        require(success, "transfer fail");
     }
 
     /**
@@ -460,6 +591,8 @@ contract SimpleSwap {
      * @dev Only the owner can call this function during emergency situations
      */
     function pause() external onlyOwner {
+        bool currentPaused = paused; // Cache storage read
+        require(!currentPaused, "already paused");
         paused = true;
         emit Paused(msg.sender);
     }
@@ -469,6 +602,8 @@ contract SimpleSwap {
      * @dev Only the owner can call this function to resume operations
      */
     function unpause() external onlyOwner {
+        bool currentPaused = paused; // Cache storage read
+        require(currentPaused, "not paused");
         paused = false;
         emit Unpaused(msg.sender);
     }
@@ -479,9 +614,10 @@ contract SimpleSwap {
      * @param newOwner The address of the new owner
      */
     function transferOwnership(address newOwner) external onlyOwner {
-        require(newOwner != address(0), "zero");
-        address previousOwner = owner; // Cache current owner to avoid multiple storage reads
-        emit OwnershipTransferred(previousOwner, newOwner);
+        require(newOwner != address(0), "zero addr");
+        address currentOwner = owner; // Cache current owner to avoid multiple storage reads
+        require(newOwner != currentOwner, "same owner");
+        emit OwnershipTransferred(currentOwner, newOwner);
         owner = newOwner;
     }
 
@@ -496,13 +632,13 @@ contract SimpleSwap {
         uint256 amountIn,
         address[] calldata path
     ) external view returns (uint256 gasEstimate) {
-        require(path.length == 2, "bad len");
+        require(path.length == 2, "bad path");
         
         (LocalPairData memory data, , ) = _loadPairData(path[0], path[1]);
-        require(data.reserveA > 0 && data.reserveB > 0, "no liq");
+        require(data.reserveA > 0 && data.reserveB > 0, "no liquidity");
         
         uint256 amountOut = getAmountOut(amountIn, data.reserveA, data.reserveB);
-        require(amountOut > 0, "no out");
+        require(amountOut > 0, "zero output");
         
         // Base gas cost for swap operation (empirically determined)
         return 85000; // Approximate gas cost for swapExactTokensForTokens
@@ -522,7 +658,7 @@ contract SimpleSwap {
         uint256 slippageBps
     ) external view returns (uint256 amountOutMin) {
         require(path.length == 2, "bad len");
-        require(slippageBps <= 5000, "hi slip"); // Max 50% slippage
+        require(slippageBps <= 5000, "max 50% slip"); // Max 50% slippage
         
         (LocalPairData memory data, , ) = _loadPairData(path[0], path[1]);
         uint256 amountOut = getAmountOut(amountIn, data.reserveA, data.reserveB);
