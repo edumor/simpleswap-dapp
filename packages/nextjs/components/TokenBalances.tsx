@@ -2,9 +2,6 @@
 import React, { useState } from "react";
 import { useContractRead, useWriteContract } from "wagmi";
 
-// ✅ Academic Compliance Verified Addresses - Sepolia Testnet
-const TOKEN_A_ADDRESS = "0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397";
-const TOKEN_B_ADDRESS = "0x52fC6d0924cC27fC192E877C7013687A2a8F5683";
 const ERC20_ABI = [
   {
     constant: true,
@@ -16,18 +13,24 @@ const ERC20_ABI = [
   { constant: true, inputs: [], name: "decimals", outputs: [{ name: "", type: "uint8" }], type: "function" },
 ];
 
-export function TokenBalances({ address }: { address?: string }) {
+interface TokenBalancesProps {
+  tokenAAddress: string;
+  tokenBAddress: string;
+  userAddress: string;
+}
+
+export function TokenBalances({ tokenAAddress, tokenBAddress, userAddress }: TokenBalancesProps) {
   const { data: balanceA } = useContractRead({
-    address: TOKEN_A_ADDRESS,
+    address: tokenAAddress,
     abi: ERC20_ABI,
     functionName: "balanceOf",
-    args: address ? [address] : undefined,
+    args: userAddress ? [userAddress] : undefined,
   });
   const { data: balanceB } = useContractRead({
-    address: TOKEN_B_ADDRESS,
+    address: tokenBAddress,
     abi: ERC20_ABI,
     functionName: "balanceOf",
-    args: address ? [address] : undefined,
+    args: userAddress ? [userAddress] : undefined,
   });
 
   const [faucetStatus, setFaucetStatus] = useState<"idle" | "pending" | "success" | "error">("idle");
