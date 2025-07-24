@@ -30,7 +30,7 @@ export function TokenFaucet() {
         functionName: "faucet",
       });
       setTxHash(hash as `0x${string}`);
-    } catch (e) {
+    } catch {
       setPending(false);
     }
   }
@@ -44,7 +44,7 @@ export function TokenFaucet() {
         functionName: "faucet",
       });
       setTxHash(hash as `0x${string}`);
-    } catch (e) {
+    } catch {
       setPending(false);
     }
   }

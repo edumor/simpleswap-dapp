@@ -20,7 +20,7 @@
 ### 2. Created Sepolia Deployment Configuration
 
 - Added `deployments/sepolia/` folder
-- Updated SimpleSwap address to: `0x5F1C2c20248BA5A444256c21592125EaF08b23A1`
+- Updated SimpleSwap address to: `0x425504D881701B7a4Fd5dA00924737365a74A0AA`
 - Set correct Sepolia chain ID: `11155111`
 
 ### 3. Added Utility Scripts

@@ -63,7 +63,7 @@ This document details each point observed by the instructor, the actions taken, 
 
 ### Contract Review (Sepolia)
 
-- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1))
+- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA))
   - No long strings are present in the contract.
   - Storage variables are accessed only once per function, using local structs for caching (see `_loadPairData`, `_savePairData`).
   - NatSpec comments are present for all functions, parameters, events, and modifiers. Example:
@@ -187,7 +187,7 @@ All contracts have >50% in all coverage metrics, as shown above. This meets and 
 
 ### Contract Review (Sepolia)
 
-- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1))
+- **SimpleSwap.sol** ([Etherscan](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA))
   - No long strings are present in the contract.
   - Storage variables are accessed only once per function, using local structs for caching (see `_loadPairData`, `_savePairData`).
   - NatSpec comments are present for all functions, parameters, events, and modifiers. Example:

@@ -558,7 +558,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     TokenA: {
-      address: "0xB4Df71106b4f5347D0B7b4160655B1f7ea669cDF",
+      address: "0xA61A5c03088c808935C86F409Ace89E582842F82",
       abi: [
         {
           inputs: [

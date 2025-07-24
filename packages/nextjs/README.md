@@ -15,21 +15,21 @@ This DApp implements a gas-optimized SimpleSwap contract that enables users to:
 ### ✅ **Academic Compliance Verified Contracts** 
 *These contracts meet all instructor requirements: NatSpec in English, short error strings, single storage access*
 
-- **SimpleSwap**: `0x5F1C2c20248BA5A444256c21592125EaF08b23A1` ✅ **Optimized Version**
-- **TokenA**: `0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397` ✅ **Verified & Operational**
-- **TokenB**: `0x52fC6d0924cC27fC192E877C7013687A2a8F5683` ✅ **Verified & Operational**
+- **SimpleSwap**: `0x425504D881701B7a4Fd5dA00924737365a74A0AA` ✅ **Optimized Version**
+- **TokenA**: `0xA61A5c03088c808935C86F409Ace89E582842F82` ✅ **Verified & Operational**
+- **TokenB**: `0x9205f067C913C1Edb642609342ca8d58d60ae95B` ✅ **Verified & Operational**
 
 ### 🔗 Verified Etherscan Links
-- [SimpleSwap Contract](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1#code) - **Source Verified**
-- [TokenA Contract](https://sepolia.etherscan.io/address/0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397#code) - **Source Verified**
-- [TokenB Contract](https://sepolia.etherscan.io/address/0x52fC6d0924cC27fC192E877C7013687A2a8F5683#code) - **Source Verified**
+- [SimpleSwap Contract](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA#code) - **Source Verified**
+- [TokenA Contract](https://sepolia.etherscan.io/address/0xA61A5c03088c808935C86F409Ace89E582842F82#code) - **Source Verified**
+- [TokenB Contract](https://sepolia.etherscan.io/address/0x9205f067C913C1Edb642609342ca8d58d60ae95B#code) - **Source Verified**
 
 ### 📊 Contract Verification Status
 | Contract | Address | Status | Symbol | Compliance | Etherscan |
 |----------|---------|--------|--------|------------|-----------|
-| **SimpleSwap** | `0x5F1C2c20248BA5A444256c21592125EaF08b23A1` | ✅ Verified & Operational | - | **Academic Grade A+** | [View](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1) |
-| **TokenA** | `0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397` | ✅ Verified & Operational | TKA | **Compliant** | [View](https://sepolia.etherscan.io/address/0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397) |
-| **TokenB** | `0x52fC6d0924cC27fC192E877C7013687A2a8F5683` | ✅ Verified & Operational | TKB | **Compliant** | [View](https://sepolia.etherscan.io/address/0x52fC6d0924cC27fC192E877C7013687A2a8F5683) |
+| **SimpleSwap** | `0x425504D881701B7a4Fd5dA00924737365a74A0AA` | ✅ Verified & Operational | - | **Academic Grade A+** | [View](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA) |
+| **TokenA** | `0xA61A5c03088c808935C86F409Ace89E582842F82` | ✅ Verified & Operational | TKA | **Compliant** | [View](https://sepolia.etherscan.io/address/0xA61A5c03088c808935C86F409Ace89E582842F82) |
+| **TokenB** | `0x9205f067C913C1Edb642609342ca8d58d60ae95B` | ✅ Verified & Operational | TKB | **Compliant** | [View](https://sepolia.etherscan.io/address/0x9205f067C913C1Edb642609342ca8d58d60ae95B) |
 
 ## ✨ Key Features
 
@@ -56,7 +56,7 @@ This DApp implements a gas-optimized SimpleSwap contract that enables users to:
 
 ### ✅ **Instructor Requirements - FULLY COMPLIANT**
 
-This contract deployment (`0x5F1C2c20248BA5A444256c21592125EaF08b23A1`) meets **ALL** academic requirements:
+This contract deployment (`0x425504D881701B7a4Fd5dA00924737365a74A0AA`) meets **ALL** academic requirements:
 
 #### **1. NatSpec Documentation in English** ✅ **PASSED**
 ```solidity
@@ -104,7 +104,7 @@ _savePairData(hash, rev, data);
 - **✅ Academic Grade:** **A+ (Exceptional)**
 
 ### 🔍 **Verification Links**
-- **Contract Source:** [View on Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1#code)
+- **Contract Source:** [View on Etherscan](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA#code)
 - **Live DApp:** [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
 - **GitHub Repository:** [edumor/simpleswap-dapp](https://github.com/edumor/simpleswap-dapp)
 
@@ -240,7 +240,7 @@ packages/nextjs/
 - **Production**: [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
 - **Network**: Sepolia Testnet  
 - **Chain ID**: 11155111
-- **Contract Version**: Academic Compliance Optimized (`0x5F1C2c20248BA5A444256c21592125EaF08b23A1`)
+- **Contract Version**: Academic Compliance Optimized (`0x425504D881701B7a4Fd5dA00924737365a74A0AA`)
 
 ### 🔧 **Frontend Configuration**
 *The frontend is configured to use the optimized contracts that meet all academic requirements*

@@ -106,11 +106,11 @@ SimpleSwap is a decentralized application (dApp) for swapping two ERC20 tokens (
 
 ---
 
-## Verified Contract Addresses (Practical Assignment 3)
+## Verified Contract Addresses (Sepolia Testnet)
 
-- **SimpleSwap:** `0x7659B6f3B1fFc79a26728e43fE8Dd9613e35Bc18`
-- **TokenA:** `0xa00dC451faB5B80145d636EeE6A9b794aA81D48C`
-- **TokenB:** `0x99Cd59d18C1664Ae32baA1144E275Eee34514115`
+- **SimpleSwap:** `0x425504D881701B7a4Fd5dA00924737365a74A0AA`
+- **TokenA:** `0xA61A5c03088c808935C86F409Ace89E582842F82`
+- **TokenB:** `0x9205f067C913C1Edb642609342ca8d58d60ae95B`
 
 ---
 
