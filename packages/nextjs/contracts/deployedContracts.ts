@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   11155111: {
     SimpleSwap: {
-      address: "0x425504D881701B7a4Fd5dA00924737365a74A0AA",
+      address: "0x5F1C2c20248BA5A444256c21592125EaF08b23A1",
       abi: [
         {
           inputs: [],

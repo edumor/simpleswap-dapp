@@ -3,7 +3,7 @@
 **Decentralized Token Exchange Application**
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-blue.svg)](https://simpleswap-dapp-nextjs.vercel.app/)
-[![Contract Verified](https://img.shields.io/badge/Contract-Verified-green.svg)](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA)
+[![Contract Verified](https://img.shields.io/badge/Contract-Verified-green.svg)](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1)
 [![Test Coverage](https://img.shields.io/badge/Test%20Coverage-87.58%25-brightgreen.svg)](#test-coverage)
 
 ---
@@ -20,7 +20,7 @@
 
 | Contract | Address | Etherscan Link |
 |----------|---------|----------------|
-| **SimpleSwap** | `0x425504D881701B7a4Fd5dA00924737365a74A0AA` | [View on Etherscan](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA#code) |
+| **SimpleSwap** | `0x5F1C2c20248BA5A444256c21592125EaF08b23A1` | [View on Etherscan](https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1#code) |
 | **TokenA** | `0xA61A5c03088c808935C86F409Ace89E582842F82` | [View on Etherscan](https://sepolia.etherscan.io/address/0xA61A5c03088c808935C86F409Ace89E582842F82#code) |
 | **TokenB** | `0x9205f067C913C1Edb642609342ca8d58d60ae95B` | [View on Etherscan](https://sepolia.etherscan.io/address/0x9205f067C913C1Edb642609342ca8d58d60ae95B#code) |
 
@@ -429,7 +429,7 @@ SimpleSwap is a decentralized application (dApp) for swapping two ERC20 tokens (
 
 ## Verified Contract Addresses (Sepolia Testnet)
 
-- **SimpleSwap:** `0x425504D881701B7a4Fd5dA00924737365a74A0AA`
+- **SimpleSwap:** `0x5F1C2c20248BA5A444256c21592125EaF08b23A1` 🎓 **Grade A+**
 - **TokenA:** `0xA61A5c03088c808935C86F409Ace89E582842F82`
 - **TokenB:** `0x9205f067C913C1Edb642609342ca8d58d60ae95B`
 

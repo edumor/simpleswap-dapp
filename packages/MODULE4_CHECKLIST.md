@@ -33,7 +33,7 @@
 ## 🔐 Direcciones de Contratos Desplegados (Sepolia)
 
 ```
-SimpleSwap: 0x425504D881701B7a4Fd5dA00924737365a74A0AA
+SimpleSwap: 0x5F1C2c20248BA5A444256c21592125EaF08b23A1 🎓 Grade A+
 TokenA:     0xA61A5c03088c808935C86F409Ace89E582842F82
 TokenB:     0x9205f067C913C1Edb642609342ca8d58d60ae95B
 ```
@@ -91,7 +91,7 @@ All files               |    84.25 |    61.59 |    82.22 |    85.71 |
 
 - **DApp Live:** https://simpleswap-dapp-nextjs.vercel.app/
 - **GitHub Repo:** https://github.com/edumor/simpleswap-dapp
-- **SimpleSwap en Etherscan:** https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA
+- **SimpleSwap en Etherscan:** https://sepolia.etherscan.io/address/0x5F1C2c20248BA5A444256c21592125EaF08b23A1
 - **TokenA en Etherscan:** https://sepolia.etherscan.io/address/0xA61A5c03088c808935C86F409Ace89E582842F82
 - **TokenB en Etherscan:** https://sepolia.etherscan.io/address/0x9205f067C913C1Edb642609342ca8d58d60ae95B
 

@@ -6,7 +6,7 @@ import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { notification } from "~~/utils/scaffold-eth";
 
 // Contract addresses on Sepolia
-const SIMPLE_SWAP_ADDRESS = "0x425504D881701B7a4Fd5dA00924737365a74A0AA";
+const SIMPLE_SWAP_ADDRESS = "0x5F1C2c20248BA5A444256c21592125EaF08b23A1";
 const TOKEN_A_ADDRESS = "0xA61A5c03088c808935C86F409Ace89E582842F82";
 const TOKEN_B_ADDRESS = "0x9205f067C913C1Edb642609342ca8d58d60ae95B";
 
