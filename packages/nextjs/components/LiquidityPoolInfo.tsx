@@ -2,8 +2,8 @@ import { useContractRead } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
 // ✅ Academic Compliance Verified Addresses - Sepolia Testnet
-const TOKEN_A_ADDRESS = "0x5578bD42d6bb30c0c23D4D693bBAE8A89e1D3397";
-const TOKEN_B_ADDRESS = "0x52fC6d0924cC27fC192E877C7013687A2a8F5683";
+const TOKEN_A_ADDRESS = "0xA61A5c03088c808935C86F409Ace89E582842F82";
+const TOKEN_B_ADDRESS = "0x9205f067C913C1Edb642609342ca8d58d60ae95B";
 
 const SIMPLE_SWAP_ABI = [
   {
