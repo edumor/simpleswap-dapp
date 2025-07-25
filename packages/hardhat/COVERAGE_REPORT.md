@@ -1,7 +1,24 @@
 # TP4 - Test Coverage Report
 
+## Estado Actual del Coverage (Julio 24, 2025)
+
+**Herramienta:** Solidity Coverage v0.8.15  
+**Coverage Total:** 4.35% statements, 4.73% branches, 12.96% functions, 7.18% lines
+
+### Detalle por Contrato
+
+| Contrato | Statements | Branches | Functions | Lines | Estado |
+|----------|------------|----------|-----------|-------|--------|
+| **SimpleSwap.sol** | 1.08% | 0% | 3.23% | 1.6% | ❌ Muy bajo |
+| **SimpleSwapVerifier.sol** | 0% | 0% | 0% | 0% | ❌ Sin coverage |
+| **TestSqrtHelper.sol** | 0% | 0% | 0% | 0% | ❌ Sin coverage |
+| **TokenA.sol** | 0% | 0% | 33.33% | 0% | ⚠️ Solo funciones básicas |
+| **TokenB.sol** | 0% | 0% | 16.67% | 0% | ⚠️ Solo funciones básicas |
+| **YourContract.sol** | **100%** | 87.5% | **100%** | **100%** | ✅ Completo |
+
 ## Tests Summary
-- **Total Tests**: 93 tests passing
+- **Tests Exitosos**: 18 (principalmente YourContract.sol)
+- **Tests Fallidos**: 39 (por problemas de gas en coverage)
 - **Test Files**: 
   - SimpleSwap.test.js
   - SimpleSwap.additional.test.ts  
@@ -9,8 +26,7 @@
   - TokenEdgeCases.test.ts
   - SimpleSwapVerifier.test.ts
   - YourContract.ts
-
-## Coverage Highlights
+  - BasicCoverage.test.ts (nuevo)
 
 ### Smart Contracts Tested
 1. **SimpleSwap.sol** - Main DEX contract

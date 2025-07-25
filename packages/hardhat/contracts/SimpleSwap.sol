@@ -515,6 +515,18 @@ contract SimpleSwap {
     }
 
     /**
+     * @notice Gets the total liquidity tokens for a token pair
+     * @dev Returns the total amount of liquidity tokens issued for a given pair
+     * @param tokenA Address of the first token
+     * @param tokenB Address of the second token
+     * @return totalLiquidity Total liquidity tokens for the pair
+     */
+    function getTotalLiquidity(address tokenA, address tokenB) external view returns (uint256 totalLiquidity) {
+        (LocalPairData memory data, , ) = _loadPairData(tokenA, tokenB);
+        return data.totalLiquidity;
+    }
+
+    /**
      * @notice Calculates the output amount for a swap given an input amount and current reserves
      * @dev Implements the constant product formula (x * y = k) to determine the amount of output tokens
      * received for a given amount of input tokens

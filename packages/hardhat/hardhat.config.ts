@@ -8,8 +8,6 @@ import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 import "@nomicfoundation/hardhat-verify";
-import "hardhat-deploy";
-import "hardhat-deploy-ethers";
 import { task } from "hardhat/config";
 import generateTsAbis from "./scripts/generateTsAbis";
 
@@ -42,19 +40,18 @@ const config: HardhatUserConfig = {
     ],
   },
   defaultNetwork: "localhost",
-  namedAccounts: {
-    deployer: {
-      // By default, it will take the first Hardhat account as the deployer
-      default: 0,
-    },
-  },
   networks: {
     // View the networks that are pre-configured.
     // If the network you are looking for is not here you can add new network settings
     hardhat: {
-      gas: 6000000, // Gas limit para deployment de contratos
-      blockGasLimit: 30000000, // Aumentamos para coverage
+      gas: 30000000, // Gas limit optimizado para coverage
+      blockGasLimit: 300000000, // Block gas limit muy alto para coverage
       allowUnlimitedContractSize: true,
+      initialBaseFeePerGas: 0, // Para tests más rápidos
+      accounts: {
+        count: 10,
+        accountsBalance: "10000000000000000000000", // 10,000 ETH para cada cuenta
+      },
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
@@ -137,17 +134,11 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: `${etherscanApiKey}`,
   },
-  // Configuration for etherscan-verify from hardhat-deploy plugin
-  verify: {
-    etherscan: {
-      apiKey: `${etherscanApiKey}`,
-    },
-  },
   sourcify: {
     enabled: false,
   },
   mocha: {
-    timeout: 40000
+    timeout: 100000 // Aumentamos timeout para coverage
   }
 };
 

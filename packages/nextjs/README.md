@@ -105,7 +105,6 @@ _savePairData(hash, rev, data);
 
 ### 🔍 **Verification Links**
 - **Contract Source:** [View on Etherscan](https://sepolia.etherscan.io/address/0x425504D881701B7a4Fd5dA00924737365a74A0AA#code)
-- **Live DApp:** [https://simpleswap-dapp-nextjs.vercel.app/](https://simpleswap-dapp-nextjs.vercel.app/)
 - **GitHub Repository:** [edumor/simpleswap-dapp](https://github.com/edumor/simpleswap-dapp)
 
 ## 🛠️ Technology Stack

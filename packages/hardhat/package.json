@@ -10,8 +10,6 @@
     "check-types": "tsc --noEmit --incremental",
     "clean": "hardhat clean",
     "compile": "hardhat compile",
-    "deploy": "ts-node scripts/runHardhatDeployWithPK.ts",
-    "deploy:sepolia": "hardhat deploy --network sepolia",
     "flatten": "hardhat flatten",
     "fork": "MAINNET_FORKING_ENABLED=true hardhat node --network hardhat --no-deploy",
     "format": "prettier --write \"./**/*.{ts,sol}\"",
@@ -21,10 +19,8 @@
     "lint-staged": "lint-staged",
     "test": "REPORT_GAS=true hardhat test --network hardhat",
     "prepare": "husky",
-    "verify": "hardhat etherscan-verify",
     "coverage": "npx hardhat coverage",
-    "fix-deps": "ts-node scripts/fix-dependencies.ts",
-    "update-deployments": "ts-node scripts/updateDeployments.ts"
+    "fix-deps": "ts-node scripts/fix-dependencies.ts"
   },
   "devDependencies": {
     "@aashutoshrathi/word-wrap": "^1.2.6",
@@ -50,8 +46,6 @@
     "eslint-plugin-prettier": "^5.2.4",
     "ethers": "^6.15.0",
     "hardhat": "^2.25.0",
-    "hardhat-deploy": "^1.0.4",
-    "hardhat-deploy-ethers": "^0.4.2",
     "hardhat-gas-reporter": "^2.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",

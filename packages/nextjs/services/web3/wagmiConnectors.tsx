@@ -20,9 +20,10 @@ const wallets = [
   coinbaseWallet,
   rainbowWallet,
   safeWallet,
-  ...(!targetNetworks.some(network => network.id !== (chains.hardhat as chains.Chain).id) || !onlyLocalBurnerWallet
-    ? [rainbowkitBurnerWallet]
-    : []),
+  // Temporarily removed burner wallet for deployment compatibility
+  // ...(!targetNetworks.some(network => network.id !== (chains.hardhat as chains.Chain).id) || !onlyLocalBurnerWallet
+  //   ? [rainbowkitBurnerWallet]
+  //   : []),
 ];
 
 /**
