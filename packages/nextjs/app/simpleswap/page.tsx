@@ -138,7 +138,7 @@ const SimpleSwapPage = () => {
   // Update amount out when calculation changes
   useEffect(() => {
     if (calculatedAmountOut) {
-      setAmountOut(formatUnits(calculatedAmountOut as bigint, 18));
+      setAmountOut((calculatedAmountOut as bigint).toString());
     }
   }, [calculatedAmountOut]);
 
@@ -232,14 +232,20 @@ const SimpleSwapPage = () => {
           <h1 className="text-4xl font-bold mb-2">SimpleSwap DApp</h1>
           <p className="text-xl mb-4">Decentralized Token Exchange on Sepolia Testnet</p>
           <div className="bg-base-200 rounded-lg p-4 mb-6">
-            <h2 className="text-lg font-semibold mb-2">Instructions:</h2>
-            <p className="text-sm mb-4 text-gray-600">
-              1. Connect your wallet (MetaMask recommended) <br />
-              2. Make sure you&apos;re on Sepolia testnet <br />
-              3. Approve tokens before swapping <br />
-              4. Enter amount in Wei (1 token = 1000000000000000000 wei) <br />
-              5. Swap tokens using the form below
-            </p>
+            <h2 className="text-lg font-semibold mb-2">📋 Instructions:</h2>
+            <div className="text-sm mb-4 text-gray-700 space-y-1">
+              <p>1. Connect your wallet (MetaMask recommended)</p>
+              <p>2. Make sure you&apos;re on Sepolia testnet</p>
+              <p>3. Approve tokens before swapping</p>
+              <p>4. <strong>All amounts are displayed in Wei (1 token = 1,000,000,000,000,000,000 wei)</strong></p>
+              <p>5. Use the swap form below to exchange tokens</p>
+            </div>
+            <div className="bg-blue-50 p-3 rounded text-xs">
+              <p className="font-semibold text-blue-800">🔢 Wei Conversion:</p>
+              <p className="text-blue-700">• 1 token = 1000000000000000000 wei</p>
+              <p className="text-blue-700">• 0.1 token = 100000000000000000 wei</p>
+              <p className="text-blue-700">• 0.01 token = 10000000000000000 wei</p>
+            </div>
           </div>
         </div>
 
@@ -302,31 +308,56 @@ const SimpleSwapPage = () => {
 
         {/* Pool Information */}
         <div className="bg-base-100 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Pool Information & Price</h2>
+          <h2 className="text-xl font-semibold mb-4">Pool Information & Price (All values in Wei)</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Token A Reserve</p>
-              <p className="text-lg font-bold">
-                {reserves && Array.isArray(reserves) ? formatUnits((reserves as any)[0] as bigint, 18) : "0"}
+              <p className="font-medium">Token A Reserve (Wei)</p>
+              <p className="text-lg font-bold font-mono">
+                {reserves && Array.isArray(reserves) ? ((reserves as any)[0] as bigint).toString() : "0"}
               </p>
               <p className="text-sm text-gray-600">
-                Wei: {reserves && Array.isArray(reserves) ? ((reserves as any)[0] as bigint).toString() : "0"}
+                Tokens: {reserves && Array.isArray(reserves) ? formatUnits((reserves as any)[0] as bigint, 18) : "0"}
               </p>
             </div>
             <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Token B Reserve</p>
-              <p className="text-lg font-bold">
-                {reserves && Array.isArray(reserves) ? formatUnits((reserves as any)[1] as bigint, 18) : "0"}
+              <p className="font-medium">Token B Reserve (Wei)</p>
+              <p className="text-lg font-bold font-mono">
+                {reserves && Array.isArray(reserves) ? ((reserves as any)[1] as bigint).toString() : "0"}
               </p>
               <p className="text-sm text-gray-600">
-                Wei: {reserves && Array.isArray(reserves) ? ((reserves as any)[1] as bigint).toString() : "0"}
+                Tokens: {reserves && Array.isArray(reserves) ? formatUnits((reserves as any)[1] as bigint, 18) : "0"}
               </p>
             </div>
             <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Price (A → B)</p>
-              <p className="text-lg font-bold">{price ? formatUnits(price as bigint, 18) : "0"}</p>
+              <p className="font-medium">Price (A → B) in Wei</p>
+              <p className="text-lg font-bold font-mono">{price ? (price as bigint).toString() : "0"}</p>
               <p className="text-sm text-gray-600">
-                1 Token A = {price ? formatUnits(price as bigint, 18) : "0"} Token B
+                Tokens: {price ? formatUnits(price as bigint, 18) : "0"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Token Balances */}
+        <div className="bg-base-100 rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold mb-4">Your Token Balances (All values in Wei)</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-base-200 p-4 rounded">
+              <p className="font-medium">Token A Balance (Wei)</p>
+              <p className="text-lg font-bold font-mono">
+                {balanceA ? (balanceA as bigint).toString() : "0"}
+              </p>
+              <p className="text-sm text-gray-600">
+                Tokens: {balanceA ? formatUnits(balanceA as bigint, 18) : "0"}
+              </p>
+            </div>
+            <div className="bg-base-200 p-4 rounded">
+              <p className="font-medium">Token B Balance (Wei)</p>
+              <p className="text-lg font-bold font-mono">
+                {balanceB ? (balanceB as bigint).toString() : "0"}
+              </p>
+              <p className="text-sm text-gray-600">
+                Tokens: {balanceB ? formatUnits(balanceB as bigint, 18) : "0"}
               </p>
             </div>
           </div>
@@ -356,7 +387,7 @@ const SimpleSwapPage = () => {
 
         {/* Swap Section */}
         <div className="bg-base-100 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Token Swap</h2>
+          <h2 className="text-xl font-semibold mb-4">Token Swap (All amounts in Wei)</h2>
           <div className="max-w-md mx-auto">
             <div className="space-y-4">
               <div>
@@ -364,10 +395,16 @@ const SimpleSwapPage = () => {
                 <input
                   type="text"
                   placeholder="Enter amount in wei (e.g., 1000000000000000000 = 1 token)"
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full font-mono"
                   value={amountIn}
                   onChange={e => setAmountIn(e.target.value)}
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  {amountIn && !isNaN(Number(amountIn)) ? 
+                    `≈ ${formatUnits(BigInt(amountIn || "0"), 18)} tokens` : 
+                    "Enter wei amount"
+                  }
+                </p>
               </div>
 
               <div className="flex justify-center">
@@ -382,11 +419,17 @@ const SimpleSwapPage = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="Calculated amount out"
-                  className="input input-bordered w-full bg-gray-50"
+                  placeholder="Calculated amount out in wei"
+                  className="input input-bordered w-full bg-gray-50 font-mono"
                   value={amountOut}
                   readOnly
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  {amountOut && !isNaN(Number(amountOut)) ? 
+                    `≈ ${formatUnits(BigInt(amountOut || "0"), 18)} tokens` : 
+                    "Calculated automatically"
+                  }
+                </p>
               </div>
 
               <button
@@ -397,10 +440,12 @@ const SimpleSwapPage = () => {
                 Swap Tokens
               </button>
 
-              <div className="text-xs text-gray-500 mt-4">
-                <p>Note: This uses getAmountOut calculation from the smart contract</p>
-                <p>All amounts must be entered in Wei (1 token = 10^18 wei)</p>
-                <p>The swap will use 1% slippage tolerance automatically</p>
+              <div className="text-xs text-gray-500 mt-4 bg-yellow-50 p-3 rounded">
+                <p className="font-semibold mb-1">💡 Wei Information:</p>
+                <p>• 1 token = 1,000,000,000,000,000,000 wei (18 decimals)</p>
+                <p>• All values displayed in wei for precision</p>
+                <p>• This uses getAmountOut calculation from the smart contract</p>
+                <p>• The swap will use 1% slippage tolerance automatically</p>
               </div>
             </div>
           </div>
