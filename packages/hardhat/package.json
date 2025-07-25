@@ -20,7 +20,10 @@
     "test": "REPORT_GAS=true hardhat test --network hardhat",
     "prepare": "husky",
     "coverage": "npx hardhat coverage",
-    "fix-deps": "ts-node scripts/fix-dependencies.ts"
+    "fix-deps": "ts-node scripts/fix-dependencies.ts",
+    "mint-and-pool": "hardhat run scripts/mintTokensAndCreatePool.ts",
+    "mint-tokens": "hardhat run scripts/mintTokensOnly.ts",
+    "manage-contracts": "hardhat run scripts/manageExistingContracts.ts"
   },
   "devDependencies": {
     "@aashutoshrathi/word-wrap": "^1.2.6",
