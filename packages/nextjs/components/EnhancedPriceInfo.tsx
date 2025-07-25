@@ -130,16 +130,13 @@ export function EnhancedPriceInfo() {
         <div className="grid md:grid-cols-2 gap-6">
           {/* Contract Prices */}
           <div className="bg-white p-4 rounded-lg border border-green-100">
-            <h3 className="font-semibold text-green-800 mb-4">Contract getPrice() Results</h3>
+            <h3 className="font-semibold text-green-800 mb-4">Contract getPrice() Results (Wei)</h3>
             
             <div className="space-y-4">
               <div className="border-b border-gray-100 pb-3">
                 <div className="text-sm font-medium text-gray-700 mb-2">TokenA → TokenB Price:</div>
                 <div className="font-mono text-sm bg-green-50 p-2 rounded border">
                   {priceAtoB ? (priceAtoB as bigint).toString() : "0"} wei
-                </div>
-                <div className="text-sm text-green-700 mt-1">
-                  ≈ {priceAtoB ? formatEther(priceAtoB as bigint) : "0"} TokenB per TokenA
                 </div>
               </div>
 
@@ -148,16 +145,13 @@ export function EnhancedPriceInfo() {
                 <div className="font-mono text-sm bg-blue-50 p-2 rounded border">
                   {priceBtoA ? (priceBtoA as bigint).toString() : "0"} wei
                 </div>
-                <div className="text-sm text-blue-700 mt-1">
-                  ≈ {priceBtoA ? formatEther(priceBtoA as bigint) : "0"} TokenA per TokenB
-                </div>
               </div>
             </div>
           </div>
 
           {/* Reserve-Based Calculations */}
           <div className="bg-white p-4 rounded-lg border border-green-100">
-            <h3 className="font-semibold text-green-800 mb-4">Reserve-Based Calculations</h3>
+            <h3 className="font-semibold text-green-800 mb-4">Reserve-Based Calculations (Wei)</h3>
             
             <div className="space-y-4">
               <div>
@@ -173,23 +167,17 @@ export function EnhancedPriceInfo() {
               </div>
 
               <div>
-                <div className="text-sm font-medium text-gray-700 mb-2">Manual Price Calculation:</div>
+                <div className="text-sm font-medium text-gray-700 mb-2">Manual Price Calculation (Wei):</div>
                 <div className="space-y-2">
                   <div className="p-2 bg-green-50 rounded border">
-                    <div className="text-sm text-green-800">
-                      1 TokenA = {reserveBBigInt > 0n ? formatEther((reserveBBigInt * parseEther("1")) / reserveABigInt) : "0"} TokenB
-                    </div>
-                    <div className="text-xs text-green-600 font-mono">
-                      ({reserveBBigInt > 0n ? ((reserveBBigInt * parseEther("1")) / reserveABigInt).toString() : "0"} wei)
+                    <div className="text-sm text-green-800 font-mono">
+                      1 TokenA = {reserveBBigInt > 0n ? ((reserveBBigInt * parseEther("1")) / reserveABigInt).toString() : "0"} wei TokenB
                     </div>
                   </div>
                   
                   <div className="p-2 bg-blue-50 rounded border">
-                    <div className="text-sm text-blue-800">
-                      1 TokenB = {reserveABigInt > 0n ? formatEther((reserveABigInt * parseEther("1")) / reserveBBigInt) : "0"} TokenA
-                    </div>
-                    <div className="text-xs text-blue-600 font-mono">
-                      ({reserveABigInt > 0n ? ((reserveABigInt * parseEther("1")) / reserveBBigInt).toString() : "0"} wei)
+                    <div className="text-sm text-blue-800 font-mono">
+                      1 TokenB = {reserveABigInt > 0n ? ((reserveABigInt * parseEther("1")) / reserveBBigInt).toString() : "0"} wei TokenA
                     </div>
                   </div>
                 </div>
@@ -230,17 +218,14 @@ export function EnhancedPriceInfo() {
           </div>
           
           <div>
-            <div className="text-sm font-medium text-gray-700 mb-1">Expected Output:</div>
+            <div className="text-sm font-medium text-gray-700 mb-1">Expected Output (Wei):</div>
             <div className="px-3 py-2 bg-gray-50 border border-gray-300 rounded-md">
               {loadingSimAtoB ? (
                 <span className="text-gray-500">Loading...</span>
               ) : simulatedOutputAtoB ? (
                 <div>
-                  <div className="font-semibold text-green-700">
-                    {formatEther(simulatedOutputAtoB as bigint)} {selectedDirection === "AtoB" ? "TokenB" : "TokenA"}
-                  </div>
-                  <div className="text-xs text-gray-600 font-mono">
-                    ({(simulatedOutputAtoB as bigint).toString()} wei)
+                  <div className="font-semibold text-green-700 font-mono">
+                    {(simulatedOutputAtoB as bigint).toString()} wei {selectedDirection === "AtoB" ? "TokenB" : "TokenA"}
                   </div>
                 </div>
               ) : (
@@ -253,12 +238,9 @@ export function EnhancedPriceInfo() {
         {simulatedOutputAtoB && simulationAmount && (
           <div className="mt-3 p-3 bg-green-50 rounded border">
             <div className="text-sm text-green-800">
-              <strong>Exchange Rate:</strong> 1 {selectedDirection === "AtoB" ? "TokenA" : "TokenB"} = {
-                formatEther((simulatedOutputAtoB as bigint * parseEther("1")) / parseEther(simulationAmount))
-              } {selectedDirection === "AtoB" ? "TokenB" : "TokenA"}
-            </div>
-            <div className="text-xs text-green-600 font-mono mt-1">
-              Rate in wei: {((simulatedOutputAtoB as bigint * parseEther("1")) / parseEther(simulationAmount)).toString()} wei
+              <strong>Exchange Rate (Wei):</strong> 1 {selectedDirection === "AtoB" ? "TokenA" : "TokenB"} = {
+                ((simulatedOutputAtoB as bigint * parseEther("1")) / parseEther(simulationAmount)).toString()
+              } wei {selectedDirection === "AtoB" ? "TokenB" : "TokenA"}
             </div>
           </div>
         )}
@@ -267,8 +249,8 @@ export function EnhancedPriceInfo() {
       {/* Academic Note */}
       <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg">
         <div className="text-sm text-green-800">
-          <span className="font-semibold">🎓 Academic Note:</span> Prices are shown in wei (1 ether = 10^18 wei) 
-          for precise blockchain calculations and human-readable format for convenience. 
+          <span className="font-semibold">🎓 Academic Note:</span> All prices and amounts are displayed in wei 
+          (1 ether = 10^18 wei) for precise blockchain calculations. 
           The getAmountOut function includes slippage and fees.
         </div>
       </div>

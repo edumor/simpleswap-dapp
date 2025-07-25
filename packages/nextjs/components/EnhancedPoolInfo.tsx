@@ -143,7 +143,7 @@ export function EnhancedPoolInfo() {
         <div className="grid md:grid-cols-2 gap-6">
           {/* Pool Reserves */}
           <div className="bg-white p-4 rounded-lg border border-indigo-100">
-            <h3 className="font-semibold text-indigo-800 mb-3">Pool Reserves</h3>
+            <h3 className="font-semibold text-indigo-800 mb-3">Pool Reserves (Wei)</h3>
             <div className="space-y-3">
               <div>
                 <div className="flex justify-between items-center mb-1">
@@ -152,9 +152,6 @@ export function EnhancedPoolInfo() {
                 </div>
                 <div className="font-mono text-sm bg-green-50 p-2 rounded border">
                   {reserveABigInt.toString()} wei
-                </div>
-                <div className="text-sm text-green-700 mt-1">
-                  ≈ {formatEther(reserveABigInt)} TokenA
                 </div>
               </div>
               
@@ -166,21 +163,15 @@ export function EnhancedPoolInfo() {
                 <div className="font-mono text-sm bg-blue-50 p-2 rounded border">
                   {reserveBBigInt.toString()} wei
                 </div>
-                <div className="text-sm text-blue-700 mt-1">
-                  ≈ {formatEther(reserveBBigInt)} TokenB
-                </div>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm font-medium text-gray-700">Total Liquidity:</span>
-                  <span className="text-xs text-gray-500">LP Tokens</span>
+                  <span className="text-xs text-gray-500">LP Tokens (wei)</span>
                 </div>
                 <div className="font-mono text-sm bg-purple-50 p-2 rounded border">
                   {totalLiq ? (totalLiq as bigint).toString() : "0"} wei
-                </div>
-                <div className="text-sm text-purple-700 mt-1">
-                  ≈ {totalLiq ? formatEther(totalLiq as bigint) : "0"} LP
                 </div>
               </div>
             </div>
@@ -188,16 +179,13 @@ export function EnhancedPoolInfo() {
 
           {/* Price Information */}
           <div className="bg-white p-4 rounded-lg border border-indigo-100">
-            <h3 className="font-semibold text-indigo-800 mb-3">Token Exchange Rates</h3>
+            <h3 className="font-semibold text-indigo-800 mb-3">Token Exchange Rates (Wei)</h3>
             <div className="space-y-4">
               {/* Contract Price */}
               <div className="border-b border-gray-100 pb-3">
                 <div className="text-sm font-medium text-gray-700 mb-2">Contract getPrice() Function:</div>
                 <div className="font-mono text-sm bg-yellow-50 p-2 rounded border">
                   {priceAtoB ? (priceAtoB as bigint).toString() : "0"} wei
-                </div>
-                <div className="text-sm text-yellow-700 mt-1">
-                  ≈ {priceAtoB ? formatEther(priceAtoB as bigint) : "0"} TokenB per TokenA
                 </div>
               </div>
 
@@ -210,10 +198,7 @@ export function EnhancedPoolInfo() {
                     <span className="text-sm text-green-800">1 TokenA =</span>
                     <div className="text-right">
                       <div className="font-bold text-green-800">
-                        {reserveBBigInt > 0n ? formatEther(priceTokenAInB) : "0"} TokenB
-                      </div>
-                      <div className="text-xs text-green-600">
-                        ({priceTokenAInB.toString()} wei)
+                        {priceTokenAInB.toString()} wei TokenB
                       </div>
                     </div>
                   </div>
@@ -222,10 +207,7 @@ export function EnhancedPoolInfo() {
                     <span className="text-sm text-blue-800">1 TokenB =</span>
                     <div className="text-right">
                       <div className="font-bold text-blue-800">
-                        {reserveABigInt > 0n ? formatEther(priceTokenBInA) : "0"} TokenA
-                      </div>
-                      <div className="text-xs text-blue-600">
-                        ({priceTokenBInA.toString()} wei)
+                        {priceTokenBInA.toString()} wei TokenA
                       </div>
                     </div>
                   </div>
@@ -234,13 +216,13 @@ export function EnhancedPoolInfo() {
 
               {/* Pool Ratio */}
               <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded border">
-                <div className="text-sm font-medium text-gray-700 mb-1">Pool Ratio:</div>
+                <div className="text-sm font-medium text-gray-700 mb-1">Pool Ratio (Wei):</div>
                 <div className="text-center font-bold text-indigo-800">
                   {reserveABigInt > 0n && reserveBBigInt > 0n ? (
                     <>
-                      {formatEther(reserveABigInt)} : {formatEther(reserveBBigInt)}
+                      {reserveABigInt.toString()} : {reserveBBigInt.toString()}
                       <div className="text-xs text-gray-600 mt-1">
-                        (TokenA : TokenB)
+                        (TokenA wei : TokenB wei)
                       </div>
                     </>
                   ) : (

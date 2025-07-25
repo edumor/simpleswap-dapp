@@ -156,16 +156,9 @@ export function EnhancedTokenBalances({ tokenAAddress, tokenBAddress, userAddres
 
             <div className="space-y-3">
               <div>
-                <div className="text-sm font-medium text-gray-700 mb-1">Balance (Wei Format):</div>
-                <div className="font-mono text-sm bg-green-50 p-3 rounded border break-all">
+                <div className="text-sm font-medium text-gray-700 mb-1">Balance (Wei):</div>
+                <div className="font-mono text-lg bg-green-50 p-3 rounded border break-all text-green-800 font-bold">
                   {balanceABigInt.toString()} wei
-                </div>
-              </div>
-
-              <div>
-                <div className="text-sm font-medium text-gray-700 mb-1">Balance (Human Readable):</div>
-                <div className="text-2xl font-bold text-green-700">
-                  {formatEther(balanceABigInt)} {(symbolA as string) || "TKA"}
                 </div>
               </div>
 
@@ -203,16 +196,9 @@ export function EnhancedTokenBalances({ tokenAAddress, tokenBAddress, userAddres
 
             <div className="space-y-3">
               <div>
-                <div className="text-sm font-medium text-gray-700 mb-1">Balance (Wei Format):</div>
-                <div className="font-mono text-sm bg-blue-50 p-3 rounded border break-all">
+                <div className="text-sm font-medium text-gray-700 mb-1">Balance (Wei):</div>
+                <div className="font-mono text-lg bg-blue-50 p-3 rounded border break-all text-blue-800 font-bold">
                   {balanceBBigInt.toString()} wei
-                </div>
-              </div>
-
-              <div>
-                <div className="text-sm font-medium text-gray-700 mb-1">Balance (Human Readable):</div>
-                <div className="text-2xl font-bold text-blue-700">
-                  {formatEther(balanceBBigInt)} {(symbolB as string) || "TKB"}
                 </div>
               </div>
 
@@ -236,38 +222,20 @@ export function EnhancedTokenBalances({ tokenAAddress, tokenBAddress, userAddres
 
       {/* Balance Summary */}
       <div className="mt-6 p-4 bg-white rounded-lg border border-purple-100">
-        <h3 className="font-semibold text-purple-800 mb-3">Balance Summary</h3>
-        <div className="grid grid-cols-3 gap-4 text-center">
+        <h3 className="font-semibold text-purple-800 mb-3">Balance Summary (Wei)</h3>
+        <div className="grid grid-cols-2 gap-4 text-center">
           <div className="p-3 bg-green-50 rounded-lg">
-            <div className="text-lg font-bold text-green-700">
-              {formatEther(balanceABigInt)}
+            <div className="text-sm font-bold text-green-700 break-all">
+              {balanceABigInt.toString()} wei
             </div>
             <div className="text-sm text-green-600">{(symbolA as string) || "TokenA"}</div>
           </div>
           
-          <div className="p-3 bg-gray-50 rounded-lg flex items-center justify-center">
-            <div className="text-gray-500 font-medium">+</div>
-          </div>
-          
           <div className="p-3 bg-blue-50 rounded-lg">
-            <div className="text-lg font-bold text-blue-700">
-              {formatEther(balanceBBigInt)}
+            <div className="text-sm font-bold text-blue-700 break-all">
+              {balanceBBigInt.toString()} wei
             </div>
             <div className="text-sm text-blue-600">{(symbolB as string) || "TokenB"}</div>
-          </div>
-        </div>
-
-        {/* Wei Totals */}
-        <div className="mt-4 pt-3 border-t border-gray-200">
-          <div className="text-sm text-gray-700">
-            <div className="flex justify-between">
-              <span>Total {(symbolA as string) || "TokenA"} (wei):</span>
-              <span className="font-mono text-xs">{balanceABigInt.toString()}</span>
-            </div>
-            <div className="flex justify-between mt-1">
-              <span>Total {(symbolB as string) || "TokenB"} (wei):</span>
-              <span className="font-mono text-xs">{balanceBBigInt.toString()}</span>
-            </div>
           </div>
         </div>
       </div>
@@ -275,9 +243,8 @@ export function EnhancedTokenBalances({ tokenAAddress, tokenBAddress, userAddres
       {/* Academic Note */}
       <div className="mt-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg">
         <div className="text-sm text-purple-800">
-          <span className="font-semibold">🎓 Academic Note:</span> Balances are displayed in both wei 
-          (the smallest unit on Ethereum where 1 ether = 10^18 wei) and human-readable format. 
-          Wei format is essential for precise smart contract calculations.
+          <span className="font-semibold">🎓 Academic Note:</span> All balances are displayed in wei 
+          (the smallest unit on Ethereum where 1 ether = 10^18 wei) for precise smart contract calculations.
         </div>
       </div>
     </div>

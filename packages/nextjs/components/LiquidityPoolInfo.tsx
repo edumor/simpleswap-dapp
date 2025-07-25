@@ -68,17 +68,17 @@ export function LiquidityPoolInfo() {
       {reserveA !== undefined && reserveB !== undefined && (
         <div className="text-blue-900 font-mono text-lg mb-2">
           <div>
-            <b>Reserve TokenA:</b> {Number(reserveA as bigint) / 1e18} <span className="text-xs">(A)</span>
+            <b>Reserve TokenA (wei):</b> {(reserveA as bigint).toString()} <span className="text-xs">(A)</span>
           </div>
           <div>
-            <b>Reserve TokenB:</b> {Number(reserveB as bigint) / 1e18} <span className="text-xs">(B)</span>
+            <b>Reserve TokenB (wei):</b> {(reserveB as bigint).toString()} <span className="text-xs">(B)</span>
           </div>
           <div>
-            <b>Total Liquidity:</b> {totalLiq ? (Number(totalLiq as bigint) / 1e18).toFixed(6) : "0"}{" "}
+            <b>Total Liquidity (wei):</b> {totalLiq ? (totalLiq as bigint).toString() : "0"}{" "}
             <span className="text-xs">(LP)</span>
           </div>
           <div className="mt-2 text-base text-green-800">
-            <b>Price:</b>{" "}
+            <b>Price Ratio:</b>{" "}
             {Number(reserveB as bigint) > 0
               ? (Number(reserveA as bigint) / Number(reserveB as bigint)).toFixed(6)
               : "-"}{" "}

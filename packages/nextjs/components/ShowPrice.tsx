@@ -31,11 +31,11 @@ export function ShowPrice() {
 
   return (
     <div className="p-4 border rounded max-w-md mx-auto my-4">
-      <h2 className="text-lg font-bold mb-2">TokenA/TokenB Price</h2>
+      <h2 className="text-lg font-bold mb-2">TokenA/TokenB Price (Wei)</h2>
       {isLoading && <div>Loading price...</div>}
       {error && <div className="text-red-600">Error: {error.message}</div>}
       {typeof data === "bigint" && (
-        <div className="text-blue-700 font-mono">1 TokenA = {Number(data) / 1e18} TokenB</div>
+        <div className="text-blue-700 font-mono">1 TokenA = {data.toString()} TokenB (wei)</div>
       )}
       <button className="mt-2 px-3 py-1 bg-gray-200 rounded" onClick={() => refetch()}>
         Refresh
