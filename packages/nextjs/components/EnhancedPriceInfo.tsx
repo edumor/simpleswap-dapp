@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useReadContract } from "wagmi";
 import { formatEther, parseEther } from "viem";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
 // ✅ Academic Compliance Verified Addresses - Sepolia Testnet
 const TOKEN_A_ADDRESS = "0xA61A5c03088c808935C86F409Ace89E582842F82";
 const TOKEN_B_ADDRESS = "0x9205f067C913C1Edb642609342ca8d58d60ae95B";
+const SIMPLE_SWAP_ADDRESS = "0x5F1C2c20248BA5A444256c21592125EaF08b23A1";
 
 const SIMPLE_SWAP_ABI = [
   {
@@ -20,13 +20,13 @@ const SIMPLE_SWAP_ABI = [
   },
   {
     inputs: [
-      { internalType: "address", name: "tokenIn", type: "address" },
-      { internalType: "address", name: "tokenOut", type: "address" },
       { internalType: "uint256", name: "amountIn", type: "uint256" },
+      { internalType: "uint256", name: "reserveIn", type: "uint256" },
+      { internalType: "uint256", name: "reserveOut", type: "uint256" },
     ],
     name: "getAmountOut",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
+    outputs: [{ internalType: "uint256", name: "amountOut", type: "uint256" }],
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -45,20 +45,19 @@ const SIMPLE_SWAP_ABI = [
 ] as const;
 
 export function EnhancedPriceInfo() {
-  const { data: deployedContractData } = useDeployedContractInfo("SimpleSwap");
   const [simulationAmount, setSimulationAmount] = useState("1");
   const [selectedDirection, setSelectedDirection] = useState<"AtoB" | "BtoA">("AtoB");
 
   // Get basic price from contract
   const { data: priceAtoB, isLoading: loadingPriceAtoB, refetch: refetchPriceAtoB } = useReadContract({
-    address: deployedContractData?.address,
+    address: SIMPLE_SWAP_ADDRESS as `0x${string}`,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getPrice",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
   });
 
   const { data: priceBtoA, isLoading: loadingPriceBtoA, refetch: refetchPriceBtoA } = useReadContract({
-    address: deployedContractData?.address,
+    address: SIMPLE_SWAP_ADDRESS as `0x${string}`,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getPrice",
     args: [TOKEN_B_ADDRESS, TOKEN_A_ADDRESS],
@@ -66,7 +65,7 @@ export function EnhancedPriceInfo() {
 
   // Get reserves for manual calculation
   const { data: reservesAB, isLoading: loadingReservesAB } = useReadContract({
-    address: deployedContractData?.address,
+    address: SIMPLE_SWAP_ADDRESS as `0x${string}`,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getReserves",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
@@ -80,12 +79,12 @@ export function EnhancedPriceInfo() {
   const simulationAmountWei = simulationAmount ? parseEther(simulationAmount) : 0n;
   
   const { data: simulatedOutputAtoB, isLoading: loadingSimAtoB } = useReadContract({
-    address: deployedContractData?.address,
+    address: SIMPLE_SWAP_ADDRESS as `0x${string}`,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getAmountOut",
     args: selectedDirection === "AtoB" 
-      ? [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS, simulationAmountWei]
-      : [TOKEN_B_ADDRESS, TOKEN_A_ADDRESS, simulationAmountWei],
+      ? [simulationAmountWei, reserveA, reserveB]
+      : [simulationAmountWei, reserveB, reserveA],
   });
 
   const isLoading = loadingPriceAtoB || loadingPriceBtoA || loadingReservesAB;

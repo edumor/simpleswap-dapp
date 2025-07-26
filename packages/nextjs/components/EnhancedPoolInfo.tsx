@@ -1,10 +1,10 @@
 import { useReadContract } from "wagmi";
 import { formatEther } from "viem";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
 // ✅ Academic Compliance Verified Addresses - Sepolia Testnet
 const TOKEN_A_ADDRESS = "0xA61A5c03088c808935C86F409Ace89E582842F82";
 const TOKEN_B_ADDRESS = "0x9205f067C913C1Edb642609342ca8d58d60ae95B";
+const SIMPLE_SWAP_ADDRESS = "0x5F1C2c20248BA5A444256c21592125EaF08b23A1";
 
 const SIMPLE_SWAP_ABI = [
   {
@@ -43,10 +43,8 @@ const SIMPLE_SWAP_ABI = [
 ] as const;
 
 export function EnhancedPoolInfo() {
-  const { data: deployedContractData } = useDeployedContractInfo("SimpleSwap");
-
   const { data: reservesAB, isLoading: loadingReservesAB, refetch: refetchReservesAB } = useReadContract({
-    address: deployedContractData?.address,
+    address: SIMPLE_SWAP_ADDRESS as `0x${string}`,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getReserves",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
@@ -57,14 +55,14 @@ export function EnhancedPoolInfo() {
   const reserveB = reservesAB ? (reservesAB as [bigint, bigint])[1] : 0n;
 
   const { data: totalLiq, isLoading: loadingLiquidity, refetch: refetchLiquidity } = useReadContract({
-    address: deployedContractData?.address,
+    address: SIMPLE_SWAP_ADDRESS as `0x${string}`,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getTotalLiquidity",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
   });
 
   const { data: priceAtoB, isLoading: loadingPrice, refetch: refetchPrice } = useReadContract({
-    address: deployedContractData?.address,
+    address: SIMPLE_SWAP_ADDRESS as `0x${string}`,
     abi: SIMPLE_SWAP_ABI,
     functionName: "getPrice",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
@@ -119,7 +117,7 @@ export function EnhancedPoolInfo() {
           <div className="flex justify-between items-center">
             <span className="font-medium text-gray-700">SimpleSwap:</span>
             <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded">
-              {deployedContractData?.address}
+              {SIMPLE_SWAP_ADDRESS}
             </span>
           </div>
           <div className="flex justify-between items-center">
