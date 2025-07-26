@@ -31,11 +31,14 @@ const SIMPLE_SWAP_ABI = [
   },
   {
     inputs: [
-      { internalType: "address", name: "", type: "address" },
-      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "tokenA", type: "address" },
+      { internalType: "address", name: "tokenB", type: "address" },
     ],
-    name: "reserves",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "getReserves",
+    outputs: [
+      { internalType: "uint256", name: "reserveA", type: "uint256" },
+      { internalType: "uint256", name: "reserveB", type: "uint256" }
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -62,19 +65,16 @@ export function EnhancedPriceInfo() {
   });
 
   // Get reserves for manual calculation
-  const { data: reserveA, isLoading: loadingReserveA } = useReadContract({
+  const { data: reservesAB, isLoading: loadingReservesAB } = useReadContract({
     address: deployedContractData?.address,
     abi: SIMPLE_SWAP_ABI,
-    functionName: "reserves",
+    functionName: "getReserves",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
   });
 
-  const { data: reserveB, isLoading: loadingReserveB } = useReadContract({
-    address: deployedContractData?.address,
-    abi: SIMPLE_SWAP_ABI,
-    functionName: "reserves",
-    args: [TOKEN_B_ADDRESS, TOKEN_A_ADDRESS],
-  });
+  // Extract individual reserves from the getReserves result
+  const reserveA = reservesAB ? (reservesAB as [bigint, bigint])[0] : 0n;
+  const reserveB = reservesAB ? (reservesAB as [bigint, bigint])[1] : 0n;
 
   // Simulate swap amount
   const simulationAmountWei = simulationAmount ? parseEther(simulationAmount) : 0n;
@@ -88,7 +88,7 @@ export function EnhancedPriceInfo() {
       : [TOKEN_B_ADDRESS, TOKEN_A_ADDRESS, simulationAmountWei],
   });
 
-  const isLoading = loadingPriceAtoB || loadingPriceBtoA || loadingReserveA || loadingReserveB;
+  const isLoading = loadingPriceAtoB || loadingPriceBtoA || loadingReservesAB;
 
   const handleRefreshAll = () => {
     refetchPriceAtoB();
@@ -96,8 +96,8 @@ export function EnhancedPriceInfo() {
   };
 
   // Calculate manual exchange rates from reserves
-  const reserveABigInt = reserveA ? reserveA as bigint : 0n;
-  const reserveBBigInt = reserveB ? reserveB as bigint : 0n;
+  const reserveABigInt = reserveA;
+  const reserveBBigInt = reserveB;
 
   return (
     <div className="p-6 border-2 border-green-200 rounded-xl max-w-2xl mx-auto my-6 bg-gradient-to-br from-green-50 to-emerald-50">

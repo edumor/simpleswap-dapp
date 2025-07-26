@@ -9,20 +9,23 @@ const TOKEN_B_ADDRESS = "0x9205f067C913C1Edb642609342ca8d58d60ae95B";
 const SIMPLE_SWAP_ABI = [
   {
     inputs: [
-      { internalType: "address", name: "", type: "address" },
-      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "tokenA", type: "address" },
+      { internalType: "address", name: "tokenB", type: "address" },
     ],
-    name: "reserves",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "getReserves",
+    outputs: [
+      { internalType: "uint256", name: "reserveA", type: "uint256" },
+      { internalType: "uint256", name: "reserveB", type: "uint256" }
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "", type: "address" },
-      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "tokenA", type: "address" },
+      { internalType: "address", name: "tokenB", type: "address" },
     ],
-    name: "totalLiquidity",
+    name: "getTotalLiquidity",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
@@ -42,24 +45,21 @@ const SIMPLE_SWAP_ABI = [
 export function EnhancedPoolInfo() {
   const { data: deployedContractData } = useDeployedContractInfo("SimpleSwap");
 
-  const { data: reserveA, isLoading: loadingReserveA, refetch: refetchReserveA } = useReadContract({
+  const { data: reservesAB, isLoading: loadingReservesAB, refetch: refetchReservesAB } = useReadContract({
     address: deployedContractData?.address,
     abi: SIMPLE_SWAP_ABI,
-    functionName: "reserves",
+    functionName: "getReserves",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
   });
 
-  const { data: reserveB, isLoading: loadingReserveB, refetch: refetchReserveB } = useReadContract({
-    address: deployedContractData?.address,
-    abi: SIMPLE_SWAP_ABI,
-    functionName: "reserves",
-    args: [TOKEN_B_ADDRESS, TOKEN_A_ADDRESS],
-  });
+  // Extract individual reserves from the getReserves result
+  const reserveA = reservesAB ? (reservesAB as [bigint, bigint])[0] : 0n;
+  const reserveB = reservesAB ? (reservesAB as [bigint, bigint])[1] : 0n;
 
   const { data: totalLiq, isLoading: loadingLiquidity, refetch: refetchLiquidity } = useReadContract({
     address: deployedContractData?.address,
     abi: SIMPLE_SWAP_ABI,
-    functionName: "totalLiquidity",
+    functionName: "getTotalLiquidity",
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
   });
 
@@ -70,18 +70,17 @@ export function EnhancedPoolInfo() {
     args: [TOKEN_A_ADDRESS, TOKEN_B_ADDRESS],
   });
 
-  const isLoading = loadingReserveA || loadingReserveB || loadingLiquidity || loadingPrice;
+  const isLoading = loadingReservesAB || loadingLiquidity || loadingPrice;
 
   const handleRefreshAll = () => {
-    refetchReserveA();
-    refetchReserveB();
+    refetchReservesAB();
     refetchLiquidity();
     refetchPrice();
   };
 
   // Calculate exchange rates
-  const reserveABigInt = reserveA ? reserveA as bigint : 0n;
-  const reserveBBigInt = reserveB ? reserveB as bigint : 0n;
+  const reserveABigInt = reserveA;
+  const reserveBBigInt = reserveB;
   
   const priceTokenAInB = reserveBBigInt > 0n 
     ? (reserveABigInt * 1000000n) / reserveBBigInt / 1000000n

@@ -38,3 +38,5 @@ yarn-error.log*
 
 ipfs-upload.config.json
 .vercel
+
+.vercel

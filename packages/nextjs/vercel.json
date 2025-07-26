@@ -1,7 +1,18 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
   "env": {
     "NEXT_PUBLIC_DEPLOY_BLOCK": "5671152",
     "NEXT_PUBLIC_ALCHEMY_API_KEY": "",
     "NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID": ""
-  }
+  },
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "installCommand": "yarn install"
 }
