@@ -3,6 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { EnhancedTokenBalances } from "~~/components/EnhancedTokenBalances";
+import { EnhancedPoolInfo } from "~~/components/EnhancedPoolInfo";
+import { EnhancedPriceInfo } from "~~/components/EnhancedPriceInfo";
 import { notification } from "~~/utils/scaffold-eth";
 
 // Contract addresses on Sepolia
@@ -306,62 +309,20 @@ const SimpleSwapPage = () => {
           </div>
         </div>
 
-        {/* Pool Information */}
-        <div className="bg-base-100 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Pool Information & Price (All values in Wei)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Token A Reserve (Wei)</p>
-              <p className="text-lg font-bold font-mono">
-                {reserves && Array.isArray(reserves) ? ((reserves as any)[0] as bigint).toString() : "0"}
-              </p>
-              <p className="text-sm text-gray-600">
-                Tokens: {reserves && Array.isArray(reserves) ? formatUnits((reserves as any)[0] as bigint, 18) : "0"}
-              </p>
-            </div>
-            <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Token B Reserve (Wei)</p>
-              <p className="text-lg font-bold font-mono">
-                {reserves && Array.isArray(reserves) ? ((reserves as any)[1] as bigint).toString() : "0"}
-              </p>
-              <p className="text-sm text-gray-600">
-                Tokens: {reserves && Array.isArray(reserves) ? formatUnits((reserves as any)[1] as bigint, 18) : "0"}
-              </p>
-            </div>
-            <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Price (A → B) in Wei</p>
-              <p className="text-lg font-bold font-mono">{price ? (price as bigint).toString() : "0"}</p>
-              <p className="text-sm text-gray-600">
-                Tokens: {price ? formatUnits(price as bigint, 18) : "0"}
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Enhanced Pool Information */}
+        <EnhancedPoolInfo />
 
-        {/* Token Balances */}
-        <div className="bg-base-100 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Your Token Balances (All values in Wei)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Token A Balance (Wei)</p>
-              <p className="text-lg font-bold font-mono">
-                {balanceA ? (balanceA as bigint).toString() : "0"}
-              </p>
-              <p className="text-sm text-gray-600">
-                Tokens: {balanceA ? formatUnits(balanceA as bigint, 18) : "0"}
-              </p>
-            </div>
-            <div className="bg-base-200 p-4 rounded">
-              <p className="font-medium">Token B Balance (Wei)</p>
-              <p className="text-lg font-bold font-mono">
-                {balanceB ? (balanceB as bigint).toString() : "0"}
-              </p>
-              <p className="text-sm text-gray-600">
-                Tokens: {balanceB ? formatUnits(balanceB as bigint, 18) : "0"}
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Enhanced Price Information */}  
+        <EnhancedPriceInfo />
+
+        {/* Enhanced Token Balances */}
+        {connectedAddress && (
+          <EnhancedTokenBalances 
+            tokenAAddress={TOKEN_A_ADDRESS} 
+            tokenBAddress={TOKEN_B_ADDRESS}
+            userAddress={connectedAddress}
+          />
+        )}
 
         {/* Token Approval */}
         <div className="bg-base-100 rounded-lg p-6 mb-8">
