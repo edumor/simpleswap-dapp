@@ -279,7 +279,7 @@ _savePairData(pairHash, isReversed, data);
 
 ---
 
-**Analysis Date**: January 2025  
+**Analysis Date**: July 2025  
 **Contract Address**: 0x93Aa1766Cf4a79267634F2E8669a1c87518791c5  
 **Network**: Sepolia Testnet (Chain ID: 11155111)  
 **Analyzer**: GitHub Copilot Assistant
