@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ImprovedTokenApprove } from "../components/ImprovedTokenApprove";
 import { StepByStepGuide } from "../components/StepByStepGuide";
+import { WalletGuide } from "../components/WalletGuide";
 import { EnhancedTokenBalances } from "../components/EnhancedTokenBalances";
 import { EnhancedPoolInfo } from "../components/EnhancedPoolInfo";
 import { EnhancedPriceInfo } from "../components/EnhancedPriceInfo";
@@ -21,50 +22,53 @@ const Home: NextPage = () => {
     <>
       <div className="flex items-center flex-col grow pt-10">
         <div className="px-5 max-w-6xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-              SimpleSwap DApp
+          {/* Hero Section */}
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+              SimpleSwap DEX
             </h1>
-            <h2 className="text-xl text-gray-600 mb-6">
-              Academic Module 4 - Decentralized Token Exchange
+            <h2 className="text-lg sm:text-xl text-gray-600 mb-6 font-light">
+              Decentralized Token Exchange powered by an optimized AMM
             </h2>
             <div className="flex justify-center items-center space-x-2 flex-col">
-              <p className="my-2 font-medium">Connected Address:</p>
+              <p className="my-2 font-medium text-sm sm:text-base">Connected Address:</p>
               <Address address={connectedAddress} />
             </div>
           </div>
 
-          {/* Academic Compliance Notice */}
-          <div className="mb-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 border-l-4 border-green-500 rounded-lg">
-            <div className="flex items-center mb-2">
-              <div className="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm">
+          {/* Protocol Features Banner */}
+          <div className="mb-8 p-6 sm:p-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 rounded-lg">
+            <div className="flex items-center mb-3">
+              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm font-bold">
                 ✓
               </div>
-              <h3 className="text-lg font-semibold text-green-800">Academic Compliance Verified</h3>
+              <h3 className="text-lg font-semibold text-blue-800">Protocol Features</h3>
             </div>
-            <p className="text-green-700 text-sm">
-              This project meets all Module 4 requirements including: Smart contract deployment on Sepolia testnet, 
-              comprehensive test coverage (87%+), interactive frontend with step-by-step instructions, 
-              and automated Vercel deployment capabilities.
+            <p className="text-blue-700 text-sm leading-relaxed">
+              Optimized for efficiency and security: Advanced gas optimization techniques, comprehensive security audit coverage,
+              and extensive test suite (87%+ coverage) ensure reliable token exchange operations on Sepolia testnet.
             </p>
           </div>
+
+          {/* Wallet Guide for New Users */}
+          <WalletGuide />
 
           {/* Step by Step Guide */}
           <StepByStepGuide />
 
-          <div className="grid lg:grid-cols-2 gap-8 mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mt-8 sm:mt-12">
             {/* Left Column */}
             <div className="space-y-6">
               {/* Token Faucet */}
               <TokenFaucet />
-              
-              {/* Enhanced Token Balances with Wei Display */}
-              <div className="p-6 border-2 border-gray-200 rounded-xl bg-white">
-                <h2 className="text-lg font-bold mb-4 flex items-center">
-                  <div className="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm">
+
+              {/* Token Balances */}
+              <div className="p-6 sm:p-8 border-2 border-gray-200 rounded-xl bg-white shadow-sm">
+                <h2 className="text-base sm:text-lg font-bold mb-4 flex items-center">
+                  <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm">
                     💰
                   </div>
-                  Your Token Balances (Wei Format)
+                  Token Balances
                 </h2>
                 {connectedAddress ? (
                   <EnhancedTokenBalances
@@ -73,58 +77,58 @@ const Home: NextPage = () => {
                     userAddress={connectedAddress}
                   />
                 ) : (
-                  <p className="text-gray-500 text-center py-4">Connect your wallet to view balances</p>
+                  <p className="text-gray-500 text-center py-4 text-sm">Connect your wallet to view balances</p>
                 )}
               </div>
 
-              {/* Enhanced Price Information */}
+              {/* Price Information */}
               <EnhancedPriceInfo />
             </div>
 
             {/* Right Column */}
             <div className="space-y-6">
-              {/* Improved Token Approve */}
+              {/* Token Approve */}
               <ImprovedTokenApprove />
-              
+
               {/* Token Swap */}
               <TokenSwap />
             </div>
           </div>
 
-          {/* Additional Information Section */}
-          <div className="mt-12 grid md:grid-cols-2 gap-6">
-            {/* Contract Information */}
-            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl">
-              <h2 className="text-lg font-bold mb-4 text-blue-900">✅ Academic Compliance Verified Contracts (Sepolia)</h2>
+          {/* Protocol Information Section */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Smart Contracts */}
+            <div className="p-6 sm:p-8 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl">
+              <h2 className="text-lg font-bold mb-4 text-blue-900">Smart Contracts</h2>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-white rounded-lg border">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-white rounded-lg border gap-2">
                   <div>
-                    <span className="font-semibold text-blue-800">TokenA:</span>
-                    <div className="font-mono text-xs text-gray-600">0xA61A5c03088c808935C86F409Ace89E582842F82</div>
+                    <span className="font-semibold text-blue-800 text-sm">TokenA:</span>
+                    <div className="font-mono text-xs text-gray-600 break-all">0xA61A5c03088c808935C86F409Ace89E582842F82</div>
                   </div>
-                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">✅ Verified</span>
+                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full whitespace-nowrap">✓ Verified</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white rounded-lg border">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-white rounded-lg border gap-2">
                   <div>
-                    <span className="font-semibold text-blue-800">TokenB:</span>
-                    <div className="font-mono text-xs text-gray-600">0x9205f067C913C1Edb642609342ca8d58d60ae95B</div>
+                    <span className="font-semibold text-blue-800 text-sm">TokenB:</span>
+                    <div className="font-mono text-xs text-gray-600 break-all">0x9205f067C913C1Edb642609342ca8d58d60ae95B</div>
                   </div>
-                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">✅ Verified</span>
+                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full whitespace-nowrap">✓ Verified</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white rounded-lg border">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-white rounded-lg border gap-2">
                   <div>
-                    <span className="font-semibold text-blue-800">SimpleSwap:</span>
-                    <div className="font-mono text-xs text-gray-600">0x5F1C2c20248BA5A444256c21592125EaF08b23A1</div>
+                    <span className="font-semibold text-blue-800 text-sm">SimpleSwap Router:</span>
+                    <div className="font-mono text-xs text-gray-600 break-all">0x5F1C2c20248BA5A444256c21592125EaF08b23A1</div>
                   </div>
-                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">🎓 Grade A+</span>
+                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full whitespace-nowrap">✓ Verified</span>
                 </div>
               </div>
-              <p className="text-sm text-blue-700 mt-4 p-3 bg-blue-100 rounded-lg">
-                All contracts meet instructor requirements: NatSpec in English, short error strings, single storage access.
+              <p className="text-xs sm:text-sm text-blue-700 mt-4 p-3 bg-blue-100 rounded-lg">
+                All contracts implement best practices: comprehensive NatSpec documentation, optimized error handling, and efficient storage patterns.
               </p>
             </div>
 
-            {/* Enhanced Liquidity Pool Info with Wei Display */}
+            {/* Liquidity Pool Information */}
             <EnhancedPoolInfo />
           </div>
 
@@ -133,16 +137,16 @@ const Home: NextPage = () => {
             <FaucetButton />
           </div>
 
-          {/* Academic Footer */}
-          <div className="mt-16 p-6 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl text-center">
-            <h3 className="text-xl font-bold text-purple-900 mb-2">🎓 Academic Project - Module 4</h3>
-            <p className="text-purple-700 mb-4">
-              Complete SimpleSwap DApp with automated deployment, comprehensive testing, and interactive UI
+          {/* Protocol Information Footer */}
+          <div className="mt-16 p-6 sm:p-8 bg-gradient-to-r from-slate-50 to-gray-50 border-2 border-gray-200 rounded-xl text-center">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">SimpleSwap Protocol</h3>
+            <p className="text-gray-700 mb-6 text-sm sm:text-base">
+              Production-grade DEX infrastructure with automated testing, continuous deployment, and comprehensive protocol monitoring
             </p>
-            <div className="flex justify-center gap-4 text-sm">
-              <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full">✅ 87%+ Test Coverage</span>
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">✅ Sepolia Deployed</span>
-              <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">✅ Vercel Ready</span>
+            <div className="flex flex-wrap justify-center gap-3 text-xs sm:text-sm">
+              <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full">✓ 87%+ Test Coverage</span>
+              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">✓ Sepolia Testnet</span>
+              <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">✓ Gas Optimized</span>
             </div>
           </div>
         </div>

@@ -1,10 +1,11 @@
 import { useReadContract } from "wagmi";
 import { formatEther } from "viem";
+import { CONTRACT_ADDRESSES } from "~~/utils/contractConfig";
 
-// ✅ Academic Compliance Verified Addresses - Sepolia Testnet
-const TOKEN_A_ADDRESS = "0xA61A5c03088c808935C86F409Ace89E582842F82";
-const TOKEN_B_ADDRESS = "0x9205f067C913C1Edb642609342ca8d58d60ae95B";
-const SIMPLE_SWAP_ADDRESS = "0x5F1C2c20248BA5A444256c21592125EaF08b23A1";
+// ✅ Contract Addresses - Sepolia Testnet
+const TOKEN_A_ADDRESS = CONTRACT_ADDRESSES.TOKEN_A;
+const TOKEN_B_ADDRESS = CONTRACT_ADDRESSES.TOKEN_B;
+const SIMPLE_SWAP_ADDRESS = CONTRACT_ADDRESSES.SIMPLE_SWAP;
 
 const SIMPLE_SWAP_ABI = [
   {
@@ -245,10 +246,10 @@ export function EnhancedPoolInfo() {
         </div>
       ) : null}
 
-      {/* Academic Note */}
+      {/* Info Note */}
       <div className="mt-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg">
         <div className="text-sm text-purple-800">
-          <span className="font-semibold">🎓 Academic Note:</span> All values are displayed in both wei (raw blockchain format) 
+          <span className="font-semibold">ℹ️ Note:</span> All values are displayed in both wei (raw blockchain format)
           and human-readable format. Exchange rates are calculated using the constant product formula (x * y = k).
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useReadContract } from "wagmi";
 import { formatEther } from "viem";
+import { CONTRACT_ADDRESSES } from "~~/utils/contractConfig";
 
 const ERC20_ABI = [
   {
@@ -240,10 +241,10 @@ export function EnhancedTokenBalances({ tokenAAddress, tokenBAddress, userAddres
         </div>
       </div>
 
-      {/* Academic Note */}
+      {/* Info Note */}
       <div className="mt-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg">
         <div className="text-sm text-purple-800">
-          <span className="font-semibold">🎓 Academic Note:</span> All balances are displayed in wei 
+          <span className="font-semibold">ℹ️ Note:</span> All balances are displayed in wei
           (the smallest unit on Ethereum where 1 ether = 10^18 wei) for precise smart contract calculations.
         </div>
       </div>

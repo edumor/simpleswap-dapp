@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useReadContract } from "wagmi";
 import { formatEther, parseEther } from "viem";
+import { CONTRACT_ADDRESSES } from "~~/utils/contractConfig";
 
-// ✅ Academic Compliance Verified Addresses - Sepolia Testnet
-const TOKEN_A_ADDRESS = "0xA61A5c03088c808935C86F409Ace89E582842F82";
-const TOKEN_B_ADDRESS = "0x9205f067C913C1Edb642609342ca8d58d60ae95B";
-const SIMPLE_SWAP_ADDRESS = "0x5F1C2c20248BA5A444256c21592125EaF08b23A1";
+// ✅ Contract Addresses - Sepolia Testnet
+const TOKEN_A_ADDRESS = CONTRACT_ADDRESSES.TOKEN_A;
+const TOKEN_B_ADDRESS = CONTRACT_ADDRESSES.TOKEN_B;
+const SIMPLE_SWAP_ADDRESS = CONTRACT_ADDRESSES.SIMPLE_SWAP;
 
 const SIMPLE_SWAP_ABI = [
   {
@@ -245,11 +246,11 @@ export function EnhancedPriceInfo() {
         )}
       </div>
 
-      {/* Academic Note */}
+      {/* Info Note */}
       <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg">
         <div className="text-sm text-green-800">
-          <span className="font-semibold">🎓 Academic Note:</span> All prices and amounts are displayed in wei 
-          (1 ether = 10^18 wei) for precise blockchain calculations. 
+          <span className="font-semibold">ℹ️ Note:</span> All prices and amounts are displayed in wei
+          (1 ether = 10^18 wei) for precise blockchain calculations.
           The getAmountOut function includes slippage and fees.
         </div>
       </div>
